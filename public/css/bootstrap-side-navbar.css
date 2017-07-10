@@ -1,0 +1,122 @@
+/* CSS used here will be applied after bootstrap.css */
+/*
+ * Slidebar (add to your bootstrap)
+ */
+
+
+
+.slidebar-nav {
+    left: 250px;
+    list-style: none;
+    height: 100%;
+    margin: 0;
+    margin-left: -250px;
+    overflow-y: auto;
+    padding: 0;
+    position: fixed;
+    top: 50px;
+    width: 0;
+    z-index: 1000;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+    background-color: #e8e6e7;
+}
+#wrapper.toggled .slidebar-nav {
+    width: 250px;
+}
+.slidebar-nav .navbar-collapse {
+    padding: 0;
+    max-height: none;
+}
+
+
+.slidebar-nav .open .dropdown-menu {
+    position: static;
+    float: none;
+    width: auto;
+    margin: 0;
+    background-color: transparent;
+    border: 0;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+.slidebar-nav .navbar-brand {
+    width: 100%;
+}
+.slidebar-nav .open > a > b.caret {
+    border-top: none;
+    border-bottom: 4px solid;
+}
+.slidebar-nav .navbar-nav {
+    margin: 0;
+}
+
+#wrapper {
+    padding-left: 0;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+#wrapper.toggled {
+    padding-left: 250px;
+}
+#page-wrapper6 {
+    width: 100%;
+    position: absolute;
+    /*padding: 15px;*/
+    /*top: 50px;*/
+}
+#wrapper.toggled #page-wrapper6 {
+    position: absolute;
+    margin-right: -250px;
+}
+@media(min-width:768px) {
+    #wrapper {
+        padding-left: 250px;
+    }
+    #wrapper.toggled {
+        padding-left: 0;
+    }
+    #page-wrapper6 {
+        /*padding: 20px;*/
+        position: relative;
+    }
+    #wrapper.toggled #page-wrapper6 {
+        position: relative;
+        margin-right: 0;
+    }
+    .slidebar-nav {
+        width: 250px;;
+    }
+    #wrapper.toggled .slidebar-nav {
+        width: 0;
+    }
+}
+
+.slidebar-toggle {
+    position: relative;
+    float: left;
+}
+.slidebar-toggle:focus {
+    outline: 0;
+}
+.slidebar-toggle .icon-bar + .icon-bar {
+    margin-top: 4px;
+}
+
+
+/*
+ * White navbar style
+ */
+
+#navbar-white.navbar-default { /* #efffff - #ffffff */
+    border: 0px;
+    border-radius: 0;
+    height: 55px;
+    background-color: #e8e6e7;
+}
+
