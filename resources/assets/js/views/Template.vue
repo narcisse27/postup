@@ -44,7 +44,15 @@
                                         <span class="ion-checkmark-round" title="enrengistrer ce template"></span>
                                     </div>
                                     <div v-else class="ion-btn" @click="updateThisTemplate(currentTemplate.id)" id="currentTemplate.id">
-                                        <span class="ion-edit" title="mettre à jour les modifications"></span>
+                                        <!--<span class="ion-edit" title="mettre à jour les modifications"></span>-->
+                                        <div id="template-succes-animation" class="icon icon--order-success svg">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="auto">
+                                                <g fill="none" stroke="#8EC343" stroke-width="4">
+                                                    <circle cx="36" cy="36" r="25" style="stroke-dasharray:240px, 240px; stroke-dashoffset: 480px;"></circle>
+                                                    <path d="M17.417,37.778l9.93,9.909l25.444-25.393" style="stroke-dasharray:50px, 50px; stroke-dashoffset: 0px;"></path>
+                                                </g>
+                                            </svg>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-lg-2">
@@ -213,25 +221,25 @@
                                         <div class="panel-heading">
                                             ANNEXES
                                         </div>
-                                        <div class="panel-body">
+                                        <div class="panel-body no-padding-left no-padding-right">
 
-                                            <ul class="col-lg-12">
-                                                <div  v-for="appendice in currentTemplate.appendices">
+                                            <!--<ul class="col-lg-12">-->
+                                                <div  v-for="appendice in currentTemplate.appendices" :id="'appendice-wrap-'+appendice.id" class="appendice-control-wrap no-padding-left no-padding-right" @click="focusThisAppendice(appendice.id)">
                                                     <div class="col-lg-10">
-                                                        <input type="text" v-on:keyup.enter="updateAppendiceName(appendice)" class="form-control" v-model="appendice.name">
+                                                        <input type="text" v-on:keyup.enter="updateAppendiceName(appendice)" class=" transaprant-input" v-model="appendice.name">
                                                     </div>
                                                     <div class="col-lg-2">
                                                         <span class="ion-close-round ion-btn" @click="deleteAppendice(appendice)"></span>
                                                     </div>
                                                 </div>
-                                            </ul>
+                                            <!--</ul>-->
                                         </div>
                                         <div class="panel-footer">
                                             <form action="" @submit.prevent="addAppendice">
-                                                <label for="appendiceInputFile" class="pull-right">
+                                                <label for="appendiceInputFile" class="pull-right" id="appendice-add-btn">
                                                     <span class="ion-plus-round pull-right color-red"></span>
                                                 </label>
-                                                <input id="appendiceInputFile" type="file" @change="appendiceChanged" v-mask="'AAAAAAAAAAAAAAAAAAA'" class="form-control" style="display: none">
+                                                <input id="appendiceInputFile" type="file" @change="appendiceChanged" v-mask="'AAAAAAAAAAAAAAAAAAA'" class="form-control " style="display: none">
                                             </form>
                                             <br>
                                         </div>
@@ -250,6 +258,7 @@
 
                         </div>
                     </div>
+
                 </div>
             </main>
         </div>
@@ -499,6 +508,7 @@
                     //console.log(response.data);
                     this.refreshTemplateManager(); // refresh all data in template manager
                 this.refreshAppendice();
+                this.animateSuccess();
 
             })
                 .catch((error) => {
@@ -648,6 +658,7 @@
                         this.refreshTemplateManager(); // refresh all data in template manager
                         this.showTemplateUpdateSuccess();
                         this.currentTemplate.updated_at = moment().format('DD/MM/YYYY à HH:mm');
+                        this.animateSuccess();
 
                 })
                 .catch((error) => {
@@ -704,11 +715,11 @@
                 })
                         .then((response) => {
                     this.myTemplates = response.data[0];
-            })
-                .catch((error) => {
-                //console.log(error);
-                this.ShowRefreshTemplatesError();
-            });
+                })
+                    .catch((error) => {
+                    //console.log(error);
+                    this.ShowRefreshTemplatesError();
+                });
             },
             thisLetterToPdf: function(div){
                 axios.get('/api/generate/pdf/'+this.currentTemplate.id+'/?api_token='+this.userKey)
@@ -719,11 +730,21 @@
                 $('#letter-preview-frame').attr('src', 'temp/'+response.data.pdf_name);
                 $('#letter-preview-frame-data').attr('data', 'temp/'+response.data.pdf_name);
                 // TODO add success message
-            })
-                .catch((error) => {
-                    console.log(error);
-                //TODO: add error msg
-            });
+                })
+                    .catch((error) => {
+                        console.log(error);
+                    //TODO: add error msg
+                });
+            },
+            focusThisAppendice: function (item) {
+                $('.appendice-focused').removeClass('appendice-focused');
+                $('#appendice-wrap-'+item).addClass('appendice-focused');
+            },
+            animateSuccess: function(){
+                $('#template-succes-animation').removeClass('icon--order-success');
+                $('#template-succes-animation').addClass('loading-success');
+                $('#template-succes-animation').removeClass('loading-success');
+                $('#template-succes-animation').addClass('icon--order-success');
             }
         },
         notifications: {
@@ -801,6 +822,13 @@
     }
 </script>
 <style>
+    input {
+        outline: none;
+        border: none !important;
+        -webkit-box-shadow: none !important;
+        -moz-box-shadow: none !important;
+        box-shadow: none !important;
+    }
     only screen and (min-width: 980px)
     {
         body{
@@ -827,7 +855,7 @@
         -o-transition: opacity 1s ease-in-out;
     }
     .template-manager-selected-template{
-        background-color: #2ab27b!important;
+        background-image: url("/assets/app/img/btn-gradiant-tmplate-manager.jpg");
         transition: 100ms;
     }
     #letter-personal-text{
@@ -1039,5 +1067,132 @@
         color: white;
         border-radius: 5px;
     }
+    .appendice-control-wrap{
+        float: left;
+        width: 100%;
+        height: auto;
+        border-bottom: 1px solid grey;
+    }
 
+    .appendice-control-wrap:hover{
+        background-color: #dadada;
+        color: #7f27d5;
+        transition: 100ms;
+    }
+
+    .appendice-control-wrap:hover input{
+        background-color: #dadada;
+        color: #7f27d5;
+        transition: 100ms;
+    }
+
+    .appendice-focused {
+        background-image: url("/assets/app/img/btn-gradiant-tmplate-manager.jpg")!important;
+        transition: 100ms;
+        width: 100%;
+        height: auto;
+        color: white!important!important;
+    }
+
+    .appendice-focused input:focus{
+        color: white!important;
+    }
+
+    .appendice-focuses:focus{
+        color: white!important!important;
+    }
+
+    .transaprant-input{
+        background: transparent!important;
+        border: none!important;
+    }
+
+    #appendice-add-btn:hover{
+        cursor: pointer;
+    }
+
+
+
+    @-webkit-keyframes checkmark {
+        0% {
+            stroke-dashoffset: 50px
+        }
+
+        100% {
+            stroke-dashoffset: 0
+        }
+    }
+
+    @-ms-keyframes checkmark {
+        0% {
+            stroke-dashoffset: 50px
+        }
+
+        100% {
+            stroke-dashoffset: 0
+        }
+    }
+
+    @keyframes checkmark {
+        0% {
+            stroke-dashoffset: 50px
+        }
+
+        100% {
+            stroke-dashoffset: 0
+        }
+    }
+
+    @-webkit-keyframes checkmark-circle {
+        0% {
+            stroke-dashoffset: 240px
+        }
+
+        100% {
+            stroke-dashoffset: 480px
+        }
+    }
+
+    @-ms-keyframes checkmark-circle {
+        0% {
+            stroke-dashoffset: 240px
+        }
+
+        100% {
+            stroke-dashoffset: 480px
+        }
+    }
+
+    @keyframes checkmark-circle {
+        0% {
+            stroke-dashoffset: 240px
+        }
+
+        100% {
+            stroke-dashoffset: 480px
+        }
+    }
+
+    /* other styles */
+    /* .svg svg {
+        display: none
+    }
+     */
+    .inlinesvg .svg svg {
+        display: inline
+    }
+
+    /* .svg img {
+        display: none
+    } */
+
+    .icon--order-success svg path {
+        -webkit-animation: checkmark 0.25s ease-in-out 0.7s backwards;
+        animation: checkmark 0.25s ease-in-out 0.7s backwards
+    }
+
+    .icon--order-success svg circle {
+        -webkit-animation: checkmark-circle 0.6s ease-in-out backwards;
+        animation: checkmark-circle 0.6s ease-in-out backwards
+    }
 </style>

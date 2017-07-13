@@ -5,7 +5,9 @@ body{
 }
 
 
-
+.grey-background{
+    background-color: #e8e6e7;
+}
 ::-webkit-scrollbar {
     width: 5px;
 }

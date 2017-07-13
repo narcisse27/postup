@@ -139,7 +139,7 @@
 
                                                 <div class="col-lg-6">
                                                     <div class="form-group">
-                                                        <label class="control-label" for="">Domaines Pas ici</label>
+                                                        <label class="control-label" for="">Domaines</label>
                                                         <input list="areas" type="text" class="form-control" v-model="corporate.area" v-on:keyup="areaSearch(corporate.area)" >
                                                         <datalist id="areas">
                                                             <select>
@@ -534,7 +534,7 @@
                 $.each(this.corporatesToAdd, function(key, value)
                 {
                     var userKey = document.getElementById('userKey').value; // needed
-                    axios.post('/api/addManuallyCorporate?api_token='+userKey, {
+                    axios.post('/api/addManuallyCorporateByUser?api_token='+userKey, {
                                 name: value.name,
                                 contact_firstname:  value.firstname,
                                 contact_lastname: value.lastname,

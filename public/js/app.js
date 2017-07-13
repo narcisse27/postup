@@ -31214,7 +31214,7 @@ var qs = __webpack_require__(179);
         //corporatesToAdd
         $.each(this.corporatesToAdd, function (key, value) {
             var userKey = document.getElementById('userKey').value; // needed
-            axios.post('/api/addManuallyCorporate?api_token=' + userKey, {
+            axios.post('/api/addManuallyCorporateByUser?api_token=' + userKey, {
                 name: value.name,
                 contact_firstname: value.firstname,
                 contact_lastname: value.lastname,
@@ -32089,6 +32089,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 window.axios = __webpack_require__(8);
 
@@ -32306,6 +32315,7 @@ var $ = __webpack_require__(175);
                 //console.log(response.data);
                 _this4.refreshTemplateManager(); // refresh all data in template manager
                 _this4.refreshAppendice();
+                _this4.animateSuccess();
             }).catch(function (error) {
                 //console.log(error.response.data.message);
             });
@@ -32423,6 +32433,7 @@ var $ = __webpack_require__(175);
                 _this8.refreshTemplateManager(); // refresh all data in template manager
                 _this8.showTemplateUpdateSuccess();
                 _this8.currentTemplate.updated_at = __WEBPACK_IMPORTED_MODULE_0_moment___default()().format('DD/MM/YYYY à HH:mm');
+                _this8.animateSuccess();
             }).catch(function (error) {
                 console.log(error);
                 //TODO: add error msg
@@ -32479,6 +32490,16 @@ var $ = __webpack_require__(175);
                 console.log(error);
                 //TODO: add error msg
             });
+        },
+        focusThisAppendice: function focusThisAppendice(item) {
+            $('.appendice-focused').removeClass('appendice-focused');
+            $('#appendice-wrap-' + item).addClass('appendice-focused');
+        },
+        animateSuccess: function animateSuccess() {
+            $('#template-succes-animation').removeClass('icon--order-success');
+            $('#template-succes-animation').addClass('loading-success');
+            $('#template-succes-animation').removeClass('loading-success');
+            $('#template-succes-animation').addClass('icon--order-success');
         }
     },
     notifications: {
@@ -32949,7 +32970,7 @@ exports.push([module.i, "\n#mailer-col-wrapper {\n    float: right;\n    -webkit
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\nonly screen and (min-width: 980px)\n{\nbody{\n        overflow-y: hidden!important;\n}\n}\n#template-list-wrapper {\n    /*visibility: hidden;*/\n}\n#project-name-wrapper{\n    height: 70px;\n    background-color: #dadada;\n}\n[v-cloak] {\n    display: none;\n}\n#recipient-manger-col-wrapper{\n    opacity: 1;\n    transition: opacity 1s ease-in-out;\n    -webkit-transition: opacity 1s ease-in-out;\n    -moz-transition: opacity 1s ease-in-out;\n    -ms-transition: opacity 1s ease-in-out;\n    -o-transition: opacity 1s ease-in-out;\n}\n.template-manager-selected-template{\n    background-color: #2ab27b!important;\n    transition: 100ms;\n}\n#letter-personal-text{\n    height: 100mm;\n}\n#letter-wrapper .panel-body{\n    height: 80vh;\n    overflow-y: scroll;\n}\n#recipient-data{\n    margin-left: 57%;\n}\n.to-deliver-list-item:hover{\n    color: red!important;\n    transition: 100ms;\n    cursor: pointer;\n}\n#letter-object-wrapper{\n    margin-top: 9.5%;\n}\n.corporate-list-item:hover{\n    cursor: pointer;\n    color: #2ab27b;\n    transition: 100ms;\n}\n.corporate-list-item{\n    transition: 100ms;\n}\n.heading-custom{\n    background-color: #f1f1f1!important;\n    height: 40px;\n}\n.modal-large{\n    width: 80%;\n    margin-left: 10%;\n    margin-right: 10%;\n}\n#letter-wrapper{\n    height: 80vh;\n}\n.mailer-wrapper input{\n    width: 100%;\n    height: auto;\n}\n.mailer-wrapper{\n    width: 100%;\n    height: auto;\n}\n.ion-btn{\n    transition: 100ms;\n}\n.ion-btn:hover{\n    color: #0c84e4;\n    transition: 100ms;\n    cursor: pointer;\n}\n.template-manager-header{\n    width: 100%;\n    height: 20px;\n}\n.template-manager-temp-name{\n    width: 70%;\n    white-space: nowrap;\n    overflow: hidden;\n    text-overflow: ellipsis;\n    font-size: 12px!important;\n    float: left;\n    cursor: pointer;\n}\n.template-manager-temp-icons{\n    width: 11%;\n    padding-left: 2%;\n    padding-right: 2%;\n    float: left;\n}\n#letter-toolbar-wrapper{\n    width: 100%;\n    height: auto;\n}\n#toolbar-wrapper{\n    top: 0px!important;\n}\n.letter-fonts{\n    font-size: 12pt!important;\n}\n#letter-content-scroll{\n    width: 100%;\n    height: auto;\n    display: inline-block;\n    overflow: hidden;\n}\n#sheet-paper{\n    margin-left: auto;\n    margin-right: auto;\n    overflow: hidden;\n}\n.paper-sheet{\n    size: A4;\n    margin: auto;\n    width: 793px;\n    height: 1122px;\n    padding-left: 132px;\n    padding-right: 94px;\n    padding-top: 94px;\n    padding-bottom: 94px;\n    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);\n    -moz-box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);\n    font-size: 10pt!important;\n}\n.paper-sheet .form-control{\n    font-size: 10pt!important;\n}\n#sender-data-wrapper{\n    width: 50%;\n}\n#letter-current-date-wrapper{\n    margin-left: 57%;\n}\n.letter-appendicies-list{\n    bottom: 0;\n    width: 100%;\n    height: auto;\n}\n#letter-preview-frame{\n    width: 60%;\n    margin-left: 20%;\n    height: auto;\n    margin: auto;\n}\n#letter-preview-frame-data{\n    display: block;\n    float: left;\n    width: 60%;\n    margin-left: 20%;\n    margin-right: 20%;\n    margin: auto;\n    height: auto;\n}\n.form-smaller-custom{\n    font-size: 12pt!important;\n    height: 16px!important;\n}\n.templates-list{\n    width: 100%;\n    height: auto;\n}\n.templatelistappear-enter-active{\n    -webkit-animation: templatelistappear;\n            animation: templatelistappear;\n    -webkit-animation-duration: 1s;\n            animation-duration: 1s;\n}\n#letter-personal-content{\n    height: auto;\n}\n#signature-wrapper{\n    margin-left: 57%;\n    height: auto;\n    margin-top: 50px;\n}\n#signature-image{\n    width: 100%;\n    height: 40%;\n    background-color: #a6e1ec;\n}\n.auto-value-letter{\n    background-color: #a6e1ec;\n}\n.templatelistappear-leave-active{\n\n    -webkit-animation: templatelistdisappear;\n\n            animation: templatelistdisappear;\n}\n.letter-padding{\n    padding-left: 80px;\n    padding-right: 50px;\n}\n\n/* CKEDITOR */\n.cke_top{\n    border: 0px!important;\n    background-color: #f1f1f1!important;\n    zoom: 0.8!important;\n}\n.cke_chrome {\n    display: block;\n    border: 0px!important;\n    padding: 0;\n}\n.color-red{\n    color: #fe0364;\n}\n.mini-toastr__notification{\n    width: 100%!important;\n    top: 0px!important;\n    right: 0px!important;\n}\n.-success{\n    background-color: darkred!important;\n}\n.editableSpanners{\n    background-color: #fe0364;\n    color: white;\n    border-radius: 5px;\n}\n\n", ""]);
+exports.push([module.i, "\ninput {\n    outline: none;\n    border: none !important;\n    box-shadow: none !important;\n}\nonly screen and (min-width: 980px)\n{\nbody{\n        overflow-y: hidden!important;\n}\n}\n#template-list-wrapper {\n    /*visibility: hidden;*/\n}\n#project-name-wrapper{\n    height: 70px;\n    background-color: #dadada;\n}\n[v-cloak] {\n    display: none;\n}\n#recipient-manger-col-wrapper{\n    opacity: 1;\n    transition: opacity 1s ease-in-out;\n    -webkit-transition: opacity 1s ease-in-out;\n    -moz-transition: opacity 1s ease-in-out;\n    -ms-transition: opacity 1s ease-in-out;\n    -o-transition: opacity 1s ease-in-out;\n}\n.template-manager-selected-template{\n    background-image: url(\"/assets/app/img/btn-gradiant-tmplate-manager.jpg\");\n    transition: 100ms;\n}\n#letter-personal-text{\n    height: 100mm;\n}\n#letter-wrapper .panel-body{\n    height: 80vh;\n    overflow-y: scroll;\n}\n#recipient-data{\n    margin-left: 57%;\n}\n.to-deliver-list-item:hover{\n    color: red!important;\n    transition: 100ms;\n    cursor: pointer;\n}\n#letter-object-wrapper{\n    margin-top: 9.5%;\n}\n.corporate-list-item:hover{\n    cursor: pointer;\n    color: #2ab27b;\n    transition: 100ms;\n}\n.corporate-list-item{\n    transition: 100ms;\n}\n.heading-custom{\n    background-color: #f1f1f1!important;\n    height: 40px;\n}\n.modal-large{\n    width: 80%;\n    margin-left: 10%;\n    margin-right: 10%;\n}\n#letter-wrapper{\n    height: 80vh;\n}\n.mailer-wrapper input{\n    width: 100%;\n    height: auto;\n}\n.mailer-wrapper{\n    width: 100%;\n    height: auto;\n}\n.ion-btn{\n    transition: 100ms;\n}\n.ion-btn:hover{\n    color: #0c84e4;\n    transition: 100ms;\n    cursor: pointer;\n}\n.template-manager-header{\n    width: 100%;\n    height: 20px;\n}\n.template-manager-temp-name{\n    width: 70%;\n    white-space: nowrap;\n    overflow: hidden;\n    text-overflow: ellipsis;\n    font-size: 12px!important;\n    float: left;\n    cursor: pointer;\n}\n.template-manager-temp-icons{\n    width: 11%;\n    padding-left: 2%;\n    padding-right: 2%;\n    float: left;\n}\n#letter-toolbar-wrapper{\n    width: 100%;\n    height: auto;\n}\n#toolbar-wrapper{\n    top: 0px!important;\n}\n.letter-fonts{\n    font-size: 12pt!important;\n}\n#letter-content-scroll{\n    width: 100%;\n    height: auto;\n    display: inline-block;\n    overflow: hidden;\n}\n#sheet-paper{\n    margin-left: auto;\n    margin-right: auto;\n    overflow: hidden;\n}\n.paper-sheet{\n    size: A4;\n    margin: auto;\n    width: 793px;\n    height: 1122px;\n    padding-left: 132px;\n    padding-right: 94px;\n    padding-top: 94px;\n    padding-bottom: 94px;\n    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);\n    -moz-box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);\n    font-size: 10pt!important;\n}\n.paper-sheet .form-control{\n    font-size: 10pt!important;\n}\n#sender-data-wrapper{\n    width: 50%;\n}\n#letter-current-date-wrapper{\n    margin-left: 57%;\n}\n.letter-appendicies-list{\n    bottom: 0;\n    width: 100%;\n    height: auto;\n}\n#letter-preview-frame{\n    width: 60%;\n    margin-left: 20%;\n    height: auto;\n    margin: auto;\n}\n#letter-preview-frame-data{\n    display: block;\n    float: left;\n    width: 60%;\n    margin-left: 20%;\n    margin-right: 20%;\n    margin: auto;\n    height: auto;\n}\n.form-smaller-custom{\n    font-size: 12pt!important;\n    height: 16px!important;\n}\n.templates-list{\n    width: 100%;\n    height: auto;\n}\n.templatelistappear-enter-active{\n    -webkit-animation: templatelistappear;\n            animation: templatelistappear;\n    -webkit-animation-duration: 1s;\n            animation-duration: 1s;\n}\n#letter-personal-content{\n    height: auto;\n}\n#signature-wrapper{\n    margin-left: 57%;\n    height: auto;\n    margin-top: 50px;\n}\n#signature-image{\n    width: 100%;\n    height: 40%;\n    background-color: #a6e1ec;\n}\n.auto-value-letter{\n    background-color: #a6e1ec;\n}\n.templatelistappear-leave-active{\n\n    -webkit-animation: templatelistdisappear;\n\n            animation: templatelistdisappear;\n}\n.letter-padding{\n    padding-left: 80px;\n    padding-right: 50px;\n}\n\n/* CKEDITOR */\n.cke_top{\n    border: 0px!important;\n    background-color: #f1f1f1!important;\n    zoom: 0.8!important;\n}\n.cke_chrome {\n    display: block;\n    border: 0px!important;\n    padding: 0;\n}\n.color-red{\n    color: #fe0364;\n}\n.mini-toastr__notification{\n    width: 100%!important;\n    top: 0px!important;\n    right: 0px!important;\n}\n.-success{\n    background-color: darkred!important;\n}\n.editableSpanners{\n    background-color: #fe0364;\n    color: white;\n    border-radius: 5px;\n}\n.appendice-control-wrap{\n    float: left;\n    width: 100%;\n    height: auto;\n    border-bottom: 1px solid grey;\n}\n.appendice-control-wrap:hover{\n    background-color: #dadada;\n    color: #7f27d5;\n    transition: 100ms;\n}\n.appendice-control-wrap:hover input{\n    background-color: #dadada;\n    color: #7f27d5;\n    transition: 100ms;\n}\n.appendice-focused {\n    background-image: url(\"/assets/app/img/btn-gradiant-tmplate-manager.jpg\")!important;\n    transition: 100ms;\n    width: 100%;\n    height: auto;\n    color: white!important!important;\n}\n.appendice-focused input:focus{\n    color: white!important;\n}\n.appendice-focuses:focus{\n    color: white!important!important;\n}\n.transaprant-input{\n    background: transparent!important;\n    border: none!important;\n}\n#appendice-add-btn:hover{\n    cursor: pointer;\n}\n@-webkit-keyframes checkmark {\n0% {\n        stroke-dashoffset: 50px\n}\n100% {\n        stroke-dashoffset: 0\n}\n}\n@keyframes checkmark {\n0% {\n        stroke-dashoffset: 50px\n}\n100% {\n        stroke-dashoffset: 0\n}\n}\n@-webkit-keyframes checkmark-circle {\n0% {\n        stroke-dashoffset: 240px\n}\n100% {\n        stroke-dashoffset: 480px\n}\n}\n@keyframes checkmark-circle {\n0% {\n        stroke-dashoffset: 240px\n}\n100% {\n        stroke-dashoffset: 480px\n}\n}\n\n/* other styles */\n/* .svg svg {\n    display: none\n}\n */\n.inlinesvg .svg svg {\n    display: inline\n}\n\n/* .svg img {\n    display: none\n} */\n.icon--order-success svg path {\n    -webkit-animation: checkmark 0.25s ease-in-out 0.7s backwards;\n    animation: checkmark 0.25s ease-in-out 0.7s backwards\n}\n.icon--order-success svg circle {\n    -webkit-animation: checkmark-circle 0.6s ease-in-out backwards;\n    animation: checkmark-circle 0.6s ease-in-out backwards\n}\n", ""]);
 
 /***/ }),
 /* 170 */
@@ -50930,7 +50951,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       attrs: {
         "for": ""
       }
-    }, [_vm._v("Domaines Pas ici")]), _vm._v(" "), _c('input', {
+    }, [_vm._v("Domaines")]), _vm._v(" "), _c('input', {
       directives: [{
         name: "model",
         rawName: "v-model",
@@ -51129,12 +51150,42 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.updateThisTemplate(_vm.currentTemplate.id)
       }
     }
-  }, [_c('span', {
-    staticClass: "ion-edit",
+  }, [_c('div', {
+    staticClass: "icon icon--order-success svg",
     attrs: {
-      "title": "mettre à jour les modifications"
+      "id": "template-succes-animation"
     }
-  })])]), _vm._v(" "), _c('div', {
+  }, [_c('svg', {
+    attrs: {
+      "xmlns": "http://www.w3.org/2000/svg",
+      "width": "100%",
+      "height": "auto"
+    }
+  }, [_c('g', {
+    attrs: {
+      "fill": "none",
+      "stroke": "#8EC343",
+      "stroke-width": "4"
+    }
+  }, [_c('circle', {
+    staticStyle: {
+      "stroke-dasharray": "240px, 240px",
+      "stroke-dashoffset": "480px"
+    },
+    attrs: {
+      "cx": "36",
+      "cy": "36",
+      "r": "25"
+    }
+  }), _vm._v(" "), _c('path', {
+    staticStyle: {
+      "stroke-dasharray": "50px, 50px",
+      "stroke-dashoffset": "0px"
+    },
+    attrs: {
+      "d": "M17.417,37.778l9.93,9.909l25.444-25.393"
+    }
+  })])])])])]), _vm._v(" "), _c('div', {
     staticClass: "col-lg-2"
   }, [_c('p', [_vm._v("\n                                    Modèle mis à jour le " + _vm._s(_vm.currentTemplate.updated_at) + "\n                                    "), _c('br'), _vm._v("\n                                    10/20\n                                ")])])]), _vm._v(" "), _c('div', {
     staticClass: "row letter-padding"
@@ -51480,11 +51531,19 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('div', {
     staticClass: "panel-heading"
   }, [_vm._v("\n                                        ANNEXES\n                                    ")]), _vm._v(" "), _c('div', {
-    staticClass: "panel-body"
-  }, [_c('ul', {
-    staticClass: "col-lg-12"
+    staticClass: "panel-body no-padding-left no-padding-right"
   }, _vm._l((_vm.currentTemplate.appendices), function(appendice) {
-    return _c('div', [_c('div', {
+    return _c('div', {
+      staticClass: "appendice-control-wrap no-padding-left no-padding-right",
+      attrs: {
+        "id": 'appendice-wrap-' + appendice.id
+      },
+      on: {
+        "click": function($event) {
+          _vm.focusThisAppendice(appendice.id)
+        }
+      }
+    }, [_c('div', {
       staticClass: "col-lg-10"
     }, [_c('input', {
       directives: [{
@@ -51493,7 +51552,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         value: (appendice.name),
         expression: "appendice.name"
       }],
-      staticClass: "form-control",
+      staticClass: " transaprant-input",
       attrs: {
         "type": "text"
       },
@@ -51520,7 +51579,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }
     })])])
-  }))]), _vm._v(" "), _c('div', {
+  })), _vm._v(" "), _c('div', {
     staticClass: "panel-footer"
   }, [_c('form', {
     attrs: {
@@ -51539,7 +51598,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       value: ('AAAAAAAAAAAAAAAAAAA'),
       expression: "'AAAAAAAAAAAAAAAAAAA'"
     }],
-    staticClass: "form-control",
+    staticClass: "form-control ",
     staticStyle: {
       "display": "none"
     },
@@ -51705,7 +51764,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   return _c('label', {
     staticClass: "pull-right",
     attrs: {
-      "for": "appendiceInputFile"
+      "for": "appendiceInputFile",
+      "id": "appendice-add-btn"
     }
   }, [_c('span', {
     staticClass: "ion-plus-round pull-right color-red"
@@ -52549,7 +52609,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "for": ""
     }
-  }, [_vm._v("Domaines Pas ici")]), _vm._v(" "), _c('input', {
+  }, [_vm._v("Domaines")]), _vm._v(" "), _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",

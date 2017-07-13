@@ -15,6 +15,9 @@ class CreateImprovementsTable extends Migration
     {
         Schema::create('improvements', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('user_id');
+            $table->string('object')->nullable();
+            $table->longText('content');
             $table->timestamps();
         });
     }

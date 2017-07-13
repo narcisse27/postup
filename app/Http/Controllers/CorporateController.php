@@ -119,14 +119,14 @@ class CorporateController extends Controller
             if($areas != null)
             {
 
-                foreach ($areas as $area)
-                {
-
+                //foreach ($areas as $area)
+                //{
+                    $area = Area::where('name', $areas)->first();
                     $relation = new Corp_Areas();
                     $relation->corporate_id = $corporate->id;
-                    $relation->area_id = $area;
+                    $relation->area_id = $area->id;
                     $relation->save();
-                }
+                //}
 
             }
 

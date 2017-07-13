@@ -19,7 +19,7 @@
                             </div>
                             <div class="col-lg-4">
                                 <div class="form-group">
-                                    <label for="">Domaines Pas ici</label>
+                                    <label for="">Domaines</label>
                                     <input list="areas" type="text" class="form-control" v-model="areasearch" v-on:keyup="areaSearch" @mouseleave="filterCorporates">
                                     <datalist id="areas">
                                         <select>
