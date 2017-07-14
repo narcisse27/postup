@@ -20,21 +20,16 @@
                                 </a>
                             </div>
                             <div class="ion-btn">
-                                <a href="" @click.prevent="goToLetter">
-                                    Letter
-                                </a>
+                                <a href="" @click.prevent="goToLetter">Letter</a>
                             </div>
-
                         </div>
                     </div>
                     <div class="form-group">
                         <input type="text" class="form-control" placeholder="Objet" v-model="mailerObject">
                     </div>
+                    <div class="col-lg-12" id="mailer-content-toolbar"></div>
                     <div class="col-lg-12">
-                        <div class="col-lg-12" id="mailer-content-toolbar"></div>
-                        <!--<textarea id="mailer-textarea" name=""  cols="10" rows="5" class="form-control" v-model="mailerMessage"></textarea>-->
                         <ckeditor v-model="mailerMessage" :config="configMailer"></ckeditor>
-
                     </div>
                 </div>
                 <button class="btn pull-right" @click="mailerSendToMe">Send Me</button>
@@ -189,8 +184,7 @@
                 configMailer: {
                     language: 'fr',
                     //removePlugins: 'elementspath',
-                    resize_enabled: false,
-                    height: 300,
+                    height: 200,
                     extraAllowedContent:
                     {
                         span : {
@@ -545,6 +539,7 @@
                                 canton: value.canton,
                                 email: value.email,
                                 area_id : value.area,
+                                contact_sexe : value.sexe
                             })
                             .then((response) => {
 
@@ -628,5 +623,8 @@
     .modal-leave-active .modal-container {
         -webkit-transform: scale(1.1);
         transform: scale(1.1);
+    }
+    #cke_2_contents{
+        /*position: absolute;*/
     }
 </style>
