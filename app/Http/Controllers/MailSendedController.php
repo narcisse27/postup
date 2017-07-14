@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Corporate;
+use App\MailSended;
+use App\Template;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class MailSendedController extends Controller
 {
@@ -15,9 +19,30 @@ class MailSendedController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        if()
+        if(Auth::check())
+        {
+
+            $mailsSended = MailSended::where('user_id', Auth::id())->get();
+
+
+            $data = [];
+
+            foreach ($mailsSended as $mail)
+            {
+
+                $corporate = Corporate::where('id', $mail->corporate_id)->first();
+                $template = Template::where('id', $mail->template_id)->first();
+                $mail->corporate = $corporate;
+                $mail->template = $template;
+                array_push($data, $mail);
+
+            }
+
+            return response()->json($data, 200);
+
+        }
     }
 
     /**
