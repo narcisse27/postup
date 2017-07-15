@@ -20,6 +20,10 @@ let routes = [
     path: '/template/:type/:slug',
     component: require('./views/Template')
   },
+  {
+    path: '/history',
+    component: require('./views/Postulation/History')
+  }
 ];
 
 export default new VueRouter({

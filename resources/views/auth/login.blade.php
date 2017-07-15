@@ -51,8 +51,8 @@
 
                 <div class="form-group">
                     <div class="col-md-8 col-md-offset-4">
-                        <button type="submit" class="btn btn-primary">
-                            Login
+                        <button type="submit" class="btn btn-primary" style="background-image: url('../assets/landing/img/btn-gradiant-tmplate-manager.jpg'); border-radius: 20px; border: 0px;">
+                            Me connecter
                         </button>
 
                         <a class="btn btn-link" href="{{ route('password.request') }}">

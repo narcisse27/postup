@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="{{ asset('assets/landing/css/custom.css') }}">
 
 </head>
-<body>
+<body class="conteneur">
 <div class="col-lg-12 navigation">
     <nav class="navbar navbar-inverse ">
         <div class="container">
@@ -73,16 +73,18 @@
                 <h4 class="testez">Tester notre application et<strong> profiter gratuitement d'un large choix d'adresses</strong> ciblés par domaine d'activité et région</h4>
             </div>
             </br>
-            <button href="{ url('/login') }}" class="bttn-fill bttn-lg bttn-primary">tester tout de suite</button>
+            <a href="{{ url('/register') }}">
+                <button class="bttn-fill bttn-lg bttn-primary">tester tout de suite</button>
+            </a>
             <div class="col-lg 6 seconnecter">
                 <a href="{{ url('/login') }}" class="seconnecter"> se connecter <img src="{{ asset('assets/landing/img/postup_login_img.svg') }}" style="width:3.4%;height:3.4%;"/>  </a>
             </div>
         </div>
     </div>
-    <div class="col-lg-6">
-        <div id="scene" style="height: 50%; padding-top: 100%; position: relative; top:50px;">
-                <img id="landing-desktop-parallax" style="position: absolute; bottom: 100px; right: 10%; -webkit-filter: drop-shadow(1px 1px 2px #222);filter: drop-shadow(1px 1px 2px #222); " src="{{ asset('assets/landing/img/landing-desktop.png') }}" alt="" class="img img-responsive">
-                <img id="landing-cloud-parallax" style="position: absolute; bottom: 0;right: 0" src="{{ asset('assets/landing/img/landing-cloud-illustration.png') }}" alt="" class="img img-responsive">
+    <div class="col-lg-4 col-lg-offset-8">
+        <div id="scene" style="height: 50%; position: relative; top:100px;">
+                <img id="landing-desktop-parallax" style="position: absolute; bottom: 100px; right: 10%; -webkit-filter: drop-shadow(1px 1px 2px #222);filter: drop-shadow(1px 1px 2px #222); " src="{{ asset('assets/landing/img/landing-desktop.png') }}" alt="" class="img img-responsive" draggable="false">
+                <img id="landing-cloud-parallax" style="position: absolute; bottom: 0;right: 0" src="{{ asset('assets/landing/img/landing-cloud-illustration.png') }}" alt="" class="img img-responsive" draggable="false">
         </div>
     </div>
 </div>
@@ -105,7 +107,7 @@
 <script src="{{ asset('assets/landing/js/jquery-parallax.js') }}"></script>
 <script>
     $( document ).mousemove( function( e ) {
-        //$( '#landing-cloud-parallax' ).parallax( -70, e );
+        $( '#landing-cloud-parallax' ).parallax( -70, e );
         $( '#landing-desktop-parallax' ).parallax( 50 , e );
     });
 </script>

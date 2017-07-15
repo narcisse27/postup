@@ -255,7 +255,6 @@
                                 <!-- End Mailer -->
 
                             </div>
-
                         </div>
                     </div>
 
@@ -1043,7 +1042,7 @@
     .cke_top{
         border: 0px!important;
         background-color: #f1f1f1!important;
-        zoom: 0.8!important;
+        zoom: 0.74!important;
     }
     .cke_chrome {
         display: block;

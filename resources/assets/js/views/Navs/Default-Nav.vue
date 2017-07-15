@@ -23,7 +23,7 @@
                 </div>
                 <div class="row">
                     <form class="form-horizontal">
-
+                        <br>
                         <div class="form-group">
                             <label for="inputUserFirstname" class="col-lg-2 control-label">Prénom</label>
                             <div class="col-lg-10">

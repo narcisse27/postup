@@ -32,10 +32,10 @@
     <![endif]-->
 </head>
 
-<body>
+<body style="background-color: #e8e6e7;">
 
 
-<div class="container">
+<div class="container" >
 
     @yield('content')
 

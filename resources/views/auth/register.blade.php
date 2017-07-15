@@ -111,8 +111,8 @@
 
                     <div class="form-group">
                         <div class="col-md-6 col-md-offset-4">
-                            <button type="submit" class="">
-                                <span class="custom-primary-btn">Register</span>
+                            <button type="submit" class="" style="background-image: url('../assets/landing/img/btn-gradiant-tmplate-manager.jpg'); border-radius: 20px; border: 0px; color:white;">
+                                Register
                             </button>
                         </div>
                     </div>

@@ -52,6 +52,8 @@ Route::group(['prefix' => 'api', 'middleware' => 'auth:api'], function()
     Route::get('/template/convertSlug/{slug}', ['uses' => 'TemplateController@slugToId']);
 
 
+    Route::resource('mailsended', 'MailSendedController');
+
 
     // ********** FACTORY TEMPLATE API **************
     Route::resource('/factorytemplate', 'FactoryTemplateController');

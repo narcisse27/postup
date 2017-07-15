@@ -2,16 +2,18 @@
     <div class=" " id="user-mini-manager">
         <div class="row">
 
-            <div class="col-lg-1" id="side-bar-toggler">
+            <div class="" id="side-bar-toggler">
                 <span class="ion-navicon-round align-middle" @click="toggleNavbar" ></span>
             </div>
             <div class="nav-avatar-wrapper">
-                <div  class="col-lg-2 no-padding-left no-padding-right">
+                <div id="avatar-wrap" class=" no-padding-left no-padding-right">
                     <img  class="align-middle img-avatar" :src="'storage/' + userData.picture_name" alt="user profil picture" draggable="false">
                 </div>
-                <div class="col-lg-7">
-                    <strong>{{ userData.firstname |uppercase}} {{ userData.lastname |uppercase}} </strong>
-                    Communication
+                <div id="avatar-data" class="">
+                    <p>
+                        <strong>{{ userData.firstname |uppercase}} {{ userData.lastname |uppercase}} </strong>
+                        Communication
+                    </p>
                 </div>
                 <div class="col-lg-1" id="toggler-userDataForm" >
                     <h4>
@@ -109,21 +111,66 @@
             <div class="row">
                 <div class="col-lg-12">
                     <p>
-                        <a href="">Mes dernières postulations</a>
+                        <router-link to="/history">Mes dernières postulations</router-link>
                         <br>
-                        <a href="">Proposer des améliorations</a>
+                        <a @click.prevent="openImporvementModal">Proposer des améliorations</a>
                         <br>
-                        <a href="">Passer premium</a>
+                        <a @click.prevent="openPaymentModal">Passer premium</a>
                     </p>
                 </div>
             </div>
         </div>
+        <div class="modal-mask" v-if="showImporvementModal">
+            <div class="modal-wrapper">
+                <div class="modal-container">
+
+                    <div class="modal-header">
+                        <slot name="header">
+                            <h2>Proposition d'amélioration</h2>
+                        </slot>
+                    </div>
+
+                    <div class="modal-body">
+                        <slot name="body">
+                            <form action="" class="form-control">
+                                <div class="form-group">
+                                    <label for="">Objet</label>
+                                    <input type="text" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Proposition</label>
+                                    <textarea name="" id="" cols="30" rows="10" class="form-control"></textarea>
+                                </div>
+                            </form>
+                        </slot>
+                    </div>
+
+                    <div class="modal-footer">
+                        <slot name="footer">
+                            <button @click="closeImporvementModal">X</button>
+                            <button class="modal-default-button" style="background-image: url('../assets/landing/img/btn-gradiant-tmplate-manager.jpg'); border-radius: 20px; border: 0px;color:white;">
+                                Envoyer
+                            </button>
+                        </slot>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-mask" v-if="showPaymentModal">
+            <Payment></Payment>
+        </div>
     </div>
 </template>
 <script>
+    import Payment from '../Payment/Payment';
     export default {
+        components: {
+            'Payment' : Payment
+        },
         data () {
             return {
+                showImporvementModal: false,
+                showPaymentModal: false,
                 userKey: '',
                 userData: []
             }
@@ -215,19 +262,51 @@
 
                 }
 
+            },
+            openImporvementModal: function()
+            {
+                this.showImporvementModal = true;
+            },
+            closeImporvementModal: function()
+            {
+                this.showImporvementModal = false;
+            },
+            openPaymentModal: function()
+            {
+                this.showPaymentModal = true;
             }
 
         }
     }
 </script>
 <style>
+    #nav-avatar-wrapper{
+        float: left;
+        width: 80%;
+        height: 100%;
+    }
     #user-mini-manager{
-        height: 55px;
+        height: 67px;
         width: 250px;
         background-color: #e8e6e7;
         font-size: 11px;
 
     }
+    #avatar-wrap{
+        float: left;
+        width: 20%;
+    }
+    #avatar-data{
+        float: left;
+        width: 40%;
+        height: 100%;
+    }
+
+    #avatar-data p{
+        vertical-align: middle;
+        margin-top: 10px;
+    }
+
 
     #user-mini-manager input{
         font-size: 11px;
@@ -235,11 +314,25 @@
     }
     #side-bar-toggler{
         height: 100%;
+        width: 20%;
+        float: left;
+        margin-top: 10px;
+    }
+
+    #side-bar-toggler:hover{
+        cursor: pointer;
+    }
+
+    #side-bar-toggler span{
+        font-size: 20px;
+        margin: auto;
+        margin-left: 25px;
     }
 
     .img-avatar {
-        width: 50px;
-        height: 50px;
+        width: 40px;
+        height: 40px;
+        margin-top: 10px;
         border-radius: 50%;
         border: 1px solid #f64a8a;
 

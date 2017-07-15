@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Appendice;
 use App\Corporate;
 use App\FactoryTemplate;
+use App\Improvement;
 use App\MailSended;
 use App\Template;
 use Mail;
@@ -72,8 +73,9 @@ class MailController extends Controller
                 $mailsSended = new MailSended();
                 $mailsSended->user_id = Auth::id();
                 $mailsSended->template_id = $template->id;
-                $mailsSended->corporate_id = 0; // 0 for myself
-                $mailsSended->test_mail = true; // this sending is one test (destinated to me)
+                $mailsSended->corporate_id = $recipient->id;
+                $mailsSended->mail_object = $request['mail_object'];
+                $mailsSended->test_mail = false; // this sending is one test (destinated to me)
                 $mailsSended->save();
 
 
@@ -88,6 +90,8 @@ class MailController extends Controller
                     }
                     $message->to($data['to']);
                 });
+
+                // store this mail datat
 
 
             }

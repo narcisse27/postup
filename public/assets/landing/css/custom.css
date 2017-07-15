@@ -4,6 +4,14 @@ body {
 
 }
 
+
+#landing-desktop-parallax:hover {
+
+  width: 110%;
+  height: auto;
+  transition: 100ms;
+
+}
 .custom-primary-btn{
   width: 100%;
   height: 100%;

@@ -39,63 +39,84 @@
                     </div>
                     <div class="row" v-if="mailsToSend">
                         <div class="col-lg-12">
-                            <h3>A envoyer à : </h3>
-                            <table class="table table-striped table-hover ">
-                                <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Entreprise</th>
-                                    <th>Canton</th>
-                                    <th>Ville</th>
-                                    <th>Adresse</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr class="to-deliver-list-item" v-for="mail in mailsToSend">
-                                    <td><span class="ion-checkmark-circled"></span></td>
-                                    <td>{{ mail.name }}</td>
-                                    <td>{{ mail.canton_abbreviation }}</td>
-                                    <td>{{ mail.city }}</td>
-                                    <td>{{ mail.adresse }}</td>
-                                </tr>
-                                </tbody>
-                            </table>
+                            <h3>Envoyer à : </h3>
+                            <div class="table-header">
+                                <div class="col-lg-1">
+                                    #
+                                </div>
+                                <div class="col-lg-3">
+                                    Entreprise
+                                </div>
+                                <div class="col-lg-1">
+                                    Canton
+                                </div>
+                                <div class="col-lg-4">
+                                    Ville
+                                </div>
+                                <div class="col-lg-3">
+                                    Adresse
+                                </div>
+                            </div>
+                            <div class="recipient-list-scrollable-area col-lg-12">
+                                <div class="to-deliver-list-item col-lg-12" v-for="mail in mailsToSend">
+                                    <div class="col-lg-1"><span class="ion-checkmark-circled"></span></div>
+                                    <div class="col-lg-3">{{ mail.name }}</div>
+                                    <div class="col-lg-1">{{ mail.canton_abbreviation }}</div>
+                                    <div class="col-lg-4">{{ mail.city }}</div>
+                                    <div class="col-lg-3">{{ mail.adresse }}</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-12">
-                            <h3>Résultats : </h3>
-                            <table class="table table-striped table-hover ">
-                                <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Entreprise</th>
-                                    <th>Canton</th>
-                                    <th>Ville</th>
-                                    <th>Adresse</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr class="corporate-list-item" v-for="corporate in corporateFiltered" v-if="corporate" @click="putTomailsToSend(corporate)">
-                                    <td><span class="ion-paper-airplane"></span></td>
-                                    <td>{{ corporate.name }}</td>
-                                    <td>{{ corporate.canton_abbreviation }}</td>
-                                    <td>{{ corporate.city }}</td>
-                                    <td>{{ corporate.adresse }}</td>
-                                </tr>
-                                </tbody>
-                            </table>
+                            <div class="col-lg-12">
+                                <h3>Résultats : </h3>
+                                <div class="table-header">
+                                    <div class="col-lg-1">
+                                        #
+                                    </div>
+                                    <div class="col-lg-3">
+                                        Entreprise
+                                    </div>
+                                    <div class="col-lg-1">
+                                        Canton
+                                    </div>
+                                    <div class="col-lg-4">
+                                        Ville
+                                    </div>
+                                    <div class="col-lg-3">
+                                        Adresse
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="recipient-list-scrollable-area col-lg-12">
+                                <div class="corporate-list-item col-lg-12" v-for="corporate in corporateFiltered" v-if="corporate" @click="putTomailsToSend(corporate)">
+                                    <div class="col-lg-1"><span class="ion-paper-airplane"></span></div>
+                                    <div class="col-lg-3">{{ corporate.name }}</div>
+                                    <div class="col-lg-1">{{ corporate.canton_abbreviation }}</div>
+                                    <div class="col-lg-4">{{ corporate.city }}</div>
+                                    <div class="col-lg-3">{{ corporate.adresse }}</div>
+                                </div>
+                            </div>
+                            <!--
+                            <div class="col-lg-12">
+                                <span class="ion-plus-round align-center ion-btn" ></span>
+                            </div>
+                            -->
                             <div v-if="loadingdata" class="preloader-wrapper small active">
                                 <div class="spinner-layer spinner-green-only">
                                     <div class="circle-clipper left">
                                         <div class="circle"></div>
                                     </div><div class="gap-patch">
                                     <div class="circle"></div>
-                                </div><div class="circle-clipper right">
+                                </div>
+                                    <div class="circle-clipper right"></div>
                                     <div class="circle"></div>
                                 </div>
-                                </div>
                             </div>
+                        </div>
                         </div>
                     </div>
                 </div>
@@ -265,6 +286,23 @@
 </script>
 
 <style lang="css">
+    table{
+        width: 100%;
+    }
+    tbody{
+        display: block;
+        width: 100%;
+    }
+
+    .recipient-list-scrollable-area{
+        height: 150px;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+    .to-deliver-list-item{
+        width: 100%;
+    }
+
     .animate {
         -webkit-animation: appear-anim 1s;
         -moz-animation: appear-anim 1s;
