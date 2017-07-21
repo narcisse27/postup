@@ -142,19 +142,19 @@ class TemplateController extends Controller
         if(Auth::check())
         {
             $name = $request['name'];
-            $existTemplate = Template::where('name', $name)->first();
+            $existTemplate = Template::where('name', $name)->where('user_id', Auth::id())->first();
             if($existTemplate)
             {
                 return response()->json(
                     [
                         'code' =>  403,
-                        'message' => 'un template porte déjà ce nom.',
+                        'message' => 'un de vos modèles porte déjà ce nom.',
                         'type' => 'alreadyexist'
                     ]
                     , 403);
             }else {
 
-                $id = $request['user_id'];
+                $id = Auth::id();
                 $user = User::where('id', $id);
                 $adresse = $request['adresse'];
                 $npa = $request['npa'];

@@ -643,7 +643,7 @@
                             .then((response) => {
                         //console.log(response.data);
                         this.refreshTemplateManager(); // refresh all data in template manager
-                    this.showSuccessNotification({message: response.data.message});
+                        this.showSuccessNotification({message: response.data.message});
                 })
                 .catch((error) => {
                     //console.log(error.response.data.message);
@@ -835,6 +835,7 @@
                 message: "Seulement 8 piéces jointes par modèle sont accetpés",
                 type: 'error'
             }
+
         }
     }
 </script>
@@ -1063,7 +1064,7 @@
         height: 100vh;
         background-color: white;
         -webkit-animation: fadein;
-        -webkit-animation-duration: 3s;
+        -webkit-animation-duration: 2s;
         z-index: 2000;
         visibility: hidden;
     }

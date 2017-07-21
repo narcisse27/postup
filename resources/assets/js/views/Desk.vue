@@ -1,113 +1,128 @@
 <template>
-        <div class="row">
-            <div class="col-lg-12 card" id="letter-wrapper">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h1>Choisissez un modèle</h1>
-                    </div>
-                    <div class="panel-body">
+    <div id="desk-wrapper">
+        <div id="slidebar-gradiant" class="col-lg-3">
+            <nav  class="navbar navbar-default" role="navigation">
+                <div  class="collapse userDataFormCollapse">
+                    <div class="row">
                         <div class="col-lg-12">
-                            <h2>Nos templates</h2>
-                            <div class="col-lg-1" v-for="factemplate in factoryTemplates">
-                                <a v-bind:href="'/desk#/template/usine/' + factemplate.slug" v-bind:title="factemplate.name">
-                                    <div class="template-icon">
-                                        <img src="img/temp.png" alt="">
-                                    </div>
-                                </a>
-                                <p>{{ factemplate.name }}</p>
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="col-lg-12">
-                            <h2>Vos modèles</h2>
-                            <div v-if="templates" class="col-lg-1" v-for="template in templates">
-                                <a v-bind:href="'/desk#/template/mix/' + template.slug" v-bind:title="template.name">
-                                    <div class="template-icon">
-                                        <img src="img/temp.png" alt="">
-                                    </div>
-                                </a>
-                                <p>{{ template.name }}</p>
-                            </div>
-                            <div v-elseif>
-                                <h2>Vous n'avez aucun modèle</h2>
-                            </div>
+
                         </div>
                     </div>
                 </div>
-                <div v-if="showModal">
-                    <transition name="modal">
-                        <div class="modal-mask">
-                            <div class="modal-wrapper">
-                                <div class="modal-container">
+            </nav>
+        </div>
+        <div class="col-lg-9">
+            <div class="row">
+                <div class="col-lg-12 " id="letter-wrapper">
+                    <div class="col-lg-12">
+                        <div class="col-lg-12">
+                            <h2>Bienvenu Thomas !</h2>
+                        </div>
+                        <div class="col-lg-4" v-for="factemplate in factoryTemplates">
+                            <a v-bind:href="'/desk#/template/usine/' + factemplate.slug" v-bind:title="factemplate.name" class="" id="new-template-link">
+                                <div class="template-icon">
+                                    <img src="assets/app/img/template-new-desk.jpg" alt="">
+                                </div>
+                            </a>
+                            <p>{{ factemplate.name }}</p>
+                        </div>
 
-                                    <div class="modal-header">
-                                        <slot name="header">
-                                            <h4>
-                                                Afin de générer vos lettres de postulations, veuillez entrez les informations suivantes
-                                            </h4>
-                                        </slot>
-                                    </div>
+                        <div v-if="templates" class="col-lg-2" v-for="template in templates">
+                            <a v-bind:href="'/desk#/template/mix/' + template.slug" v-bind:title="template.name">
+                                <div class="template-icon">
+                                    <img src="assets/app/img/template-picto-desk.jpg" alt="">
+                                </div>
+                            </a>
+                            <p>{{ template.name }}</p>
+                        </div>
+                        <div v-elseif>
+                        </div>
+                    </div>
+                    <div v-if="showModal">
+                        <transition name="modal">
+                            <div class="modal-mask">
+                                <div class="modal-wrapper">
+                                    <div class="modal-container">
 
-                                    <div class="modal-body">
-                                        <slot name="body">
-                                            <form action="" class="form-horizontal col-lg-12">
-                                                <div class="form-group" v-bind:class="checkField(adresseSubmit.adresse)">
-                                                    <label for="inputAdresse" class="col-lg-2 control-label">Adresse*</label>
-                                                    <div class="col-lg-10">
-                                                        <input type="text" class="form-control" id="inputAdresse" placeholder="Adresse" v-model="adresseSubmit.adresse">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group"  v-bind:class="checkField(adresseSubmit.npa)">
-                                                    <label for="inputAdresse" class="col-lg-2 control-label">npa*</label>
-                                                    <div class="col-lg-10">
-                                                        <input type="number" class="form-control" id="inputAdresse" placeholder="npa" v-model="adresseSubmit.npa">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group"  v-bind:class="checkField(adresseSubmit.city)">
-                                                    <label for="inputCity" class="col-lg-2 control-label">Ville*</label>
-                                                    <div class="col-lg-10">
-                                                        <input type="text" class="form-control" id="inputCity" placeholder="Ville" v-model="adresseSubmit.city">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group"  v-bind:class="checkField(adresseSubmit.phone)">
-                                                    <label for="inputPhone" class="col-lg-2 control-label">Téléphone</label>
-                                                    <div class="col-lg-10">
-                                                        <input type="text" class="form-control" id="inputPhone" placeholder="07X 100 10 10" v-model="adresseSubmit.phone"  v-mask="'999 999 99 99'">
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </slot>
-                                    </div>
+                                        <div class="modal-header">
+                                            <slot name="header">
+                                                <h4>
+                                                    Afin de générer vos lettres de postulations, veuillez entrez les informations suivantes
+                                                </h4>
+                                            </slot>
+                                        </div>
 
-                                    <div class="modal-footer">
-                                        <slot name="footer">
-                                            <button class="modal-default-button"  @click="updateAdresse">
-                                                <span class="ion-checkmark-round"></span>
-                                            </button>
-                                        </slot>
+                                        <div class="modal-body">
+                                            <slot name="body">
+                                                <form action="" class="form-horizontal col-lg-12">
+                                                    <div class="form-group" v-bind:class="checkField(adresseSubmit.adresse)">
+                                                        <label for="inputAdresse" class="col-lg-2 control-label">Adresse*</label>
+                                                        <div class="col-lg-10">
+                                                            <input type="text" class="form-control" id="inputAdresse" placeholder="Adresse" v-model="adresseSubmit.adresse">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group"  v-bind:class="checkField(adresseSubmit.npa)">
+                                                        <label for="inputAdresse" class="col-lg-2 control-label">npa*</label>
+                                                        <div class="col-lg-10">
+                                                            <input type="number" class="form-control" id="inputAdresse" placeholder="npa" v-model="adresseSubmit.npa">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group"  v-bind:class="checkField(adresseSubmit.city)">
+                                                        <label for="inputCity" class="col-lg-2 control-label">Ville*</label>
+                                                        <div class="col-lg-10">
+                                                            <input type="text" class="form-control" id="inputCity" placeholder="Ville" v-model="adresseSubmit.city">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group"  v-bind:class="checkField(adresseSubmit.phone)">
+                                                        <label for="inputPhone" class="col-lg-2 control-label">Téléphone</label>
+                                                        <div class="col-lg-10">
+                                                            <input type="text" class="form-control" id="inputPhone" placeholder="07X 100 10 10" v-model="adresseSubmit.phone"  v-mask="'999 999 99 99'">
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </slot>
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <slot name="footer">
+                                                <button class="modal-default-button"  @click="updateAdresse">
+                                                    <span class="ion-checkmark-round"></span>
+                                                </button>
+                                            </slot>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </transition>
+                        </transition>
+                    </div>
                 </div>
             </div>
         </div>
+    </div>
+
 </template>
 <style>
+    #desk-wrapper{
+        width: 100vw;
+        height: 100vh;
+        background-color: #e8e6e7;
+    }
+
+    #slidebar-gradiant{
+        top: 0!important;
+        left: 0;
+        width: 20%;
+        height: 100%;
+        background: url('/assets/app/img/navbar-desk-background-gradiant.png');
+    }
+
     .empty-tempalte-icon{
         margin-top: 50px;
         height: 120px;
-        box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
-        -moz-box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
-        -webkit-box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
     }
     .template-icon{
         margin-top: 50px;
-        height: 120px;
-        box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
-        -moz-box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
-        -webkit-box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+        height: 90%;
     }
     .template-icon img{
         width: 100%;
@@ -155,14 +170,6 @@
         float: right;
     }
 
-    /*
-     * The following styles are auto-applied to elements with
-     * transition="modal" when their visibility is toggled
-     * by Vue.js.
-     *
-     * You can easily play with the modal transition by editing
-     * these styles.
-     */
 
     .modal-enter {
         opacity: 0;
@@ -177,6 +184,12 @@
         -webkit-transform: scale(1.1);
         transform: scale(1.1);
     }
+
+    #new-template-link{
+
+    }
+
+
 
 </style>
 <script>

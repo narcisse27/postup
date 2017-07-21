@@ -117,8 +117,8 @@
                                                 <div class="template-manager-temp-name" @click="loadThisTemplate(template.id)" title="afficher ce template">
                                                     {{ template.name}}
                                                 </div>
-                                                <div class="template-manager-temp-icons ion-btn" @click="duplicateThisTemplate(template.id)">
-                                                    <span class="ion-ios-copy" title="copier ce template"></span>
+                                                <div class="template-manager-temp-icons ion-btn" @click="duplicateThisTemplate(template.id)" >
+                                                    <span class="ion-ios-copy" title="copier ce template" style="color: white;"></span>
                                                 </div>
                                                 <div class="template-manager-temp-icons ion-btn" data-toggle="collapse" v-bind:href="'#collapse_'+template.id">
                                                     <span class="ion-more" title="afficher les détails"></span>
@@ -135,7 +135,7 @@
                                                     </div>
                                                 </a>
                                                 <div class="template-manager-temp-icons ion-btn" @click="duplicateThisTemplate(template.id)">
-                                                    <span class="ion-ios-copy" title="copier ce template"></span>
+                                                    <span class="ion-ios-copy" title="copier ce template" style="color: white;"></span>
                                                 </div>
                                                 <div class="template-manager-temp-icons ion-btn" data-toggle="collapse" v-bind:href="'#collapse_'+template.id">
                                                     <span class="ion-more" title="afficher les détails"></span>

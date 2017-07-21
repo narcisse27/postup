@@ -18,9 +18,9 @@ class CreateTemplatesTable extends Migration
             $table->string('name');
             $table->string('slug');
             $table->integer('user_id');
-            $table->string('object');
-            $table->longText('content');
-            $table->string('salutation');
+            $table->string('object')->nullable();
+            $table->longText('content')->nullable();
+            $table->string('salutation')->nullable();
             $table->string('email_object')->nullable();
             $table->text('email_content')->nullable();
             $table->timestamps();
