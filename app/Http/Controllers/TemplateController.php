@@ -74,7 +74,7 @@ class TemplateController extends Controller
         if(Auth::check())
         {
             $name = $request['name'];
-            $existTemplate = Template::where('name', $name)->first();
+            $existTemplate = Template::where('name', $name)->where('user_id', Auth::id())->first();
             if($existTemplate)
             {
                 return response()->json(

@@ -30906,6 +30906,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 // import tagsInput from 'vue-tagsinput'; TODO delete this package
 
@@ -31692,6 +31693,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['currentTemplate', 'templates'],
@@ -31829,6 +31839,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
 //
 //
 //
@@ -32295,6 +32307,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 window.axios = __webpack_require__(8);
 
@@ -32325,11 +32344,11 @@ var $ = __webpack_require__(179);
     data: function data() {
         return {
             config: {
-
                 language: 'fr',
                 removePlugins: 'elementspath',
                 resize_enabled: false,
                 height: 300,
+                startupShowBorders: false,
                 extraAllowedContent: {
                     span: {
                         attributes: ['contenteditable', 'title', 'class'],
@@ -32376,6 +32395,7 @@ var $ = __webpack_require__(179);
             mailsToSend: [],
             myTemplates: [],
             namesearch: '',
+            pageLoading: true,
             preloadingPdf: true,
             page: 'letter',
             regionsearch: '',
@@ -32442,6 +32462,10 @@ var $ = __webpack_require__(179);
         this.refreshTemplateManager(); // refresh all data in template manager
         __WEBPACK_IMPORTED_MODULE_0_moment___default.a.locale('fr');
         this.currentTemplate.letter.currentDate = __WEBPACK_IMPORTED_MODULE_0_moment___default()().format('LL');
+
+        setTimeout(function () {
+            console.log(this.page);
+        }, 5000);
     },
     mounted: function mounted() {
         this.preloadingPdf = false;
@@ -32697,6 +32721,13 @@ var $ = __webpack_require__(179);
             $('#template-succes-animation').addClass('loading-success');
             $('#template-succes-animation').removeClass('loading-success');
             $('#template-succes-animation').addClass('icon--order-success');
+        },
+        loadingBeforAllReady: function loadingBeforAllReady() {
+            var self = this;
+            setTimeout(function () {
+                this.pageLoading = false;
+                self.pageLoading = false;
+            }, 2000);
         }
     },
     notifications: {
@@ -32811,8 +32842,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Payment_Payment__ = __webpack_require__(194);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Payment_Payment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Payment_Payment__);
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 //
@@ -32975,19 +33004,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    components: {
-        'Payment': __WEBPACK_IMPORTED_MODULE_0__Payment_Payment___default.a
-    },
     data: function data() {
         return {
             showImporvementModal: false,
-            showPaymentModal: false,
             userKey: '',
             userData: []
         };
@@ -33073,9 +33094,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         },
         closeImporvementModal: function closeImporvementModal() {
             this.showImporvementModal = false;
-        },
-        openPaymentModal: function openPaymentModal() {
-            this.showPaymentModal = true;
         }
 
     }
@@ -33196,6 +33214,9 @@ var routes = [
 }, {
   path: '/history',
   component: __webpack_require__(195)
+}, {
+  path: '/mail-filler',
+  component: __webpack_require__(194)
 }];
 
 /* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({
@@ -33242,7 +33263,7 @@ exports.push([module.i, "\n.img-avatar {\n    width: 40px;\n    height: 40px;\n 
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\ninput {\n    outline: none;\n    border: none !important;\n    box-shadow: none !important;\n}\nonly screen and (min-width: 980px)\n{\nbody{\n        overflow-y: hidden!important;\n}\n}\n#template-list-wrapper {\n    /*visibility: hidden;*/\n}\n#project-name-wrapper{\n    height: 70px;\n    background-color: #dadada;\n}\n[v-cloak] {\n    display: none;\n}\n#recipient-manger-col-wrapper{\n    opacity: 1;\n    transition: opacity 1s ease-in-out;\n    -webkit-transition: opacity 1s ease-in-out;\n    -moz-transition: opacity 1s ease-in-out;\n    -ms-transition: opacity 1s ease-in-out;\n    -o-transition: opacity 1s ease-in-out;\n}\n.template-manager-selected-template{\n    background-image: url(\"/assets/app/img/btn-gradiant-tmplate-manager.jpg\");\n    transition: 100ms;\n}\n#letter-personal-text{\n    height: 100mm;\n}\n#letter-wrapper .panel-body{\n    height: 80vh;\n    overflow-y: scroll;\n}\n#recipient-data{\n    margin-left: 57%;\n}\n.to-deliver-list-item:hover{\n    color: red!important;\n    transition: 100ms;\n    cursor: pointer;\n}\n#letter-object-wrapper{\n    margin-top: 9.5%;\n}\n.corporate-list-item:hover{\n    cursor: pointer;\n    color: #2ab27b;\n    transition: 100ms;\n}\n.corporate-list-item{\n    transition: 100ms;\n}\n.heading-custom{\n    background-color: #f1f1f1!important;\n    height: 40px;\n}\n.modal-large{\n    width: 80%;\n    margin-left: 10%;\n    margin-right: 10%;\n}\n#letter-wrapper{\n    height: 80vh;\n}\n.mailer-wrapper input{\n    width: 100%;\n    height: auto;\n}\n.mailer-wrapper{\n    width: 100%;\n    height: auto;\n}\n.ion-btn{\n    transition: 100ms;\n}\n.ion-btn:hover{\n    color: #0c84e4;\n    transition: 100ms;\n    cursor: pointer;\n}\n.template-manager-header{\n    width: 100%;\n    height: 20px;\n}\n.template-manager-temp-name{\n    width: 70%;\n    white-space: nowrap;\n    overflow: hidden;\n    text-overflow: ellipsis;\n    font-size: 12px!important;\n    float: left;\n    cursor: pointer;\n}\n.template-manager-temp-icons{\n    width: 11%;\n    padding-left: 2%;\n    padding-right: 2%;\n    float: left;\n}\n#letter-toolbar-wrapper{\n    width: 100%;\n    height: auto;\n}\n#toolbar-wrapper{\n    top: 0px!important;\n}\n.letter-fonts{\n    font-size: 12pt!important;\n}\n#letter-content-scroll{\n    width: 100%;\n    height: auto;\n    display: inline-block;\n    overflow: hidden;\n}\n#sheet-paper{\n    margin-left: auto;\n    margin-right: auto;\n    overflow: hidden;\n}\n.paper-sheet{\n    size: A4;\n    margin: auto;\n    width: 793px;\n    height: 1122px;\n    padding-left: 132px;\n    padding-right: 94px;\n    padding-top: 94px;\n    padding-bottom: 94px;\n    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);\n    -moz-box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);\n    font-size: 10pt!important;\n}\n.paper-sheet .form-control{\n    font-size: 10pt!important;\n}\n#sender-data-wrapper{\n    width: 50%;\n}\n#letter-current-date-wrapper{\n    margin-left: 57%;\n}\n.letter-appendicies-list{\n    bottom: 0;\n    width: 100%;\n    height: auto;\n}\n#letter-preview-frame{\n    width: 60%;\n    margin-left: 20%;\n    height: auto;\n    margin: auto;\n}\n#letter-preview-frame-data{\n    display: block;\n    float: left;\n    width: 60%;\n    margin-left: 20%;\n    margin-right: 20%;\n    margin: auto;\n    height: auto;\n}\n.form-smaller-custom{\n    font-size: 12pt!important;\n    height: 16px!important;\n}\n.templates-list{\n    width: 100%;\n    height: auto;\n}\n.templatelistappear-enter-active{\n    -webkit-animation: templatelistappear;\n            animation: templatelistappear;\n    -webkit-animation-duration: 1s;\n            animation-duration: 1s;\n}\n#letter-personal-content{\n    height: auto;\n}\n#signature-wrapper{\n    margin-left: 57%;\n    height: auto;\n    margin-top: 50px;\n}\n#signature-image{\n    width: 100%;\n    height: 40%;\n    background-color: #a6e1ec;\n}\n.auto-value-letter{\n    background-color: #a6e1ec;\n}\n.templatelistappear-leave-active{\n\n    -webkit-animation: templatelistdisappear;\n\n            animation: templatelistdisappear;\n}\n.letter-padding{\n    padding-left: 80px;\n    padding-right: 50px;\n}\n\n/* CKEDITOR */\n.cke_top{\n    border: 0px!important;\n    background-color: #f1f1f1!important;\n    zoom: 0.74!important;\n}\n.cke_chrome {\n    display: block;\n    border: 0px!important;\n    padding: 0;\n}\n.color-red{\n    color: #fe0364;\n}\n.mini-toastr__notification{\n    width: 100%!important;\n    top: 0px!important;\n    right: 0px!important;\n}\n.-success{\n    background-color: darkred!important;\n}\n.editableSpanners{\n    background-color: #fe0364;\n    color: white;\n    border-radius: 5px;\n}\n.appendice-control-wrap{\n    float: left;\n    width: 100%;\n    height: auto;\n    border-bottom: 1px solid grey;\n}\n.appendice-control-wrap:hover{\n    background-color: #dadada;\n    color: #7f27d5;\n    transition: 100ms;\n}\n.appendice-control-wrap:hover input{\n    background-color: #dadada;\n    color: #7f27d5;\n    transition: 100ms;\n}\n.appendice-focused {\n    background-image: url(\"/assets/app/img/btn-gradiant-tmplate-manager.jpg\")!important;\n    transition: 100ms;\n    width: 100%;\n    height: auto;\n    color: white!important!important;\n}\n.appendice-focused input:focus{\n    color: white!important;\n}\n.appendice-focuses:focus{\n    color: white!important!important;\n}\n.transaprant-input{\n    background: transparent!important;\n    border: none!important;\n}\n#appendice-add-btn:hover{\n    cursor: pointer;\n}\n@-webkit-keyframes checkmark {\n0% {\n        stroke-dashoffset: 50px\n}\n100% {\n        stroke-dashoffset: 0\n}\n}\n@keyframes checkmark {\n0% {\n        stroke-dashoffset: 50px\n}\n100% {\n        stroke-dashoffset: 0\n}\n}\n@-webkit-keyframes checkmark-circle {\n0% {\n        stroke-dashoffset: 240px\n}\n100% {\n        stroke-dashoffset: 480px\n}\n}\n@keyframes checkmark-circle {\n0% {\n        stroke-dashoffset: 240px\n}\n100% {\n        stroke-dashoffset: 480px\n}\n}\n\n/* other styles */\n/* .svg svg {\n    display: none\n}\n */\n.inlinesvg .svg svg {\n    display: inline\n}\n\n/* .svg img {\n    display: none\n} */\n.icon--order-success svg path {\n    -webkit-animation: checkmark 0.25s ease-in-out 0.7s backwards;\n    animation: checkmark 0.25s ease-in-out 0.7s backwards\n}\n.icon--order-success svg circle {\n    -webkit-animation: checkmark-circle 0.6s ease-in-out backwards;\n    animation: checkmark-circle 0.6s ease-in-out backwards\n}\n", ""]);
+exports.push([module.i, "\ninput {\n    outline: none;\n    border: none !important;\n    box-shadow: none !important;\n}\nonly screen and (min-width: 980px)\n{\nbody{\n        overflow-y: hidden!important;\n}\n}\n#template-list-wrapper {\n    /*visibility: hidden;*/\n}\n#project-name-wrapper{\n    height: 70px;\n    background-color: #dadada;\n}\n[v-cloak] {\n    display: none;\n}\n#recipient-manger-col-wrapper{\n    opacity: 1;\n    transition: opacity 1s ease-in-out;\n    -webkit-transition: opacity 1s ease-in-out;\n    -moz-transition: opacity 1s ease-in-out;\n    -ms-transition: opacity 1s ease-in-out;\n    -o-transition: opacity 1s ease-in-out;\n}\n.template-manager-selected-template{\n    background-image: url(\"/assets/app/img/btn-gradiant-tmplate-manager.jpg\");\n    transition: 100ms;\n}\n#letter-personal-text{\n    height: 100mm;\n}\n#letter-wrapper .panel-body{\n    height: 80vh;\n    overflow-y: scroll;\n}\n#recipient-data{\n    margin-left: 57%;\n}\n.to-deliver-list-item:hover{\n    color: red!important;\n    transition: 100ms;\n    cursor: pointer;\n}\n#letter-object-wrapper{\n    margin-top: 9.5%;\n}\n.corporate-list-item:hover{\n    cursor: pointer;\n    color: #2ab27b;\n    transition: 100ms;\n}\n.corporate-list-item{\n    transition: 100ms;\n}\n.heading-custom{\n    background-color: #f1f1f1!important;\n    height: 40px;\n}\n.modal-large{\n    width: 80%;\n    margin-left: 10%;\n    margin-right: 10%;\n}\n#letter-wrapper{\n    height: 80vh;\n}\n.mailer-wrapper input{\n    width: 100%;\n    height: auto;\n}\n.mailer-wrapper{\n    width: 100%;\n    height: auto;\n}\n.ion-btn{\n    transition: 100ms;\n}\n.ion-btn:hover{\n    color: #0c84e4;\n    transition: 100ms;\n    cursor: pointer;\n}\n.template-manager-header{\n    width: 100%;\n    height: 20px;\n}\n.template-manager-temp-name{\n    width: 70%;\n    white-space: nowrap;\n    overflow: hidden;\n    text-overflow: ellipsis;\n    font-size: 12px!important;\n    float: left;\n    cursor: pointer;\n}\n.template-manager-temp-icons{\n    width: 11%;\n    padding-left: 2%;\n    padding-right: 2%;\n    float: left;\n}\n#letter-toolbar-wrapper{\n    width: 100%;\n    height: auto;\n}\n#toolbar-wrapper{\n    top: 0px!important;\n}\n.letter-fonts{\n    font-size: 12pt!important;\n}\n#letter-content-scroll{\n    width: 100%;\n    height: auto;\n    display: inline-block;\n    overflow: hidden;\n}\n#sheet-paper{\n    margin-left: auto;\n    margin-right: auto;\n    overflow: hidden;\n}\n.paper-sheet{\n    size: A4;\n    margin: auto;\n    width: 793px;\n    height: 1122px;\n    padding-left: 132px;\n    padding-right: 94px;\n    padding-top: 94px;\n    padding-bottom: 94px;\n    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);\n    -moz-box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);\n    font-size: 10pt!important;\n}\n.paper-sheet .form-control{\n    font-size: 10pt!important;\n}\n#sender-data-wrapper{\n    width: 50%;\n}\n#letter-current-date-wrapper{\n    margin-left: 57%;\n}\n.letter-appendicies-list{\n    bottom: 0;\n    width: 100%;\n    height: auto;\n}\n#letter-preview-frame{\n    width: 60%;\n    margin-left: 20%;\n    height: auto;\n    margin: auto;\n}\n#letter-preview-frame-data{\n    display: block;\n    float: left;\n    width: 60%;\n    margin-left: 20%;\n    margin-right: 20%;\n    margin: auto;\n    height: auto;\n}\n.form-smaller-custom{\n    font-size: 12pt!important;\n    height: 16px!important;\n}\n.templates-list{\n    width: 100%;\n    height: auto;\n}\n.templatelistappear-enter-active{\n    -webkit-animation: templatelistappear;\n            animation: templatelistappear;\n    -webkit-animation-duration: 1s;\n            animation-duration: 1s;\n}\n#letter-personal-content{\n    height: auto;\n}\n#signature-wrapper{\n    margin-left: 57%;\n    height: auto;\n    margin-top: 50px;\n}\n#signature-image{\n    width: 100%;\n    height: 40%;\n    background-color: #a6e1ec;\n}\n.auto-value-letter{\n    background-color: #a6e1ec;\n}\n.templatelistappear-leave-active{\n\n    -webkit-animation: templatelistdisappear;\n\n            animation: templatelistdisappear;\n}\n.letter-padding{\n    padding-left: 80px;\n    padding-right: 50px;\n}\n#page-loading-animation{\n    position: absolute;\n    overflow-x: hidden;\n    overflow-y: hidden;\n    width: 100vw;\n    height: 100vh;\n    background-color: white;\n    -webkit-animation: fadein;\n    -webkit-animation-duration: 3s;\n    z-index: 2000;\n    visibility: hidden;\n}\n@-webkit-keyframes fadein{\n0%{\n        visibility: visible;\n}\n100%{\n        visibility: hidden;\n}\n}\n\n\n/* Loading */\n.loader{\n    margin:200px auto;\n}\n.loader span{\n    width:16px;\n    height:16px;\n    border-radius:50%;\n    display:inline-block;\n    position:absolute;\n    left:50%;\n    margin-left:-10px;\n    -webkit-animation:3s infinite linear;\n    -moz-animation:3s infinite linear;\n    -o-animation:3s infinite linear;\n}\n.loader span:nth-child(2){\n    background:#E84C3D;\n    -webkit-animation:kiri 1.2s infinite linear;\n    -moz-animation:kiri 1.2s infinite linear;\n    -o-animation:kiri 1.2s infinite linear;\n}\n.loader span:nth-child(3){\n    background:#F1C40F;\n    z-index:100;\n}\n.loader span:nth-child(4){\n    background:#2FCC71;\n    -webkit-animation:kanan 1.2s infinite linear;\n    -moz-animation:kanan 1.2s infinite linear;\n    -o-animation:kanan 1.2s infinite linear;\n}\n@-webkit-keyframes kanan {\n0% {-webkit-transform:translateX(20px);\n}\n50%{-webkit-transform:translateX(-20px);\n}\n100%{-webkit-transform:translateX(20px);\n        z-index:200;\n}\n}\n\n/* CKEDITOR */\n.cke_top{\n    border: 0px!important;\n    background-color: #f1f1f1!important;\n    zoom: 0.74!important;\n}\n.cke_chrome {\n    display: block;\n    border: 0px!important;\n    padding: 0;\n}\n.color-red{\n    color: #fe0364;\n}\n.mini-toastr__notification{\n    width: 100%!important;\n    top: 0px!important;\n    right: 0px!important;\n}\n.-success{\n    background-color: darkred!important;\n}\n.editableSpanners{\n    background-color: #fe0364;\n    color: white;\n    border-radius: 5px;\n}\n.appendice-control-wrap{\n    float: left;\n    width: 100%;\n    height: auto;\n    border-bottom: 1px solid grey;\n}\n.appendice-control-wrap:hover{\n    background-color: #dadada;\n    color: #7f27d5;\n    transition: 100ms;\n}\n.appendice-control-wrap:hover input{\n    background-color: #dadada;\n    color: #7f27d5;\n    transition: 100ms;\n}\n.appendice-focused {\n    background-image: url(\"/assets/app/img/btn-gradiant-tmplate-manager.jpg\")!important;\n    transition: 100ms;\n    width: 100%;\n    height: auto;\n    color: white!important!important;\n}\n.appendice-focused input:focus{\n    color: white!important;\n}\n.appendice-focuses:focus{\n    color: white!important!important;\n}\n.transaprant-input{\n    background: transparent!important;\n    border: none!important;\n}\n#appendice-add-btn:hover{\n    cursor: pointer;\n}\n.cke_editable{\n    margin: 0!important;\n}\n@-webkit-keyframes checkmark {\n0% {\n        stroke-dashoffset: 50px\n}\n100% {\n        stroke-dashoffset: 0\n}\n}\n@keyframes checkmark {\n0% {\n        stroke-dashoffset: 50px\n}\n100% {\n        stroke-dashoffset: 0\n}\n}\n@-webkit-keyframes checkmark-circle {\n0% {\n        stroke-dashoffset: 240px\n}\n100% {\n        stroke-dashoffset: 480px\n}\n}\n@keyframes checkmark-circle {\n0% {\n        stroke-dashoffset: 240px\n}\n100% {\n        stroke-dashoffset: 480px\n}\n}\n\n/* other styles */\n/* .svg svg {\n    display: none\n}\n */\n.inlinesvg .svg svg {\n    display: inline\n}\n\n/* .svg img {\n    display: none\n} */\n.icon--order-success svg path {\n    -webkit-animation: checkmark 0.25s ease-in-out 0.7s backwards;\n    animation: checkmark 0.25s ease-in-out 0.7s backwards\n}\n.icon--order-success svg circle {\n    -webkit-animation: checkmark-circle 0.6s ease-in-out backwards;\n    animation: checkmark-circle 0.6s ease-in-out backwards\n}\n", ""]);
 
 /***/ }),
 /* 174 */
@@ -33263,7 +33284,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\n#nav-avatar-wrapper{\n    float: left;\n    width: 80%;\n    height: 100%;\n}\n#user-mini-manager{\n    height: 67px;\n    width: 250px;\n    background-color: #e8e6e7;\n    font-size: 11px;\n}\n#avatar-wrap{\n    float: left;\n    width: 20%;\n}\n#avatar-data{\n    float: left;\n    width: 40%;\n    height: 100%;\n}\n#avatar-data p{\n    vertical-align: middle;\n    margin-top: 10px;\n}\n#user-mini-manager input{\n    font-size: 11px;\n}\n#side-bar-toggler{\n    height: 100%;\n    width: 20%;\n    float: left;\n    margin-top: 10px;\n}\n#side-bar-toggler:hover{\n    cursor: pointer;\n}\n#side-bar-toggler span{\n    font-size: 20px;\n    margin: auto;\n    margin-left: 25px;\n}\n.img-avatar {\n    width: 40px;\n    height: 40px;\n    margin-top: 10px;\n    border-radius: 50%;\n    border: 1px solid #f64a8a;\n}\n#userDataFormCollapse{\n    width: 100%;\n    padding-left: 10%;\n    padding-right: 10%;\n    padding-top: 40px;\n    background-color:  #e8e6e7 ;\n}\n#userDataFormCollapse .row{\n    background-color: #e8e6e7;\n}\n", ""]);
+exports.push([module.i, "\n#nav-avatar-wrapper{\n    float: left;\n    width: 80%;\n    height: 100%;\n}\n#user-mini-manager{\n    height: 67px;\n    width: 250px;\n    background-color: #e8e6e7;\n    font-size: 11px;\n}\n#avatar-wrap{\n    float: left;\n    width: 20%;\n}\n#avatar-data{\n    float: left;\n    width: 40%;\n    height: 100%;\n}\n#avatar-data p{\n    vertical-align: middle;\n    margin-top: 10px;\n}\n#user-mini-manager input{\n    font-size: 11px;\n    height: 11px;\n    margin-top: 11px;\n    margin-left: 10px;\n}\n#side-bar-toggler{\n    height: 100%;\n    width: 20%;\n    float: left;\n    margin-top: 10px;\n}\n#side-bar-toggler:hover{\n    cursor: pointer;\n}\n#side-bar-toggler span{\n    font-size: 20px;\n    margin: auto;\n    margin-left: 25px;\n}\n.img-avatar {\n    width: 40px;\n    height: 40px;\n    margin-top: 10px;\n    border-radius: 50%;\n    border: 1px solid #f64a8a;\n}\n#userDataFormCollapse{\n    width: 100%;\n    padding-left: 10%;\n    padding-right: 10%;\n    padding-top: 40px;\n    background-color:  #e8e6e7 ;\n}\n#userDataFormCollapse .row{\n    background-color: #e8e6e7;\n}\n#avatar-import-btn-wrapper:hover{\n    cursor: pointer;\n}\n#import-avatar-picto{\n    opacity: 1;\n    padding-right: 10%;\n    transition: 100ms;\n}\n#import-avatar-picto:hover{\n    opacity: 0.7;\n    transition: 100ms;\n}\n#userDataFormNamePres{\n    padding-top: 10px;\n}\n", ""]);
 
 /***/ }),
 /* 177 */
@@ -50570,7 +50591,9 @@ module.exports = Component.exports
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
-    staticClass: "modal-wrapper"
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col-lg-12"
   }, [_c('div', {
     staticClass: "modal-container"
   }, [_c('div', {
@@ -50583,7 +50606,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     on: {
       "click": _vm.closeImporvementModal
     }
-  }, [_vm._v("X")])])], 2)])])
+  }, [_vm._v("X")])])], 2), _vm._v(" "), _c('a', {
+    attrs: {
+      "href": "/desk#"
+    }
+  }, [_vm._v("Bureau")])])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "row"
@@ -50631,7 +50658,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }), _vm._v(" "), _c('div', {
     staticClass: "success"
-  }, [_vm._v("\n                                    Success! Your Stripe token is "), _c('span', {
+  }, [_vm._v("\n                                        Success! Your Stripe token is "), _c('span', {
     staticClass: "token"
   })])])])]), _vm._v(" "), _c('div', {
     staticClass: "col-lg-6"
@@ -50677,7 +50704,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }), _vm._v(" "), _c('div', {
     staticClass: "success"
-  }, [_vm._v("\n                                    Success! Your Stripe token is "), _c('span', {
+  }, [_vm._v("\n                                        Success! Your Stripe token is "), _c('span', {
     staticClass: "token"
   })])])])])])
 }]}
@@ -51124,7 +51151,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "modal-container"
   }, [_c('div', {
     staticClass: "modal-header"
-  }, [_vm._t("header", [_c('h1', [_vm._v("Votre pierre à l'édifice!")]), _vm._v(" "), _c('p', [_vm._v("\n                                    Hey! les adresses suivantes ne sont pas référencées dans nos listes : "), _c('br')]), _vm._v(" "), _c('p', [_vm._v("\n                                    Vous pouvez aider les membres de la communauté de Postup en partageant ces dernières en y ajoutant quelques informations pratiques, celà ne vous prendra que quelques secondes!\n\n                                ")])])], 2), _vm._v(" "), _c('div', {
+  }, [_vm._t("header", [_c('h1', [_vm._v("Votre pierre à l'édifice!")]), _vm._v(" "), _c('p', [_vm._v("\n                                    Hey! les adresses suivantes ne sont pas référencées dans nos listes : "), _c('br')]), _vm._v(" "), _c('p', [_vm._v("\n                                    Vous pouvez aider les membres de la communauté de Postup en partageant ces dernières en y ajoutant quelques informations pratiques, celà ne vous prendra que quelques secondes!\n                                    "), _c('br'), _vm._v("\n                                    Fournissez nous les infromations nécéssaires sur ce destinataire afin que nous puissions personaliser le contenu de votre postulation.\n                                ")])])], 2), _vm._v(" "), _c('div', {
     staticClass: "modal-body"
   }, [_vm._t("body", [_c('div', {
     staticClass: "row"
@@ -51462,17 +51489,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }))])], 2), _vm._v(" "), _c('div', {
     staticClass: "modal-footer"
   }, [_vm._t("footer", [_c('a', {
-    staticClass: "pull-left",
-    attrs: {
-      "href": ""
-    },
-    on: {
-      "click": function($event) {
-        $event.preventDefault();
-        _vm.closeModal($event)
-      }
-    }
-  }, [_vm._v("Non merci")]), _vm._v(" "), _c('a', {
     staticClass: "pull-right",
     attrs: {
       "href": ""
@@ -51576,7 +51592,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {}, [_c('nav', {
+  return _c('div', {}, [_vm._m(0), _vm._v(" "), _c('nav', {
     staticClass: "navbar navbar-default navbar-fixed-top",
     attrs: {
       "id": "navbar-white",
@@ -51645,7 +51661,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('div', {
     staticClass: "col-lg-9"
-  }, [_vm._m(0), _vm._v(" "), _c('div', {
+  }, [_vm._m(1), _vm._v(" "), _c('div', {
     staticClass: "form-group",
     class: _vm.checkField(_vm.currentTemplate.name)
   }, [_c('div', {
@@ -51755,7 +51771,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "col-lg-12"
   }, [_c('div', {
     staticClass: "col-lg-4"
-  }, [_c('span', [_vm._v(" " + _vm._s(_vm.currentTemplate.name) + " ")])]), _vm._v(" "), _vm._m(1), _vm._v(" "), _c('div', {
+  }, [_c('span', [_vm._v(" " + _vm._s(_vm.currentTemplate.name) + " ")])]), _vm._v(" "), _vm._m(2), _vm._v(" "), _c('div', {
     staticClass: "col-lg-1"
   }, [_c('h4', [_c('span', {
     staticClass: "ion-eye pull-right ion-btn",
@@ -51987,7 +52003,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('div', {
     staticClass: "col-lg-12"
-  }, [_vm._v("\n                                                            " + _vm._s(_vm.currentTemplate.letter.adresse.city) + ", le " + _vm._s(_vm.currentTemplate.letter.currentDate) + "\n                                                        ")])]), _vm._v(" "), _vm._m(2)]), _vm._v(" "), _c('div', {
+  }, [_vm._v("\n                                                            " + _vm._s(_vm.currentTemplate.letter.adresse.city) + ", le " + _vm._s(_vm.currentTemplate.letter.currentDate) + "\n                                                        ")])]), _vm._v(" "), _vm._m(3)]), _vm._v(" "), _c('div', {
     staticClass: "col-lg-12",
     attrs: {
       "id": "letter-object-wrapper"
@@ -52014,13 +52030,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   })]), _vm._v(" "), _c('div', {
-    staticClass: "col-lg-12"
+    staticClass: "col-lg-12 no-padding-left no-padding-right"
   }, [_c('div', {
     attrs: {
       "id": "letter-personal-text"
     }
-  }, [_vm._m(3), _vm._v(" "), _c('div', {
-    staticClass: "form-control",
+  }, [_vm._m(4), _vm._v(" "), _c('div', {
     attrs: {
       "id": "letter-personal-content"
     }
@@ -52035,7 +52050,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       },
       expression: "currentTemplate.letter.content"
     }
-  })], 1)])]), _vm._v(" "), _vm._m(4), _vm._v(" "), _c('div', {
+  })], 1)])]), _vm._v(" "), _vm._m(5), _vm._v(" "), _c('div', {
     staticClass: "col-lg-12",
     attrs: {
       "id": "signature-wrapper"
@@ -52062,16 +52077,16 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('div', {
     staticClass: "modal-content"
-  }, [_vm._m(5), _vm._v(" "), _c('div', {
+  }, [_vm._m(6), _vm._v(" "), _c('div', {
     staticClass: "modal-body"
   }, [(!_vm.preloadingPdf) ? _c('div', {
     staticClass: "col-lg-12",
     attrs: {
       "id": "letter-preview"
     }
-  }, [_vm._m(6)]) : _c('div', [_c('span', {
+  }, [_vm._m(7)]) : _c('div', [_c('span', {
     staticClass: "fa fa-circle-o-notch"
-  })])]), _vm._v(" "), _vm._m(7)])])]), _vm._v(" "), (_vm.page == 'letter') ? _c('div', {
+  })])]), _vm._v(" "), _vm._m(8)])])]), _vm._v(" "), (_vm.page == 'letter') ? _c('div', {
     staticClass: "col-lg-3 card"
   }, [_c('div', {
     staticClass: "panel panel-default"
@@ -52138,7 +52153,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.addAppendice($event)
       }
     }
-  }, [_vm._m(8), _vm._v(" "), _c('input', {
+  }, [_vm._m(9), _vm._v(" "), _c('input', {
     directives: [{
       name: "mask",
       rawName: "v-mask",
@@ -52179,6 +52194,18 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })], 1)])])])])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    attrs: {
+      "id": "page-loading-animation"
+    }
+  }, [_c('div', {
+    staticClass: "loader"
+  }, [_c('h1', {
+    staticStyle: {
+      "color": "slategrey!important"
+    }
+  }, [_vm._v("LOADING")]), _vm._v(" "), _c('span'), _vm._v(" "), _c('span'), _vm._v(" "), _c('span')])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "col-lg-1"
   }, [_c('span', [_vm._v("TITRE : ")])])
@@ -52417,7 +52444,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('div', {
     staticClass: "col-lg-12"
   }, [_c('div', {
-    staticClass: "col-lg-2 col-lg-offset-2"
+    staticClass: "col-lg-6 no-padding-left "
   }, [_vm._m(1), _vm._v(" "), _c('input', {
     staticStyle: {
       "display": "none"
@@ -52429,14 +52456,18 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     on: {
       "change": _vm.updateUserPicture
     }
-  })]), _vm._v(" "), _c('div', {}, [_vm._v("\n                    " + _vm._s(_vm.userData.firstname) + " " + _vm._s(_vm.userData.lastname) + "\n                    Communication\n                    "), _c('br'), _vm._v(" "), _c('a', {
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "col-lg-6  no-padding-left no-padding-right",
     attrs: {
-      "href": "/logout"
+      "id": "userDataFormNamePres"
     }
-  }, [_vm._v("Me déconnecter")])])])]), _vm._v(" "), _c('div', {
+  }, [_vm._v("\n                    " + _vm._s(_vm.userData.firstname) + " " + _vm._s(_vm.userData.lastname) + "\n                    Communication\n                    "), _c('br')]), _vm._v(" "), _vm._m(2)])]), _vm._v(" "), _c('div', {
     staticClass: "row"
   }, [_c('form', {
-    staticClass: "form-horizontal col-lg-12"
+    staticClass: "form-horizontal col-lg-12",
+    attrs: {
+      "autocomplete": "off"
+    }
   }, [_c('div', {
     staticClass: "form-group"
   }, [_c('label', {
@@ -52710,14 +52741,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.openImporvementModal($event)
       }
     }
-  }, [_vm._v("Proposer des améliorations")]), _vm._v(" "), _c('br'), _vm._v(" "), _c('a', {
-    on: {
-      "click": function($event) {
-        $event.preventDefault();
-        _vm.openPaymentModal($event)
-      }
-    }
-  }, [_vm._v("Passer premium")])], 1)])])]), _vm._v(" "), (_vm.showImporvementModal) ? _c('div', {
+  }, [_vm._v("Proposer des améliorations")]), _vm._v(" "), _c('br')], 1)])])]), _vm._v(" "), (_vm.showImporvementModal) ? _c('div', {
     staticClass: "modal-mask"
   }, [_c('div', {
     staticClass: "modal-wrapper"
@@ -52727,7 +52751,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "modal-header"
   }, [_vm._t("header", [_c('h2', [_vm._v("Proposition d'amélioration")])])], 2), _vm._v(" "), _c('div', {
     staticClass: "modal-body"
-  }, [_vm._t("body", [_vm._m(2)])], 2), _vm._v(" "), _c('div', {
+  }, [_vm._t("body", [_vm._m(3)])], 2), _vm._v(" "), _c('div', {
     staticClass: "modal-footer"
   }, [_vm._t("footer", [_c('button', {
     on: {
@@ -52741,9 +52765,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "border": "0px",
       "color": "white"
     }
-  }, [_vm._v("\n                            Envoyer\n                        ")])])], 2)])])]) : _vm._e(), _vm._v(" "), (_vm.showPaymentModal) ? _c('div', {
-    staticClass: "modal-mask"
-  }, [_c('Payment')], 1) : _vm._e()])
+  }, [_vm._v("\n                            Envoyer\n                        ")])])], 2)])])]) : _vm._e()])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "col-lg-1",
@@ -52763,18 +52785,27 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   })])])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('label', {
-    staticClass: "btn btn-default",
     attrs: {
-      "for": "inputFileProfilPicture"
+      "for": "inputFileProfilPicture",
+      "id": "avatar-import-btn-wrapper"
     }
   }, [_c('img', {
     staticClass: "img img-responsive",
     attrs: {
-      "src": "http://lyonlibreweb.org/laruche/wordpress/wp-content/uploads/2015/03/photo.jpg",
-      "alt": "",
+      "id": "import-avatar-picto",
+      "src": "assets/app/img/avatar-import-camera.png",
+      "alt": "picto camera import avatar postup",
       "draggable": "false"
     }
   })])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "col-lg-12 no-padding-left no-padding-right"
+  }, [_c('a', {
+    attrs: {
+      "href": "/logout"
+    }
+  }, [_vm._v("Me déconnecter")])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('form', {
     staticClass: "form-control",
@@ -52959,7 +52990,18 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "title": "supprimer ce template"
       }
     })])])])])])])
-  })], 2)]), _vm._v(" "), _vm._m(4)])])
+  })], 2)]), _vm._v(" "), _vm._m(4), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col-lg-12"
+  }, [_c('div', {
+    staticClass: "col-lg-12"
+  }, [_c('router-link', {
+    staticClass: "center-align",
+    attrs: {
+      "to": "/mail-filler"
+    }
+  }, [_vm._v("Remplire reserve de mails")])], 1)])])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "col-lg-2 col-lg-offset-2"
@@ -53129,11 +53171,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "col-lg-12"
   }, [_c('br')])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('h4', [_vm._v("Templates "), _c('a', {
+  return _c('div', {
+    staticClass: "col-lg-12"
+  }, [_c('br'), _vm._v(" "), _c('h4', [_vm._v("Templates "), _c('a', {
     attrs: {
       "href": "/#/"
     }
-  }, [_vm._v("+")])])
+  }, [_vm._v("+")])])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "col-lg-12"

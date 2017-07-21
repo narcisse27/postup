@@ -52,7 +52,8 @@
                                     </p>
                                     <p>
                                         Vous pouvez aider les membres de la communauté de Postup en partageant ces dernières en y ajoutant quelques informations pratiques, celà ne vous prendra que quelques secondes!
-
+                                        <br>
+                                        Fournissez nous les infromations nécéssaires sur ce destinataire afin que nous puissions personaliser le contenu de votre postulation.
                                     </p>
 
                                 </slot>
@@ -152,7 +153,7 @@
 
                             <div class="modal-footer">
                                 <slot name="footer">
-                                    <a href="" class="pull-left" @click.prevent="closeModal">Non merci</a>
+                                    <!--<a href="" class="pull-left" @click.prevent="closeModal">Non merci</a>-->
                                     <a href="" class="pull-right" @click.prevent="submitThisCorporate">Partager et envoyer</a>
                                 </slot>
                             </div>

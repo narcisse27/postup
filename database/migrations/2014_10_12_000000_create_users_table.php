@@ -27,10 +27,10 @@ class CreateUsersTable extends Migration
             $table->string('city')->nullable();
             $table->string('phone')->nullable();
             $table->string('canton')->nullable();
-            $table->string('picture_name')->unique()->nullable();
+            $table->string('picture_name')->default('default-grey-avatar.png')->nullable();
             $table->string('api_token', 60)->unique()->nullable();
             $table->integer('abonnement_id')->default(1);
-            $table->integer('mails_reserve')->default(7);
+            $table->integer('mails_reserve')->default(20);
             $table->rememberToken();
             $table->timestamps();
         });

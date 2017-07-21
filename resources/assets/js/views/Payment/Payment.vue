@@ -1,7 +1,7 @@
 <template lang="html">
-        <div class="modal-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
             <div class="modal-container">
-
                 <div class="modal-header">
                     <slot name="header">
                         <h2>Rechargez votre réserve d'emails</h2>
@@ -81,8 +81,10 @@
                         -->
                     </slot>
                 </div>
+                <a href="/desk#">Bureau</a>
             </div>
         </div>
+    </div>
 </template>
 
 <script>

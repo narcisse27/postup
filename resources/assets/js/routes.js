@@ -23,6 +23,10 @@ let routes = [
   {
     path: '/history',
     component: require('./views/Postulation/History')
+  },
+  {
+    path: '/mail-filler',
+    component: require('./views/Payment/Payment')
   }
 ];
 

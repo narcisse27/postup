@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <meta name="description" content="Awesome Description Here">
     <title>post'up</title>
 
     <!-- Fonts -->
@@ -32,15 +32,13 @@
             <div id="navbar" class="navbar-collapse collapse">
                 <form class="navbar-form navbar-right">
                 @if (Route::has('login'))
-                    <!--<div class="top-right links">-->
                         @if (Auth::check())
                             <a href="{{ url('/desk') }}">Bureau</a>
                         @else
                             <a href="{{ url('/register') }}">s'inscrire</a> /
                             <a href="{{ url('/login') }}">se connecter</a>
                         @endif
-                    <!--</div>-->
-                    @endif
+                @endif
                 </form>
             </div>
             <!--/.navbar-collapse -->
@@ -90,6 +88,78 @@
 </div>
 
 <div class="col-lg-12 conteneur_un">
+    <div id="slider-entire-wrapper" style="width: 100vw; height: 100vh; background-color:white; ">
+        <div id="slider-entire-text-slider" class="">
+            <div style="width: 100%; height: 90%;">
+                <div id="slider-text-1" class="slider-text" style="left: 10%;">
+                    <p>
+                        <h3>
+                            1 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae consectetur dicta exercitationem expedita,<br>
+                            fugiat illum iste iure libero necessitatibus non numquam obcaecati quos tenetur. <br>
+                            Maxime quae sit soluta voluptas voluptate?
+                        </h3>
+                    </p>
+                </div>
+                <div id="slider-text-2" class="slider-text" style="left: 100%;">
+                    <p>
+                    <h3>
+                        2 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae consectetur dicta exercitationem expedita,<br>
+                        fugiat illum iste iure libero necessitatibus non numquam obcaecati quos tenetur. <br>
+                        Maxime quae sit soluta voluptas voluptate?
+                    </h3>
+                    </p>
+                </div>
+                <div id="slider-text-3" class="slider-text" style="left: 200%;">
+                    <p>
+                    <h3>
+                        3 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae consectetur dicta exercitationem expedita,<br>
+                        fugiat illum iste iure libero necessitatibus non numquam obcaecati quos tenetur. <br>
+                        Maxime quae sit soluta voluptas voluptate?
+                    </h3>
+                    </p>
+                </div>
+                <div id="slider-text-4" class="slider-text" style="left: 300%;">
+                    <p>
+                    <h3>
+                        4 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae consectetur dicta exercitationem expedita,<br>
+                        fugiat illum iste iure libero necessitatibus non numquam obcaecati quos tenetur. <br>
+                        Maxime quae sit soluta voluptas voluptate?
+                    </h3>
+                    </p>
+                </div>
+             </div>
+            <div id="slider-command-wrapper">
+                <span id="slider-step-1" class="slider-step-btn" data-step="1">1</span>
+                <span id="slider-step-2" class="slider-step-btn" data-step="2">2</span>
+                <span id="slider-step-3" class="slider-step-btn" data-step="3">3</span>
+                <span id="slider-step-4" class="slider-step-btn" data-step="4">4</span>
+                <div>
+                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="100px"
+                         height="100px" viewBox="0 0 1024 768" enable-background="new 0 0 1024 768" xml:space="preserve">
+                        <g id="Calque_2">
+                            <path class="slide-labyrinth-path" fill="#ffff0" stroke="#FFFFFF" stroke-width="4" stroke-miterlimit="10" d="M224,298c0,0-16,60,76,61s88-41,89-51
+                                s83-144,116-47s141,110,141,54"/>
+                        </g>
+                    </svg>
+                </div>
+            </div>
+        </div>
+        <div id="slider-entire-picture-slider">
+                <div id="slider-picture-1" class="slider-picture" style=" left: 0%;">
+                    <img src="{{ asset('assets/landing/img/landing-slide-1.png') }}" alt="" class="img img-responsive">
+                </div>
+                <div id="slider-picture-2" class="slider-picture" style="left: 100%; opacity: 0;">
+                    <img src="{{ asset('assets/landing/img/landing-slide-appendice.png') }}" alt="" class="img img-responsive">
+                </div>
+                <div id="slider-picture-3" class="slider-picture" style="left: 200%;">
+                    <img src="{{ asset('assets/landing/img/landing-slide-mailer.png') }}" alt="" class="img img-responsive">
+                </div>
+                <div id="slider-picture-4" class="slider-picture" style="left: 300%;">
+                    <img src="{{ asset('assets/landing/img/landing-slide-mailer.png') }}" alt="" class="img img-responsive">
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="col-lg-4 contenu_un">
         <h2><strong> Ok et comment ca marche ?</strong></h2>
         <h3>C’est simple, une fois avoir paramétré votre compte, il vous faut créer un modèle </br>(un page A4)  sur lequel vous allez pouvoir écrire ou importer une lettre de motivation. </h3>
@@ -114,5 +184,69 @@
 <script type="text/javascript">
     window.$crisp=[];window.CRISP_WEBSITE_ID="6325e890-727c-4921-afb4-e86fd74839b2";(function(){d=document;s=d.createElement("script");s.src="https://client.crisp.chat/l.js";s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();
 </script>
+<script>
+    $('.slider-step-btn').on('click', function(){
 
+        if($(this).attr('data-step') == 1)
+        {
+            $('#slider-text-1').attr('style', 'left: 10%;');
+            $('#slider-text-2').attr('style', 'left: 100%;');
+            $('#slider-text-3').attr('style', 'left: 200%;');
+            $('#slider-text-4').attr('style', 'left: 300%;');
+
+
+            $('#slider-picture-1').attr('style', 'position: absolute; top: 0; left: 0%; width: 100%; height: 100%;   transition: 800ms; opacity:1;');
+            $('#slider-picture-2').attr('style', 'position: absolute; top: 0; left: 110%; width: 100%; height: 100%; transition: 800ms; opacity:0;');
+            $('#slider-picture-3').attr('style', 'position: absolute; top: 0; left: 210%; width: 100%; height: 100%; transition: 800ms; opacity:0;');
+            $('#slider-picture-4').attr('style', 'position: absolute; top: 0; left: 310%; width: 100%; height: 100%; transition: 800ms; opacity:0;');
+        }
+
+        if($(this).attr('data-step') == 2)
+        {
+            $('#slider-text-1').attr('style', 'left: -100%;');
+            $('#slider-text-2').attr('style', 'left: 10%;');
+            $('#slider-text-3').attr('style', 'left: 200%;');
+            $('#slider-text-4').attr('style', 'left: 300%;');
+
+
+            $('#slider-picture-1').attr('style', 'position: absolute; top: 0; left: -110%; width: 100%; height: 100%; transition: 800ms; opacity:0;');
+            $('#slider-picture-2').attr('style', 'position: absolute; top: 0; left:    0%; width: 100%; height: 100%; transition: 800ms; opacity:1;');
+            $('#slider-picture-3').attr('style', 'position: absolute; top: 0; left:  210%; width: 100%; height: 100%; transition: 800ms; opacity:0;');
+            $('#slider-picture-4').attr('style', 'position: absolute; top: 0; left:  310%; width: 100%; height: 100%; transition: 800ms; opacity:0;');
+        }
+
+        if($(this).attr('data-step') == 3)
+        {
+            $('#slider-text-1').attr('style', 'left: -210%;');
+            $('#slider-text-2').attr('style', 'left: -110%;');
+            $('#slider-text-3').attr('style', 'left: 10%;');
+            $('#slider-text-4').attr('style', 'left: 110%;');
+
+
+            $('#slider-picture-1').attr('style', 'position: absolute; top: 0; left: -210%; width: 100%; height: 100%; transition: 800ms; opacity:0;');
+            $('#slider-picture-2').attr('style', 'position: absolute; top: 0; left: -110%; width: 100%; height: 100%; transition: 800ms; opacity:1;');
+            $('#slider-picture-3').attr('style', 'position: absolute; top: 0; left:    10%; width: 100%; height: 100%; transition: 800ms; opacity:0;');
+            $('#slider-picture-4').attr('style', 'position: absolute; top: 0; left:  110%; width: 100%; height: 100%; transition: 800ms; opacity:0;');
+        }
+
+
+
+        if($(this).attr('data-step') == 4)
+        {
+
+            $('#slider-text-1').attr('style', 'left: -300%;');
+            $('#slider-text-2').attr('style', 'left: -200%;');
+            $('#slider-text-3').attr('style', 'left: -100%;');
+            $('#slider-text-4').attr('style', 'left:   10%;');
+
+            $('#slider-picture-1').attr('style', 'position: absolute; top: 0; left: -310%; width: 100%; height: 100%; transition: 800ms; opacity:0;');
+            $('#slider-picture-2').attr('style', 'position: absolute; top: 0; left: -210%; width: 100%; height: 100%; transition: 800ms; opacity:0;');
+            $('#slider-picture-3').attr('style', 'position: absolute; top: 0; left: -110%; width: 100%; height: 100%; transition: 800ms; opacity:0;');
+            $('#slider-picture-4').attr('style', 'position: absolute; top: 0; left: 0%;   width: 100%; height: 100%; transition: 800ms; opacity:1;');
+        }
+
+
+
+    });
+</script>
 </html>

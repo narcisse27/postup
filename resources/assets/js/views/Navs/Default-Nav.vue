@@ -104,7 +104,10 @@
                 <div id="template-list-wrapper">
 
                     <div class="" id="template-list-wrapper-component">
-                        <h4>Templates <a href="/#/">+</a></h4>
+                        <div class="col-lg-12">
+                            <br>
+                            <h4>Templates <a href="/#/">+</a></h4>
+                        </div>
                         <div  v-for="template in templates" v-bind:key="template.id">
                             <div class="panel-group template-panel-item">
                                 <div class="panel panel-default">
@@ -160,7 +163,13 @@
             <div class="col-lg-12">
                 <h4>Nos Modèles</h4>
             </div>
-
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="col-lg-12">
+                        <router-link to="/mail-filler" class="center-align">Remplire reserve de mails</router-link>
+                    </div>
+                </div>
+            </div>
         </nav>
     </div>
 </template>

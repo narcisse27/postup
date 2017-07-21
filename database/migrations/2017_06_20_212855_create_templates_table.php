@@ -20,6 +20,7 @@ class CreateTemplatesTable extends Migration
             $table->integer('user_id');
             $table->string('object');
             $table->longText('content');
+            $table->string('salutation');
             $table->string('email_object')->nullable();
             $table->text('email_content')->nullable();
             $table->timestamps();

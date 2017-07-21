@@ -1,6 +1,13 @@
 <template>
     <div class="">
-
+        <div id="page-loading-animation">
+            <div class="loader">
+                <h1 style="color: slategrey!important;">LOADING</h1>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
         <nav id="navbar-white" class="navbar navbar-default navbar-fixed-top" role="navigation">
             <div class="navbar-header">
                 <User-Mini-Manager :currentTemplate.letter.adresse.sync="userData"></User-Mini-Manager>
@@ -161,10 +168,10 @@
                                                     <div class="col-lg-12" id="letter-object-wrapper">
                                                         <input type="text" placeholder="Object" class="form-control form-smaller-custom" v-model="currentTemplate.letter.object">
                                                     </div>
-                                                    <div class="col-lg-12">
+                                                    <div class="col-lg-12 no-padding-left no-padding-right">
                                                         <div id="letter-personal-text">
                                                             <p><br><br></p>
-                                                            <div id="letter-personal-content" class="form-control" >
+                                                            <div id="letter-personal-content">
                                                                 <!--<div>{{ currentTemplate.letter.content }}</div>-->
                                                                 <ckeditor v-model="currentTemplate.letter.content" :config="config"></ckeditor>
                                                             </div>
@@ -296,11 +303,11 @@
         data() {
             return {
                 config: {
-
                     language: 'fr',
                     removePlugins: 'elementspath',
                     resize_enabled: false,
                     height: 300,
+                    startupShowBorders: false,
                     extraAllowedContent:
                     {
                         span : {
@@ -354,6 +361,7 @@
                 mailsToSend: [],
                 myTemplates: [],
                 namesearch: '',
+                pageLoading: true,
                 preloadingPdf: true,
                 page: 'letter',
                 regionsearch: '',
@@ -425,7 +433,9 @@
             moment.locale('fr');
             this.currentTemplate.letter.currentDate = moment().format('LL');
 
-
+            setTimeout(function(){
+                console.log(this.page);
+            }, 5000)
         },
         mounted() {
             this.preloadingPdf = false;
@@ -482,6 +492,7 @@
             },
         },
         computed: {
+
         },
         methods: {
 
@@ -744,6 +755,13 @@
                 $('#template-succes-animation').addClass('loading-success');
                 $('#template-succes-animation').removeClass('loading-success');
                 $('#template-succes-animation').addClass('icon--order-success');
+            },
+            loadingBeforAllReady: function(){
+                var self = this;
+                setTimeout(function(){
+                    this.pageLoading = false;
+                    self.pageLoading = false;
+                }, 2000);
             }
         },
         notifications: {
@@ -1037,6 +1055,100 @@
         padding-left: 80px;
         padding-right: 50px;
     }
+    #page-loading-animation{
+        position: absolute;
+        overflow-x: hidden;
+        overflow-y: hidden;
+        width: 100vw;
+        height: 100vh;
+        background-color: white;
+        -webkit-animation: fadein;
+        -webkit-animation-duration: 3s;
+        z-index: 2000;
+        visibility: hidden;
+    }
+    @-webkit-keyframes fadein{
+        0%{
+            visibility: visible;
+        }
+
+        100%{
+            visibility: hidden;
+        }
+    }
+
+
+    /* Loading */
+
+
+    .loader{
+        margin:200px auto;
+    }
+    .loader span{
+        width:16px;
+        height:16px;
+        border-radius:50%;
+        display:inline-block;
+        position:absolute;
+        left:50%;
+        margin-left:-10px;
+        -webkit-animation:3s infinite linear;
+        -moz-animation:3s infinite linear;
+        -o-animation:3s infinite linear;
+
+    }
+    .loader span:nth-child(2){
+        background:#E84C3D;
+        -webkit-animation:kiri 1.2s infinite linear;
+        -moz-animation:kiri 1.2s infinite linear;
+        -o-animation:kiri 1.2s infinite linear;
+
+    }
+    .loader span:nth-child(3){
+        background:#F1C40F;
+        z-index:100;
+    }
+    .loader span:nth-child(4){
+        background:#2FCC71;
+        -webkit-animation:kanan 1.2s infinite linear;
+        -moz-animation:kanan 1.2s infinite linear;
+        -o-animation:kanan 1.2s infinite linear;
+    }
+    @-webkit-keyframes kanan {
+        0% {-webkit-transform:translateX(20px);
+        }
+
+        50%{-webkit-transform:translateX(-20px);
+        }
+
+        100%{-webkit-transform:translateX(20px);
+            z-index:200;
+        }
+    }
+
+    @-moz-keyframes kanan {
+        0% {-moz-transform:translateX(20px);
+        }
+
+        50%{-moz-transform:translateX(-20px);
+        }
+
+        100%{-moz-transform:translateX(20px);
+            z-index:200;
+        }
+    }
+
+    @-o-keyframes kanan {
+        0% {-o-transform:translateX(20px);
+        }
+
+        50%{-o-transform:translateX(-20px);
+        }
+
+        100%{-o-transform:translateX(20px);
+            z-index:200;
+        }
+    }
 
     /* CKEDITOR */
     .cke_top{
@@ -1110,6 +1222,9 @@
         cursor: pointer;
     }
 
+    .cke_editable{
+        margin: 0!important;
+    }
 
 
     @-webkit-keyframes checkmark {

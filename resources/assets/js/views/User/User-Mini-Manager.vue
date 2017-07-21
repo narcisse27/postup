@@ -28,25 +28,26 @@
         <div id="userDataFormCollapse" class="collapse userDataFormCollapse">
             <div class="row">
                 <div class="col-lg-12">
-
-                    <div class="col-lg-2 col-lg-offset-2">
-                        <label for="inputFileProfilPicture" class="btn btn-default">
-                            <img src="http://lyonlibreweb.org/laruche/wordpress/wp-content/uploads/2015/03/photo.jpg" alt="" class="img img-responsive" draggable="false">
+                    <div class="col-lg-6 no-padding-left ">
+                        <label for="inputFileProfilPicture" class="" id="avatar-import-btn-wrapper">
+                            <img id="import-avatar-picto" src="assets/app/img/avatar-import-camera.png" alt="picto camera import avatar postup" class="img img-responsive" draggable="false">
                         </label>
                         <input type="file" id="inputFileProfilPicture" style="display: none" @change="updateUserPicture"/>
                     </div>
 
-                    <div class="">
+                    <div id="userDataFormNamePres" class="col-lg-6  no-padding-left no-padding-right">
                         {{ userData.firstname }} {{ userData.lastname }}
                         Communication
                         <br>
+                    </div>
+                    <div class="col-lg-12 no-padding-left no-padding-right">
                         <a href="/logout">Me déconnecter</a>
                     </div>
 
                 </div>
             </div>
             <div class="row">
-                <form class="form-horizontal col-lg-12">
+                <form class="form-horizontal col-lg-12" autocomplete="off">
 
                     <div class="form-group">
                         <label for="inputUserFirstname" class="col-lg-2 control-label">Prénom</label>
@@ -115,7 +116,6 @@
                         <br>
                         <a @click.prevent="openImporvementModal">Proposer des améliorations</a>
                         <br>
-                        <a @click.prevent="openPaymentModal">Passer premium</a>
                     </p>
                 </div>
             </div>
@@ -156,21 +156,13 @@
                 </div>
             </div>
         </div>
-        <div class="modal-mask" v-if="showPaymentModal">
-            <Payment></Payment>
-        </div>
     </div>
 </template>
 <script>
-    import Payment from '../Payment/Payment';
     export default {
-        components: {
-            'Payment' : Payment
-        },
         data () {
             return {
                 showImporvementModal: false,
-                showPaymentModal: false,
                 userKey: '',
                 userData: []
             }
@@ -270,10 +262,6 @@
             closeImporvementModal: function()
             {
                 this.showImporvementModal = false;
-            },
-            openPaymentModal: function()
-            {
-                this.showPaymentModal = true;
             }
 
         }
@@ -290,6 +278,7 @@
         width: 250px;
         background-color: #e8e6e7;
         font-size: 11px;
+
 
     }
     #avatar-wrap{
@@ -310,6 +299,9 @@
 
     #user-mini-manager input{
         font-size: 11px;
+        height: 11px;
+        margin-top: 11px;
+        margin-left: 10px;
 
     }
     #side-bar-toggler{
@@ -347,5 +339,20 @@
     #userDataFormCollapse .row{
         background-color: #e8e6e7;
 
+    }
+    #avatar-import-btn-wrapper:hover{
+        cursor: pointer;
+    }
+    #import-avatar-picto{
+        opacity: 1;
+        padding-right: 10%;
+        transition: 100ms;
+    }
+    #import-avatar-picto:hover{
+        opacity: 0.7;
+        transition: 100ms;
+    }
+    #userDataFormNamePres{
+        padding-top: 10px;
     }
 </style>
