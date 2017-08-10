@@ -74,6 +74,12 @@
     position: absolute;
     margin-right: -250px;
 }
+@media (max-width:767px) {
+    #navbar-white{
+        width: 100%;
+    }
+
+}
 @media(min-width:768px) {
     #wrapper {
         padding-left: 250px;

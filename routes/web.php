@@ -50,6 +50,7 @@ Route::group(['prefix' => 'api', 'middleware' => 'auth:api'], function()
     Route::resource('/template', 'TemplateController');
     Route::post('/template/duplicate', ['uses' => 'TemplateController@duplicate']);
     Route::get('/template/convertSlug/{slug}', ['uses' => 'TemplateController@slugToId']);
+    Route::resource('/featureimprovement', 'FeatureImprovementController');
 
 
     Route::resource('mailsended', 'MailSendedController');
@@ -76,6 +77,7 @@ Route::group(['prefix' => 'api', 'middleware' => 'auth:api'], function()
     // ************* USER MANAGEMENT **********
     Route::post('/user/update/adresse', ['uses' => 'UserController@updateAdresse']);
     Route::patch('/user/update', ['uses' => 'UserController@update']);
+    Route::get('/getUserArea', ['uses' => 'UserController@getUserArea']);
     Route::post('/user/updatepicture', ['uses' => 'UserController@updatePicture']);
     Route::post('/user/checkMailReserve', ['uses' => 'UserController@checkMailReserve']);
     Route::post('/addManuallyCorporate', ['uses' => 'CorporateController@addManually']);

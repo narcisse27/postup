@@ -92,6 +92,7 @@ class TemplateController extends Controller
                 $npa = $request['npa'];
                 $city = $request['city'];
                 $phone = $request['phone'];
+                $salutation = $request['salutation'];
                 // update user data adresse
                 if($user){
                     User::where('id', $id)->update([
@@ -114,6 +115,7 @@ class TemplateController extends Controller
                 $template->slug = $slug;
                 $template->object = $object;
                 $template->content = $content;
+                $template->salutation = $salutation;
                 $template->user_id = $id;
                 $template->save();
                 return new JsonResponse(
@@ -171,8 +173,10 @@ class TemplateController extends Controller
                 }else{
                     // TODO error if cannot change user adresse
                 }
+
                 $object = $request['object'];
                 $content = $request['content'];
+                $salutation = $request['salutation'];
 
                 $random = str_random(16);
                 $slug = str_slug('tmp-'.$random, '-');
@@ -182,6 +186,7 @@ class TemplateController extends Controller
                 $template->slug = $slug;
                 $template->object = $object;
                 $template->content = $content;
+                $template->salutation = $salutation;
                 $template->user_id = $id;
                 $template->save();
                 return response()->json(
@@ -243,13 +248,15 @@ class TemplateController extends Controller
             $name = $request['name'];
             $object = $request['object'];
             $content = $request['content'];
+            $salutation = $request['salutation'];
             $random = str_random(16);
             $slug = str_slug($name . '-' . $random, '-');
             Template::where('id', $id)->update(
                 [
                     'name' => $name,
                     'object' => $object,
-                    'content' => $content
+                    'content' => $content,
+                    'salutation' => $salutation
                 ]
             );
             $template = Template::where('id', $id)->first();

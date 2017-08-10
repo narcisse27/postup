@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Area;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -162,6 +163,21 @@ class UserController extends Controller
             return strtotime('-7 day');
 
 
+        }
+    }
+
+    public function getUserArea()
+    {
+        if(Auth::check())
+        {
+
+            $user = Auth::user();
+            $area = Area::where('id', $user->area_id)->first();
+            return response()->json($area, 200);
+
+
+        }else{
+            return response()->json(401);
         }
     }
 }

@@ -14,10 +14,7 @@
             </div>
         </nav>
 
-
-
         <div id="wrapper">
-
             <!-- Sidebar -->
             <div id="slidebar-white" class="slidebar-nav">
                 <nav id="navbar-white" class="navbar navbar-default" role="navigation">
@@ -27,7 +24,6 @@
                 </nav><!--/.navbar -->
             </div>
             <!--/.sidebar-nav -->
-
 
             <!-- Page Content -->
             <main id="page-wrapper6">
@@ -64,9 +60,7 @@
                                 </div>
                                 <div class="col-lg-2">
                                     <p>
-                                        Modèle mis à jour le {{ currentTemplate.updated_at }}
-                                        <br>
-                                        10/20
+                                        mis à jour le {{ currentTemplate.updated_at }}
                                     </p>
                                 </div>
                             </div>
@@ -88,9 +82,11 @@
                                                     <div id="toolbar-wrapper"></div>
                                                 </div>
                                                 <div class="col-lg-1">
-                                                    <h4>
-                                                        <span data-toggle="modal" data-target=".bs-letter-preview" @click="thisLetterToPdf" class="ion-eye pull-right ion-btn"></span>
-                                                    </h4>
+                                                    <!--<h4>-->
+                                                    <p>
+                                                        <span data-toggle="modal" data-target=".bs-letter-preview" @click="thisLetterToPdf" class="ion-eye pull-right ion-btn" style="font-size:20px;"></span>
+                                                    </p>
+                                                    <!--</h4>-->
                                                 </div>
                                             </div>
                                         </div>
@@ -179,7 +175,7 @@
                                                     </div>
                                                     <div class="col-lg-12">
                                                         <div id="letter-greetings">
-                                                            <input type="text" class="form-control form-smaller-custom" value="Salutations dinstingués" />
+                                                            <input type="text" class="form-control form-smaller-custom" placeholder="Salutations dinstingués" v-model="currentTemplate.letter.salutation" />
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-12" id="signature-wrapper">
@@ -343,7 +339,8 @@
                             currentDate: ''
                         },
                         object: '',
-                        content: ''
+                        content: '',
+                        salutation: ''
                     },
                     appendices:[
                         { id: 0 , name: 'cv.pdf', file: 'cv.pdf' },
@@ -610,6 +607,7 @@
                 this.currentTemplate.oldName = data.name;
                 this.currentTemplate.letter.object = data.object;
                 this.currentTemplate.letter.content = data.content;
+                this.currentTemplate.letter.salutation = data.salutation;
                 this.currentTemplate.updated_at = moment(String(data.updated_at)).format('DD/MM/YYYY à hh:mm');
                 this.templateName = data.name;
                 this.templateNameOld = data.name;
@@ -634,6 +632,7 @@
                         name : this.currentTemplate.name,
                         object: this.currentTemplate.letter.object,
                         content : this.currentTemplate.letter.content,
+                        salutation: this.currentTemplate.letter.salutation,
                         adresse: this.currentTemplate.letter.adresse.adresse,
                         npa: this.currentTemplate.letter.adresse.npa,
                         city: this.currentTemplate.letter.adresse.city,
@@ -662,6 +661,7 @@
                     name: this.currentTemplate.name,
                     content: this.currentTemplate.letter.content,
                     object: this.currentTemplate.letter.object,
+                    salutation: this.currentTemplate.letter.salutation,
 
                 })
                         .then((response) => {
@@ -1309,5 +1309,12 @@
     .icon--order-success svg circle {
         -webkit-animation: checkmark-circle 0.6s ease-in-out backwards;
         animation: checkmark-circle 0.6s ease-in-out backwards
+    }
+
+
+    @media (max-width:767px){
+        #wrapper{
+            margin-top: 70px;
+        }
     }
 </style>

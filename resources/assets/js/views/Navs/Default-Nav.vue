@@ -4,7 +4,6 @@
             <div  class="collapse userDataFormCollapse">
                 <div class="row">
                     <div class="col-lg-12">
-
                         <div class="col-lg-2 col-lg-offset-2">
                             <label for="inputFileProfilPicture" class="btn btn-default">
                                 <img src="http://lyonlibreweb.org/laruche/wordpress/wp-content/uploads/2015/03/photo.jpg" alt="" class="img img-responsive" draggable="false">
@@ -86,15 +85,6 @@
                 </div>
                 <div class="row">
                     <div class="col-lg-12">
-                        <!--
-                        <p>
-                            <a href="">Mes dernières postulations</a>
-                            <br>
-                            <a href="">Proposer des améliorations</a>
-                            <br>
-                            <a href="">Passer premium</a>
-                        </p>
-                        -->
                         <br>
                     </div>
                 </div>
@@ -108,7 +98,7 @@
                             <br>
                             <h4>Templates <a href="/#/">+</a></h4>
                         </div>
-                        <div  v-for="template in templates" v-bind:key="template.id">
+                        <div  v-for="template in templates" v-bind:key="template.id" class="col-lg-12 no-padding-left no-padding-right">
                             <div class="panel-group template-panel-item">
                                 <div class="panel panel-default">
                                     <div v-if="template.id == selectedTemplate.id" class="panel-heading template-manager-list-head template-manager-selected-template">
@@ -121,12 +111,12 @@
                                                     <span class="ion-ios-copy" title="copier ce template" style="color: white;"></span>
                                                 </div>
                                                 <div class="template-manager-temp-icons ion-btn" data-toggle="collapse" v-bind:href="'#collapse_'+template.id">
-                                                    <span class="ion-more" title="afficher les détails"></span>
+                                                    <span class="ion-more" title="afficher les détails" style="color: white;"></span>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div v-else class="panel-heading">
+                                    <div v-else class="panel-heading ">
                                         <div class="panel-title">
                                             <div class="template-manager-header">
                                                 <a :href="'/desk#/template/mix/' + template.slug ">
@@ -135,7 +125,7 @@
                                                     </div>
                                                 </a>
                                                 <div class="template-manager-temp-icons ion-btn" @click="duplicateThisTemplate(template.id)">
-                                                    <span class="ion-ios-copy" title="copier ce template" style="color: white;"></span>
+                                                    <span class="ion-ios-copy" title="copier ce template" style="color: black;"></span>
                                                 </div>
                                                 <div class="template-manager-temp-icons ion-btn" data-toggle="collapse" v-bind:href="'#collapse_'+template.id">
                                                     <span class="ion-more" title="afficher les détails"></span>
@@ -159,13 +149,10 @@
                         </div>
                     </div>
                 </div>
-
-            <div class="col-lg-12">
-                <h4>Nos Modèles</h4>
-            </div>
             <div class="row">
                 <div class="col-lg-12">
                     <div class="col-lg-12">
+                        <br>
                         <router-link to="/mail-filler" class="center-align">Remplire reserve de mails</router-link>
                     </div>
                 </div>
@@ -174,6 +161,9 @@
     </div>
 </template>
 <style>
+    .template-manager-list-head{
+        color: black;
+    }
 .template-panel-item{
     margin-bottom: 0px;
     background-color: #e8e6e7;
@@ -295,7 +285,7 @@
                         .then((response) => {
                     //console.log(response.data);
 
-                    this.refreshTemplateManager(); // refresh all data in template manager
+                this.refreshTemplateManager(); // refresh all data in template manager
                 var firstTemplateId = this.myTemplates[0].id;
                 if(firstTemplateId){
                     this.loadThisTemplate(this.myTemplates[0].id);

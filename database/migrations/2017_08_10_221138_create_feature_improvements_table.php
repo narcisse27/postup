@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateFactoryTemplatesTable extends Migration
+class CreateFeatureImprovementsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,11 @@ class CreateFactoryTemplatesTable extends Migration
      */
     public function up()
     {
-        Schema::create('factory_templates', function (Blueprint $table) {
+        Schema::create('feature_improvements', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name')->unique();
-            $table->string('slug')->unique();
-            $table->integer('area_id');
-            $table->string('object');
+            $table->string('object')->nullable();
             $table->longText('content');
+            $table->integer('user_id');
             $table->timestamps();
         });
     }
@@ -31,6 +29,6 @@ class CreateFactoryTemplatesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('factory_templates');
+        Schema::dropIfExists('feature_improvements');
     }
 }

@@ -12,7 +12,7 @@
                 <div id="avatar-data" class="">
                     <p>
                         <strong>{{ userData.firstname |uppercase}} {{ userData.lastname |uppercase}} </strong>
-                        Communication
+                        {{ userArea }}
                     </p>
                 </div>
                 <div class="col-lg-1" id="toggler-userDataForm" >
@@ -135,11 +135,11 @@
                             <form action="" class="form-control">
                                 <div class="form-group">
                                     <label for="">Objet</label>
-                                    <input type="text" class="form-control">
+                                    <input type="text" class="form-control" v-model="improvement.object">
                                 </div>
                                 <div class="form-group">
                                     <label for="">Proposition</label>
-                                    <textarea name="" id="" cols="30" rows="10" class="form-control"></textarea>
+                                    <textarea name="" id="" cols="30" rows="10" class="form-control" v-model="improvement.content"></textarea>
                                 </div>
                             </form>
                         </slot>
@@ -148,7 +148,7 @@
                     <div class="modal-footer">
                         <slot name="footer">
                             <button @click="closeImporvementModal">X</button>
-                            <button class="modal-default-button" style="background-image: url('../assets/landing/img/btn-gradiant-tmplate-manager.jpg'); border-radius: 20px; border: 0px;color:white;">
+                            <button class="modal-default-button" style="background-image: url('../assets/landing/img/btn-gradiant-tmplate-manager.jpg'); border-radius: 20px; border: 0px;color:white;" @click="sendImprovement">
                                 Envoyer
                             </button>
                         </slot>
@@ -164,7 +164,12 @@
             return {
                 showImporvementModal: false,
                 userKey: '',
-                userData: []
+                userData: [],
+                userArea: '',
+                improvement: {
+                    object: '',
+                    content: ''
+                }
             }
         },
         created(){
@@ -183,6 +188,15 @@
                 console.log(error);
             // TODO add error message
         });
+
+        axios.get('api/getUserArea?api_token='+this.userKey, {
+
+            }).then((response) => {
+                this.userArea = response.data.name;
+            })
+            .catch((error) => {
+                console.log(error);
+            });
 
         },
         methods: {
@@ -262,6 +276,28 @@
             closeImporvementModal: function()
             {
                 this.showImporvementModal = false;
+            },
+            sendImprovement: function()
+            {
+                if(this.improvement.object != "" && this.improvement.content != "")
+                {
+
+
+
+                    axios.post('/api/featureimprovement?api_token='+this.userKey, {
+                            object : this.improvement.object,
+                            content: this.improvement.content
+                    })
+                    .then((response) => {
+                        alert('Merci pour votre proposition');
+                    })
+                    .catch((error) => {
+                        //console.log(error.response.data.message);
+                    });
+
+
+
+                }
             }
 
         }
@@ -354,5 +390,11 @@
     }
     #userDataFormNamePres{
         padding-top: 10px;
+    }
+
+    @media (max-width:767px) {
+        #user-mini-manager{
+            width: 100%;
+        }
     }
 </style>

@@ -43,6 +43,12 @@
             height: 0px;
             width: 0px;
         }
+        #letter-salutation{
+            width: 150mm;
+            height: auto;
+            position: fixed;
+            bottom: 40mm;
+        }
         #annexes-wrapper{
             width: 150mm;
             height: auto;
@@ -79,6 +85,10 @@
     </div>
     <div id="letter-content">
             {!!   $data->content  !!}
+            <br>
+            {!! $data->salutation !!}
+    </div>
+    <div id="letter-salutation">
     </div>
     @if($appendices)
     <div id="annexes-wrapper">

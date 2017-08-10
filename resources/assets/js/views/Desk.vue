@@ -1,11 +1,25 @@
 <template>
     <div id="desk-wrapper">
         <div id="slidebar-gradiant" class="col-lg-3">
-            <nav  class="navbar navbar-default" role="navigation">
+            <nav  class="navbar" role="navigation">
+                <div class="row">
+                    <div class="col-lg-12">
+                            <div class="avatar-img-wrapper" >
+                                <img :src="'storage/' + userData.picture_name" alt="" id="avatar-img">
+                            </div>
+                            <div class="white-text desk-user-nav-data">
+                                <strong> {{ userData.firstname }} {{ userData.lastname }} </strong> <br>
+                                {{ userArea }}
+                            </div>
+                        <div class="col-lg-2">
+                        </div>
+                        <div class="col-lg-10">
+                        </div>
+                    </div>
+                </div>
                 <div  class="collapse userDataFormCollapse">
                     <div class="row">
                         <div class="col-lg-12">
-
                         </div>
                     </div>
                 </div>
@@ -16,15 +30,20 @@
                 <div class="col-lg-12 " id="letter-wrapper">
                     <div class="col-lg-12">
                         <div class="col-lg-12">
-                            <h2>Bienvenu Thomas !</h2>
+                            <h2>Bienvenu {{ userData.firstname }} !</h2>
                         </div>
-                        <div class="col-lg-4" v-for="factemplate in factoryTemplates">
+                        <div id="new-template-wrapper" class="col-lg-4" v-for="factemplate in factoryTemplates">
                             <a v-bind:href="'/desk#/template/usine/' + factemplate.slug" v-bind:title="factemplate.name" class="" id="new-template-link">
+                                <img src="assets/app/img/template-new-desk.jpg" alt="">
                                 <div class="template-icon">
-                                    <img src="assets/app/img/template-new-desk.jpg" alt="">
+                                    <p>
+                                        <span class="ion-plus-round"></span>
+                                    </p>
                                 </div>
                             </a>
-                            <p>{{ factemplate.name }}</p>
+                            <a v-bind:href="'/desk#/template/usine/' + factemplate.slug" v-bind:title="factemplate.name">
+                                {{ factemplate.name }}
+                            </a>
                         </div>
 
                         <div v-if="templates" class="col-lg-2" v-for="template in templates">
@@ -33,7 +52,9 @@
                                     <img src="assets/app/img/template-picto-desk.jpg" alt="">
                                 </div>
                             </a>
-                            <p>{{ template.name }}</p>
+                            <a v-bind:href="'/desk#/template/mix/' + template.slug" v-bind:title="template.name">
+                                {{ template.name }}
+                            </a>
                         </div>
                         <div v-elseif>
                         </div>
@@ -116,18 +137,26 @@
         background: url('/assets/app/img/navbar-desk-background-gradiant.png');
     }
 
-    .empty-tempalte-icon{
-        margin-top: 50px;
-        height: 120px;
-    }
-    .template-icon{
-        margin-top: 50px;
+    #new-template-wrapper img{
         height: 90%;
+        width: auto;
     }
-    .template-icon img{
+
+    #new-template-wrapper p{
+        position: relative;
         width: 100%;
-        height: auto;
+        height: 90%;
+        top: 0;
+        left: 0;
     }
+
+    .template-icon span{
+        position: relative;
+        left: 0;
+        top: 0;
+        color: #ff0066;
+    }
+
 
     .modal-mask {
         position: fixed;
@@ -188,6 +217,51 @@
     #new-template-link{
 
     }
+    .white-text{
+        color: white;
+    }
+    .desk-user-nav-data{
+        padding-top: 30px;
+    }
+    .avatar-img-wrapper{
+        width: 20%;
+        height: auto;
+    }
+    #avatar-img{
+        width: 50px;
+        height: 50px;
+    }
+    .avatar-img-wrapper img{
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        border: 1px solid white;
+    }
+    .desk-user-nav-data{
+        width: 80%;
+        height: auto;
+    }
+
+    @media (max-width:767px)
+    {
+        #slidebar-gradiant{
+            width: 100%;
+            height: 100px;
+        }
+
+        #letter-wrapper{
+            height: auto;
+        }
+        #avatar-img-wrapper{
+            width: 20%;
+            height: 100%;
+        }
+        #avatar-img-wrapper img{
+            width: 90%;
+            margin: 5%;
+        }
+
+    }
 
 
 
@@ -201,7 +275,7 @@
         },
         data() {
           return {
-              userKey: '',
+              adresseFormSendable: false,
               factoryTemplates: [],
               templates : [],
               showAdresseModal : false,
@@ -212,7 +286,9 @@
                   city: '',
                   phone: ''
               },
-              adresseFormSendable: false
+              userData: [],
+              userKey: '',
+              userArea: ''
           }
         },
         directives: {
@@ -223,6 +299,21 @@
             var apiKey = document.getElementById('userKey').value;
             this.userKey = apiKey;
 
+            axios.get('api/user?api_token='+this.userKey, {
+            }).then((response) => {
+                this.userData = response.data;
+            })
+            .catch((error) => {
+                    console.log(error);
+            });
+            axios.get('api/getUserArea?api_token='+this.userKey, {
+
+            }).then((response) => {
+                this.userArea = response.data.name;
+            })
+            .catch((error) => {
+                    console.log(error);
+            });
             this.getFactoryTemplates();
             this.getTemplates();
 

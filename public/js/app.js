@@ -30608,6 +30608,84 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -30617,7 +30695,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     data: function data() {
         return {
-            userKey: '',
+            adresseFormSendable: false,
             factoryTemplates: [],
             templates: [],
             showAdresseModal: false,
@@ -30628,7 +30706,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 city: '',
                 phone: ''
             },
-            adresseFormSendable: false
+            userData: [],
+            userKey: '',
+            userArea: ''
         };
     },
 
@@ -30636,15 +30716,26 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         'mask': __WEBPACK_IMPORTED_MODULE_1_awesome_mask___default.a
     },
     created: function created() {
+        var _this = this;
 
         var apiKey = document.getElementById('userKey').value;
         this.userKey = apiKey;
 
+        axios.get('api/user?api_token=' + this.userKey, {}).then(function (response) {
+            _this.userData = response.data;
+        }).catch(function (error) {
+            console.log(error);
+        });
+        axios.get('api/getUserArea?api_token=' + this.userKey, {}).then(function (response) {
+            _this.userArea = response.data.name;
+        }).catch(function (error) {
+            console.log(error);
+        });
         this.getFactoryTemplates();
         this.getTemplates();
     },
     mounted: function mounted() {
-        var _this = this;
+        var _this2 = this;
 
         console.log('Component mounted.');
         // get user data
@@ -30654,7 +30745,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             if (response.data.adresse == null || response.data.npa == null || response.data.city == null || response.data.phone == null) {
                 //$('#userAdresseModal').modal('show');
                 console.log('modal showed');
-                _this.showModal = true;
+                _this2.showModal = true;
             }
         });
     },
@@ -30672,13 +30763,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     methods: {
         getFactoryTemplates: function getFactoryTemplates() {
-            var _this2 = this;
+            var _this3 = this;
 
             axios.get('/api/factorytemplate?api_token=' + this.userKey, {}).then(function (response) {
 
                 console.log(response.data);
-                var self = _this2;
-                _this2.factoryTemplates = response.data;
+                var self = _this3;
+                _this3.factoryTemplates = response.data;
             }).catch(function (error) {
 
                 console.log(error);
@@ -30686,13 +30777,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
         },
         getTemplates: function getTemplates() {
-            var _this3 = this;
+            var _this4 = this;
 
             axios.get('/api/template?api_token=' + this.userKey, {}).then(function (response) {
 
                 console.log(response.data);
-                var self = _this3;
-                _this3.templates = response.data[0];
+                var self = _this4;
+                _this4.templates = response.data[0];
             }).catch(function (error) {
 
                 console.log(error);
@@ -30700,7 +30791,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
         },
         updateAdresse: function updateAdresse() {
-            var _this4 = this;
+            var _this5 = this;
 
             if (this.adresseSubmit.adresse.length > 3 && this.adresseSubmit.npa.length && this.adresseSubmit.city.length && this.adresseSubmit.phone.length) {
 
@@ -30710,8 +30801,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     npa: this.adresseSubmit.npa,
                     phone: this.adresseSubmit.phone
                 }).then(function (response) {
-                    _this4.showModal = false;
-                    _this4.showAdresseUpdateSuccess();
+                    _this5.showModal = false;
+                    _this5.showAdresseUpdateSuccess();
                 }).catch(function (error) {
                     console.log(error.response.data.message);
                 });
@@ -31701,16 +31792,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['currentTemplate', 'templates'],
@@ -32319,10 +32400,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
 
 window.axios = __webpack_require__(8);
 
@@ -32390,7 +32467,8 @@ var $ = __webpack_require__(179);
                         currentDate: ''
                     },
                     object: '',
-                    content: ''
+                    content: '',
+                    salutation: ''
                 },
                 appendices: [{ id: 0, name: 'cv.pdf', file: 'cv.pdf' }, { id: 1, name: 'titre.pdf', file: 'titre.pdf' }, { id: 2, name: 'attestation.pdf', file: 'attestation.pdf' }]
             },
@@ -32617,6 +32695,7 @@ var $ = __webpack_require__(179);
             this.currentTemplate.oldName = data.name;
             this.currentTemplate.letter.object = data.object;
             this.currentTemplate.letter.content = data.content;
+            this.currentTemplate.letter.salutation = data.salutation;
             this.currentTemplate.updated_at = __WEBPACK_IMPORTED_MODULE_0_moment___default()(String(data.updated_at)).format('DD/MM/YYYY à hh:mm');
             this.templateName = data.name;
             this.templateNameOld = data.name;
@@ -32634,6 +32713,7 @@ var $ = __webpack_require__(179);
                     name: this.currentTemplate.name,
                     object: this.currentTemplate.letter.object,
                     content: this.currentTemplate.letter.content,
+                    salutation: this.currentTemplate.letter.salutation,
                     adresse: this.currentTemplate.letter.adresse.adresse,
                     npa: this.currentTemplate.letter.adresse.npa,
                     city: this.currentTemplate.letter.adresse.city,
@@ -32657,7 +32737,8 @@ var $ = __webpack_require__(179);
                 id: this.currentTemplate.id,
                 name: this.currentTemplate.name,
                 content: this.currentTemplate.letter.content,
-                object: this.currentTemplate.letter.object
+                object: this.currentTemplate.letter.object,
+                salutation: this.currentTemplate.letter.salutation
 
             }).then(function (response) {
                 _this8.refreshTemplateManager(); // refresh all data in template manager
@@ -33020,7 +33101,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         return {
             showImporvementModal: false,
             userKey: '',
-            userData: []
+            userData: [],
+            userArea: '',
+            improvement: {
+                object: '',
+                content: ''
+            }
         };
     },
     created: function created() {
@@ -33037,6 +33123,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         }).catch(function (error) {
             console.log(error);
             // TODO add error message
+        });
+
+        axios.get('api/getUserArea?api_token=' + this.userKey, {}).then(function (response) {
+            _this.userArea = response.data.name;
+        }).catch(function (error) {
+            console.log(error);
         });
     },
 
@@ -33104,6 +33196,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         },
         closeImporvementModal: function closeImporvementModal() {
             this.showImporvementModal = false;
+        },
+        sendImprovement: function sendImprovement() {
+            if (this.improvement.object != "" && this.improvement.content != "") {
+
+                axios.post('/api/featureimprovement?api_token=' + this.userKey, {
+                    object: this.improvement.object,
+                    content: this.improvement.content
+                }).then(function (response) {
+                    alert('Merci pour votre proposition');
+                }).catch(function (error) {
+                    //console.log(error.response.data.message);
+                });
+            }
         }
 
     }
@@ -33245,7 +33350,7 @@ exports.push([module.i, "\n.group {\n    background: white;\n    box-shadow: 0 7
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\n#desk-wrapper{\n    width: 100vw;\n    height: 100vh;\n    background-color: #e8e6e7;\n}\n#slidebar-gradiant{\n    top: 0!important;\n    left: 0;\n    width: 20%;\n    height: 100%;\n    background: url('/assets/app/img/navbar-desk-background-gradiant.png');\n}\n.empty-tempalte-icon{\n    margin-top: 50px;\n    height: 120px;\n}\n.template-icon{\n    margin-top: 50px;\n    height: 90%;\n}\n.template-icon img{\n    width: 100%;\n    height: auto;\n}\n.modal-mask {\n    position: fixed;\n    z-index: 9998;\n    top: 0;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    background-color: rgba(0, 0, 0, .5);\n    display: table;\n    transition: opacity .3s ease;\n}\n.modal-wrapper {\n    display: table-cell;\n    vertical-align: middle;\n}\n.modal-container {\n    width: 600px;\n    margin: 0px auto;\n    padding: 20px 30px;\n    background-color: #fff;\n    border-radius: 2px;\n    box-shadow: 0 2px 8px rgba(0, 0, 0, .33);\n    transition: all .3s ease;\n    font-family: Helvetica, Arial, sans-serif;\n}\n.modal-header h3 {\n    margin-top: 0;\n    color: #42b983;\n}\n.modal-body {\n    margin: 20px 0;\n}\n.modal-default-button {\n    float: right;\n}\n.modal-enter {\n    opacity: 0;\n}\n.modal-leave-active {\n    opacity: 0;\n}\n.modal-enter .modal-container,\n.modal-leave-active .modal-container {\n    -webkit-transform: scale(1.1);\n    transform: scale(1.1);\n}\n\n\n\n", ""]);
+exports.push([module.i, "\n#desk-wrapper{\n    width: 100vw;\n    height: 100vh;\n    background-color: #e8e6e7;\n}\n#slidebar-gradiant{\n    top: 0!important;\n    left: 0;\n    width: 20%;\n    height: 100%;\n    background: url('/assets/app/img/navbar-desk-background-gradiant.png');\n}\n#new-template-wrapper img{\n    height: 90%;\n    width: auto;\n}\n#new-template-wrapper p{\n    position: relative;\n    width: 100%;\n    height: 90%;\n    top: 0;\n    left: 0;\n}\n.template-icon span{\n    position: relative;\n    left: 0;\n    top: 0;\n    color: #ff0066;\n}\n.modal-mask {\n    position: fixed;\n    z-index: 9998;\n    top: 0;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    background-color: rgba(0, 0, 0, .5);\n    display: table;\n    transition: opacity .3s ease;\n}\n.modal-wrapper {\n    display: table-cell;\n    vertical-align: middle;\n}\n.modal-container {\n    width: 600px;\n    margin: 0px auto;\n    padding: 20px 30px;\n    background-color: #fff;\n    border-radius: 2px;\n    box-shadow: 0 2px 8px rgba(0, 0, 0, .33);\n    transition: all .3s ease;\n    font-family: Helvetica, Arial, sans-serif;\n}\n.modal-header h3 {\n    margin-top: 0;\n    color: #42b983;\n}\n.modal-body {\n    margin: 20px 0;\n}\n.modal-default-button {\n    float: right;\n}\n.modal-enter {\n    opacity: 0;\n}\n.modal-leave-active {\n    opacity: 0;\n}\n.modal-enter .modal-container,\n.modal-leave-active .modal-container {\n    -webkit-transform: scale(1.1);\n    transform: scale(1.1);\n}\n#new-template-link{\n}\n.white-text{\n    color: white;\n}\n.desk-user-nav-data{\n    padding-top: 30px;\n}\n.avatar-img-wrapper{\n    width: 20%;\n    height: auto;\n}\n#avatar-img{\n    width: 50px;\n    height: 50px;\n}\n.avatar-img-wrapper img{\n    width: 100%;\n    height: 100%;\n    border-radius: 50%;\n    border: 1px solid white;\n}\n.desk-user-nav-data{\n    width: 80%;\n    height: auto;\n}\n@media (max-width:767px)\n{\n#slidebar-gradiant{\n        width: 100%;\n        height: 100px;\n}\n#letter-wrapper{\n        height: auto;\n}\n#avatar-img-wrapper{\n        width: 20%;\n        height: 100%;\n}\n#avatar-img-wrapper img{\n        width: 90%;\n        margin: 5%;\n}\n}\n\n\n\n", ""]);
 
 /***/ }),
 /* 170 */
@@ -33273,7 +33378,7 @@ exports.push([module.i, "\n.img-avatar {\n    width: 40px;\n    height: 40px;\n 
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\ninput {\n    outline: none;\n    border: none !important;\n    box-shadow: none !important;\n}\nonly screen and (min-width: 980px)\n{\nbody{\n        overflow-y: hidden!important;\n}\n}\n#template-list-wrapper {\n    /*visibility: hidden;*/\n}\n#project-name-wrapper{\n    height: 70px;\n    background-color: #dadada;\n}\n[v-cloak] {\n    display: none;\n}\n#recipient-manger-col-wrapper{\n    opacity: 1;\n    transition: opacity 1s ease-in-out;\n    -webkit-transition: opacity 1s ease-in-out;\n    -moz-transition: opacity 1s ease-in-out;\n    -ms-transition: opacity 1s ease-in-out;\n    -o-transition: opacity 1s ease-in-out;\n}\n.template-manager-selected-template{\n    background-image: url(\"/assets/app/img/btn-gradiant-tmplate-manager.jpg\");\n    transition: 100ms;\n}\n#letter-personal-text{\n    height: 100mm;\n}\n#letter-wrapper .panel-body{\n    height: 80vh;\n    overflow-y: scroll;\n}\n#recipient-data{\n    margin-left: 57%;\n}\n.to-deliver-list-item:hover{\n    color: red!important;\n    transition: 100ms;\n    cursor: pointer;\n}\n#letter-object-wrapper{\n    margin-top: 9.5%;\n}\n.corporate-list-item:hover{\n    cursor: pointer;\n    color: #2ab27b;\n    transition: 100ms;\n}\n.corporate-list-item{\n    transition: 100ms;\n}\n.heading-custom{\n    background-color: #f1f1f1!important;\n    height: 40px;\n}\n.modal-large{\n    width: 80%;\n    margin-left: 10%;\n    margin-right: 10%;\n}\n#letter-wrapper{\n    height: 80vh;\n}\n.mailer-wrapper input{\n    width: 100%;\n    height: auto;\n}\n.mailer-wrapper{\n    width: 100%;\n    height: auto;\n}\n.ion-btn{\n    transition: 100ms;\n}\n.ion-btn:hover{\n    color: #0c84e4;\n    transition: 100ms;\n    cursor: pointer;\n}\n.template-manager-header{\n    width: 100%;\n    height: 20px;\n}\n.template-manager-temp-name{\n    width: 70%;\n    white-space: nowrap;\n    overflow: hidden;\n    text-overflow: ellipsis;\n    font-size: 12px!important;\n    float: left;\n    cursor: pointer;\n}\n.template-manager-temp-icons{\n    width: 11%;\n    padding-left: 2%;\n    padding-right: 2%;\n    float: left;\n}\n#letter-toolbar-wrapper{\n    width: 100%;\n    height: auto;\n}\n#toolbar-wrapper{\n    top: 0px!important;\n}\n.letter-fonts{\n    font-size: 12pt!important;\n}\n#letter-content-scroll{\n    width: 100%;\n    height: auto;\n    display: inline-block;\n    overflow: hidden;\n}\n#sheet-paper{\n    margin-left: auto;\n    margin-right: auto;\n    overflow: hidden;\n}\n.paper-sheet{\n    size: A4;\n    margin: auto;\n    width: 793px;\n    height: 1122px;\n    padding-left: 132px;\n    padding-right: 94px;\n    padding-top: 94px;\n    padding-bottom: 94px;\n    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);\n    -moz-box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);\n    font-size: 10pt!important;\n}\n.paper-sheet .form-control{\n    font-size: 10pt!important;\n}\n#sender-data-wrapper{\n    width: 50%;\n}\n#letter-current-date-wrapper{\n    margin-left: 57%;\n}\n.letter-appendicies-list{\n    bottom: 0;\n    width: 100%;\n    height: auto;\n}\n#letter-preview-frame{\n    width: 60%;\n    margin-left: 20%;\n    height: auto;\n    margin: auto;\n}\n#letter-preview-frame-data{\n    display: block;\n    float: left;\n    width: 60%;\n    margin-left: 20%;\n    margin-right: 20%;\n    margin: auto;\n    height: auto;\n}\n.form-smaller-custom{\n    font-size: 12pt!important;\n    height: 16px!important;\n}\n.templates-list{\n    width: 100%;\n    height: auto;\n}\n.templatelistappear-enter-active{\n    -webkit-animation: templatelistappear;\n            animation: templatelistappear;\n    -webkit-animation-duration: 1s;\n            animation-duration: 1s;\n}\n#letter-personal-content{\n    height: auto;\n}\n#signature-wrapper{\n    margin-left: 57%;\n    height: auto;\n    margin-top: 50px;\n}\n#signature-image{\n    width: 100%;\n    height: 40%;\n    background-color: #a6e1ec;\n}\n.auto-value-letter{\n    background-color: #a6e1ec;\n}\n.templatelistappear-leave-active{\n\n    -webkit-animation: templatelistdisappear;\n\n            animation: templatelistdisappear;\n}\n.letter-padding{\n    padding-left: 80px;\n    padding-right: 50px;\n}\n#page-loading-animation{\n    position: absolute;\n    overflow-x: hidden;\n    overflow-y: hidden;\n    width: 100vw;\n    height: 100vh;\n    background-color: white;\n    -webkit-animation: fadein;\n    -webkit-animation-duration: 2s;\n    z-index: 2000;\n    visibility: hidden;\n}\n@-webkit-keyframes fadein{\n0%{\n        visibility: visible;\n}\n100%{\n        visibility: hidden;\n}\n}\n\n\n/* Loading */\n.loader{\n    margin:200px auto;\n}\n.loader span{\n    width:16px;\n    height:16px;\n    border-radius:50%;\n    display:inline-block;\n    position:absolute;\n    left:50%;\n    margin-left:-10px;\n    -webkit-animation:3s infinite linear;\n    -moz-animation:3s infinite linear;\n    -o-animation:3s infinite linear;\n}\n.loader span:nth-child(2){\n    background:#E84C3D;\n    -webkit-animation:kiri 1.2s infinite linear;\n    -moz-animation:kiri 1.2s infinite linear;\n    -o-animation:kiri 1.2s infinite linear;\n}\n.loader span:nth-child(3){\n    background:#F1C40F;\n    z-index:100;\n}\n.loader span:nth-child(4){\n    background:#2FCC71;\n    -webkit-animation:kanan 1.2s infinite linear;\n    -moz-animation:kanan 1.2s infinite linear;\n    -o-animation:kanan 1.2s infinite linear;\n}\n@-webkit-keyframes kanan {\n0% {-webkit-transform:translateX(20px);\n}\n50%{-webkit-transform:translateX(-20px);\n}\n100%{-webkit-transform:translateX(20px);\n        z-index:200;\n}\n}\n\n/* CKEDITOR */\n.cke_top{\n    border: 0px!important;\n    background-color: #f1f1f1!important;\n    zoom: 0.74!important;\n}\n.cke_chrome {\n    display: block;\n    border: 0px!important;\n    padding: 0;\n}\n.color-red{\n    color: #fe0364;\n}\n.mini-toastr__notification{\n    width: 100%!important;\n    top: 0px!important;\n    right: 0px!important;\n}\n.-success{\n    background-color: darkred!important;\n}\n.editableSpanners{\n    background-color: #fe0364;\n    color: white;\n    border-radius: 5px;\n}\n.appendice-control-wrap{\n    float: left;\n    width: 100%;\n    height: auto;\n    border-bottom: 1px solid grey;\n}\n.appendice-control-wrap:hover{\n    background-color: #dadada;\n    color: #7f27d5;\n    transition: 100ms;\n}\n.appendice-control-wrap:hover input{\n    background-color: #dadada;\n    color: #7f27d5;\n    transition: 100ms;\n}\n.appendice-focused {\n    background-image: url(\"/assets/app/img/btn-gradiant-tmplate-manager.jpg\")!important;\n    transition: 100ms;\n    width: 100%;\n    height: auto;\n    color: white!important!important;\n}\n.appendice-focused input:focus{\n    color: white!important;\n}\n.appendice-focuses:focus{\n    color: white!important!important;\n}\n.transaprant-input{\n    background: transparent!important;\n    border: none!important;\n}\n#appendice-add-btn:hover{\n    cursor: pointer;\n}\n.cke_editable{\n    margin: 0!important;\n}\n@-webkit-keyframes checkmark {\n0% {\n        stroke-dashoffset: 50px\n}\n100% {\n        stroke-dashoffset: 0\n}\n}\n@keyframes checkmark {\n0% {\n        stroke-dashoffset: 50px\n}\n100% {\n        stroke-dashoffset: 0\n}\n}\n@-webkit-keyframes checkmark-circle {\n0% {\n        stroke-dashoffset: 240px\n}\n100% {\n        stroke-dashoffset: 480px\n}\n}\n@keyframes checkmark-circle {\n0% {\n        stroke-dashoffset: 240px\n}\n100% {\n        stroke-dashoffset: 480px\n}\n}\n\n/* other styles */\n/* .svg svg {\n    display: none\n}\n */\n.inlinesvg .svg svg {\n    display: inline\n}\n\n/* .svg img {\n    display: none\n} */\n.icon--order-success svg path {\n    -webkit-animation: checkmark 0.25s ease-in-out 0.7s backwards;\n    animation: checkmark 0.25s ease-in-out 0.7s backwards\n}\n.icon--order-success svg circle {\n    -webkit-animation: checkmark-circle 0.6s ease-in-out backwards;\n    animation: checkmark-circle 0.6s ease-in-out backwards\n}\n", ""]);
+exports.push([module.i, "\ninput {\n    outline: none;\n    border: none !important;\n    box-shadow: none !important;\n}\nonly screen and (min-width: 980px)\n{\nbody{\n        overflow-y: hidden!important;\n}\n}\n#template-list-wrapper {\n    /*visibility: hidden;*/\n}\n#project-name-wrapper{\n    height: 70px;\n    background-color: #dadada;\n}\n[v-cloak] {\n    display: none;\n}\n#recipient-manger-col-wrapper{\n    opacity: 1;\n    transition: opacity 1s ease-in-out;\n    -webkit-transition: opacity 1s ease-in-out;\n    -moz-transition: opacity 1s ease-in-out;\n    -ms-transition: opacity 1s ease-in-out;\n    -o-transition: opacity 1s ease-in-out;\n}\n.template-manager-selected-template{\n    background-image: url(\"/assets/app/img/btn-gradiant-tmplate-manager.jpg\");\n    transition: 100ms;\n}\n#letter-personal-text{\n    height: 100mm;\n}\n#letter-wrapper .panel-body{\n    height: 80vh;\n    overflow-y: scroll;\n}\n#recipient-data{\n    margin-left: 57%;\n}\n.to-deliver-list-item:hover{\n    color: red!important;\n    transition: 100ms;\n    cursor: pointer;\n}\n#letter-object-wrapper{\n    margin-top: 9.5%;\n}\n.corporate-list-item:hover{\n    cursor: pointer;\n    color: #2ab27b;\n    transition: 100ms;\n}\n.corporate-list-item{\n    transition: 100ms;\n}\n.heading-custom{\n    background-color: #f1f1f1!important;\n    height: 40px;\n}\n.modal-large{\n    width: 80%;\n    margin-left: 10%;\n    margin-right: 10%;\n}\n#letter-wrapper{\n    height: 80vh;\n}\n.mailer-wrapper input{\n    width: 100%;\n    height: auto;\n}\n.mailer-wrapper{\n    width: 100%;\n    height: auto;\n}\n.ion-btn{\n    transition: 100ms;\n}\n.ion-btn:hover{\n    color: #0c84e4;\n    transition: 100ms;\n    cursor: pointer;\n}\n.template-manager-header{\n    width: 100%;\n    height: 20px;\n}\n.template-manager-temp-name{\n    width: 70%;\n    white-space: nowrap;\n    overflow: hidden;\n    text-overflow: ellipsis;\n    font-size: 12px!important;\n    float: left;\n    cursor: pointer;\n}\n.template-manager-temp-icons{\n    width: 11%;\n    padding-left: 2%;\n    padding-right: 2%;\n    float: left;\n}\n#letter-toolbar-wrapper{\n    width: 100%;\n    height: auto;\n}\n#toolbar-wrapper{\n    top: 0px!important;\n}\n.letter-fonts{\n    font-size: 12pt!important;\n}\n#letter-content-scroll{\n    width: 100%;\n    height: auto;\n    display: inline-block;\n    overflow: hidden;\n}\n#sheet-paper{\n    margin-left: auto;\n    margin-right: auto;\n    overflow: hidden;\n}\n.paper-sheet{\n    size: A4;\n    margin: auto;\n    width: 793px;\n    height: 1122px;\n    padding-left: 132px;\n    padding-right: 94px;\n    padding-top: 94px;\n    padding-bottom: 94px;\n    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);\n    -moz-box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);\n    font-size: 10pt!important;\n}\n.paper-sheet .form-control{\n    font-size: 10pt!important;\n}\n#sender-data-wrapper{\n    width: 50%;\n}\n#letter-current-date-wrapper{\n    margin-left: 57%;\n}\n.letter-appendicies-list{\n    bottom: 0;\n    width: 100%;\n    height: auto;\n}\n#letter-preview-frame{\n    width: 60%;\n    margin-left: 20%;\n    height: auto;\n    margin: auto;\n}\n#letter-preview-frame-data{\n    display: block;\n    float: left;\n    width: 60%;\n    margin-left: 20%;\n    margin-right: 20%;\n    margin: auto;\n    height: auto;\n}\n.form-smaller-custom{\n    font-size: 12pt!important;\n    height: 16px!important;\n}\n.templates-list{\n    width: 100%;\n    height: auto;\n}\n.templatelistappear-enter-active{\n    -webkit-animation: templatelistappear;\n            animation: templatelistappear;\n    -webkit-animation-duration: 1s;\n            animation-duration: 1s;\n}\n#letter-personal-content{\n    height: auto;\n}\n#signature-wrapper{\n    margin-left: 57%;\n    height: auto;\n    margin-top: 50px;\n}\n#signature-image{\n    width: 100%;\n    height: 40%;\n    background-color: #a6e1ec;\n}\n.auto-value-letter{\n    background-color: #a6e1ec;\n}\n.templatelistappear-leave-active{\n\n    -webkit-animation: templatelistdisappear;\n\n            animation: templatelistdisappear;\n}\n.letter-padding{\n    padding-left: 80px;\n    padding-right: 50px;\n}\n#page-loading-animation{\n    position: absolute;\n    overflow-x: hidden;\n    overflow-y: hidden;\n    width: 100vw;\n    height: 100vh;\n    background-color: white;\n    -webkit-animation: fadein;\n    -webkit-animation-duration: 2s;\n    z-index: 2000;\n    visibility: hidden;\n}\n@-webkit-keyframes fadein{\n0%{\n        visibility: visible;\n}\n100%{\n        visibility: hidden;\n}\n}\n\n\n/* Loading */\n.loader{\n    margin:200px auto;\n}\n.loader span{\n    width:16px;\n    height:16px;\n    border-radius:50%;\n    display:inline-block;\n    position:absolute;\n    left:50%;\n    margin-left:-10px;\n    -webkit-animation:3s infinite linear;\n    -moz-animation:3s infinite linear;\n    -o-animation:3s infinite linear;\n}\n.loader span:nth-child(2){\n    background:#E84C3D;\n    -webkit-animation:kiri 1.2s infinite linear;\n    -moz-animation:kiri 1.2s infinite linear;\n    -o-animation:kiri 1.2s infinite linear;\n}\n.loader span:nth-child(3){\n    background:#F1C40F;\n    z-index:100;\n}\n.loader span:nth-child(4){\n    background:#2FCC71;\n    -webkit-animation:kanan 1.2s infinite linear;\n    -moz-animation:kanan 1.2s infinite linear;\n    -o-animation:kanan 1.2s infinite linear;\n}\n@-webkit-keyframes kanan {\n0% {-webkit-transform:translateX(20px);\n}\n50%{-webkit-transform:translateX(-20px);\n}\n100%{-webkit-transform:translateX(20px);\n        z-index:200;\n}\n}\n\n/* CKEDITOR */\n.cke_top{\n    border: 0px!important;\n    background-color: #f1f1f1!important;\n    zoom: 0.74!important;\n}\n.cke_chrome {\n    display: block;\n    border: 0px!important;\n    padding: 0;\n}\n.color-red{\n    color: #fe0364;\n}\n.mini-toastr__notification{\n    width: 100%!important;\n    top: 0px!important;\n    right: 0px!important;\n}\n.-success{\n    background-color: darkred!important;\n}\n.editableSpanners{\n    background-color: #fe0364;\n    color: white;\n    border-radius: 5px;\n}\n.appendice-control-wrap{\n    float: left;\n    width: 100%;\n    height: auto;\n    border-bottom: 1px solid grey;\n}\n.appendice-control-wrap:hover{\n    background-color: #dadada;\n    color: #7f27d5;\n    transition: 100ms;\n}\n.appendice-control-wrap:hover input{\n    background-color: #dadada;\n    color: #7f27d5;\n    transition: 100ms;\n}\n.appendice-focused {\n    background-image: url(\"/assets/app/img/btn-gradiant-tmplate-manager.jpg\")!important;\n    transition: 100ms;\n    width: 100%;\n    height: auto;\n    color: white!important!important;\n}\n.appendice-focused input:focus{\n    color: white!important;\n}\n.appendice-focuses:focus{\n    color: white!important!important;\n}\n.transaprant-input{\n    background: transparent!important;\n    border: none!important;\n}\n#appendice-add-btn:hover{\n    cursor: pointer;\n}\n.cke_editable{\n    margin: 0!important;\n}\n@-webkit-keyframes checkmark {\n0% {\n        stroke-dashoffset: 50px\n}\n100% {\n        stroke-dashoffset: 0\n}\n}\n@keyframes checkmark {\n0% {\n        stroke-dashoffset: 50px\n}\n100% {\n        stroke-dashoffset: 0\n}\n}\n@-webkit-keyframes checkmark-circle {\n0% {\n        stroke-dashoffset: 240px\n}\n100% {\n        stroke-dashoffset: 480px\n}\n}\n@keyframes checkmark-circle {\n0% {\n        stroke-dashoffset: 240px\n}\n100% {\n        stroke-dashoffset: 480px\n}\n}\n\n/* other styles */\n/* .svg svg {\n    display: none\n}\n */\n.inlinesvg .svg svg {\n    display: inline\n}\n\n/* .svg img {\n    display: none\n} */\n.icon--order-success svg path {\n    -webkit-animation: checkmark 0.25s ease-in-out 0.7s backwards;\n    animation: checkmark 0.25s ease-in-out 0.7s backwards\n}\n.icon--order-success svg circle {\n    -webkit-animation: checkmark-circle 0.6s ease-in-out backwards;\n    animation: checkmark-circle 0.6s ease-in-out backwards\n}\n@media (max-width:767px){\n#wrapper{\n        margin-top: 70px;\n}\n}\n", ""]);
 
 /***/ }),
 /* 174 */
@@ -33294,14 +33399,14 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\n#nav-avatar-wrapper{\n    float: left;\n    width: 80%;\n    height: 100%;\n}\n#user-mini-manager{\n    height: 67px;\n    width: 250px;\n    background-color: #e8e6e7;\n    font-size: 11px;\n}\n#avatar-wrap{\n    float: left;\n    width: 20%;\n}\n#avatar-data{\n    float: left;\n    width: 40%;\n    height: 100%;\n}\n#avatar-data p{\n    vertical-align: middle;\n    margin-top: 10px;\n}\n#user-mini-manager input{\n    font-size: 11px;\n    height: 11px;\n    margin-top: 11px;\n    margin-left: 10px;\n}\n#side-bar-toggler{\n    height: 100%;\n    width: 20%;\n    float: left;\n    margin-top: 10px;\n}\n#side-bar-toggler:hover{\n    cursor: pointer;\n}\n#side-bar-toggler span{\n    font-size: 20px;\n    margin: auto;\n    margin-left: 25px;\n}\n.img-avatar {\n    width: 40px;\n    height: 40px;\n    margin-top: 10px;\n    border-radius: 50%;\n    border: 1px solid #f64a8a;\n}\n#userDataFormCollapse{\n    width: 100%;\n    padding-left: 10%;\n    padding-right: 10%;\n    padding-top: 40px;\n    background-color:  #e8e6e7 ;\n}\n#userDataFormCollapse .row{\n    background-color: #e8e6e7;\n}\n#avatar-import-btn-wrapper:hover{\n    cursor: pointer;\n}\n#import-avatar-picto{\n    opacity: 1;\n    padding-right: 10%;\n    transition: 100ms;\n}\n#import-avatar-picto:hover{\n    opacity: 0.7;\n    transition: 100ms;\n}\n#userDataFormNamePres{\n    padding-top: 10px;\n}\n", ""]);
+exports.push([module.i, "\n#nav-avatar-wrapper{\n    float: left;\n    width: 80%;\n    height: 100%;\n}\n#user-mini-manager{\n    height: 67px;\n    width: 250px;\n    background-color: #e8e6e7;\n    font-size: 11px;\n}\n#avatar-wrap{\n    float: left;\n    width: 20%;\n}\n#avatar-data{\n    float: left;\n    width: 40%;\n    height: 100%;\n}\n#avatar-data p{\n    vertical-align: middle;\n    margin-top: 10px;\n}\n#user-mini-manager input{\n    font-size: 11px;\n    height: 11px;\n    margin-top: 11px;\n    margin-left: 10px;\n}\n#side-bar-toggler{\n    height: 100%;\n    width: 20%;\n    float: left;\n    margin-top: 10px;\n}\n#side-bar-toggler:hover{\n    cursor: pointer;\n}\n#side-bar-toggler span{\n    font-size: 20px;\n    margin: auto;\n    margin-left: 25px;\n}\n.img-avatar {\n    width: 40px;\n    height: 40px;\n    margin-top: 10px;\n    border-radius: 50%;\n    border: 1px solid #f64a8a;\n}\n#userDataFormCollapse{\n    width: 100%;\n    padding-left: 10%;\n    padding-right: 10%;\n    padding-top: 40px;\n    background-color:  #e8e6e7 ;\n}\n#userDataFormCollapse .row{\n    background-color: #e8e6e7;\n}\n#avatar-import-btn-wrapper:hover{\n    cursor: pointer;\n}\n#import-avatar-picto{\n    opacity: 1;\n    padding-right: 10%;\n    transition: 100ms;\n}\n#import-avatar-picto:hover{\n    opacity: 0.7;\n    transition: 100ms;\n}\n#userDataFormNamePres{\n    padding-top: 10px;\n}\n@media (max-width:767px) {\n#user-mini-manager{\n        width: 100%;\n}\n}\n", ""]);
 
 /***/ }),
 /* 177 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\n.template-panel-item{\n    margin-bottom: 0px;\n    background-color: #e8e6e7;\n}\n.template-panel-item:hover{\n    color: #8269a4;\n    background-color: #dadada;\n    transition: 100ms;\n}\n", ""]);
+exports.push([module.i, "\n.template-manager-list-head{\n        color: black;\n}\n.template-panel-item{\n    margin-bottom: 0px;\n    background-color: #e8e6e7;\n}\n.template-panel-item:hover{\n    color: #8269a4;\n    background-color: #dadada;\n    transition: 100ms;\n}\n", ""]);
 
 /***/ }),
 /* 178 */
@@ -50735,7 +50840,35 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "id": "desk-wrapper"
     }
-  }, [_vm._m(0), _vm._v(" "), _c('div', {
+  }, [_c('div', {
+    staticClass: "col-lg-3",
+    attrs: {
+      "id": "slidebar-gradiant"
+    }
+  }, [_c('nav', {
+    staticClass: "navbar",
+    attrs: {
+      "role": "navigation"
+    }
+  }, [_c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col-lg-12"
+  }, [_c('div', {
+    staticClass: "avatar-img-wrapper"
+  }, [_c('img', {
+    attrs: {
+      "src": 'storage/' + _vm.userData.picture_name,
+      "alt": "",
+      "id": "avatar-img"
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "white-text desk-user-nav-data"
+  }, [_c('strong', [_vm._v(" " + _vm._s(_vm.userData.firstname) + " " + _vm._s(_vm.userData.lastname) + " ")]), _vm._v(" "), _c('br'), _vm._v("\n                            " + _vm._s(_vm.userArea) + "\n                        ")]), _vm._v(" "), _c('div', {
+    staticClass: "col-lg-2"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "col-lg-10"
+  })])]), _vm._v(" "), _vm._m(0)])]), _vm._v(" "), _c('div', {
     staticClass: "col-lg-9"
   }, [_c('div', {
     staticClass: "row"
@@ -50746,15 +50879,31 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('div', {
     staticClass: "col-lg-12"
-  }, [_vm._m(1), _vm._v(" "), _vm._l((_vm.factoryTemplates), function(factemplate) {
+  }, [_c('div', {
+    staticClass: "col-lg-12"
+  }, [_c('h2', [_vm._v("Bienvenu " + _vm._s(_vm.userData.firstname) + " !")])]), _vm._v(" "), _vm._l((_vm.factoryTemplates), function(factemplate) {
     return _c('div', {
-      staticClass: "col-lg-4"
+      staticClass: "col-lg-4",
+      attrs: {
+        "id": "new-template-wrapper"
+      }
     }, [_c('a', {
+      attrs: {
+        "href": '/desk#/template/usine/' + factemplate.slug,
+        "title": factemplate.name,
+        "id": "new-template-link"
+      }
+    }, [_c('img', {
+      attrs: {
+        "src": "assets/app/img/template-new-desk.jpg",
+        "alt": ""
+      }
+    }), _vm._v(" "), _vm._m(1, true)]), _vm._v(" "), _c('a', {
       attrs: {
         "href": '/desk#/template/usine/' + factemplate.slug,
         "title": factemplate.name
       }
-    }, [_vm._m(2, true)]), _vm._v(" "), _c('p', [_vm._v(_vm._s(factemplate.name))])])
+    }, [_vm._v("\n                            " + _vm._s(factemplate.name) + "\n                        ")])])
   }), _vm._v(" "), _vm._l((_vm.templates), function(template) {
     return (_vm.templates) ? _c('div', {
       staticClass: "col-lg-2"
@@ -50763,7 +50912,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "href": '/desk#/template/mix/' + template.slug,
         "title": template.name
       }
-    }, [_vm._m(3, true)]), _vm._v(" "), _c('p', [_vm._v(_vm._s(template.name))])]) : _vm._e()
+    }, [_vm._m(2, true)]), _vm._v(" "), _c('a', {
+      attrs: {
+        "href": '/desk#/template/mix/' + template.slug,
+        "title": template.name
+      }
+    }, [_vm._v("\n                            " + _vm._s(template.name) + "\n                        ")])]) : _vm._e()
   }), _vm._v(" "), _c('div', {
     directives: [{
       name: "elseif",
@@ -50936,35 +51090,18 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   })])])], 2)])])])])], 1) : _vm._e()])])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
-    staticClass: "col-lg-3",
-    attrs: {
-      "id": "slidebar-gradiant"
-    }
-  }, [_c('nav', {
-    staticClass: "navbar navbar-default",
-    attrs: {
-      "role": "navigation"
-    }
-  }, [_c('div', {
     staticClass: "collapse userDataFormCollapse"
   }, [_c('div', {
     staticClass: "row"
   }, [_c('div', {
     staticClass: "col-lg-12"
-  })])])])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "col-lg-12"
-  }, [_c('h2', [_vm._v("Bienvenu Thomas !")])])
+  })])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "template-icon"
-  }, [_c('img', {
-    attrs: {
-      "src": "assets/app/img/template-new-desk.jpg",
-      "alt": ""
-    }
-  })])
+  }, [_c('p', [_c('span', {
+    staticClass: "ion-plus-round"
+  })])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "template-icon"
@@ -51778,7 +51915,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })])])])])]), _vm._v(" "), _c('div', {
     staticClass: "col-lg-2"
-  }, [_c('p', [_vm._v("\n                                    Modèle mis à jour le " + _vm._s(_vm.currentTemplate.updated_at) + "\n                                    "), _c('br'), _vm._v("\n                                    10/20\n                                ")])])]), _vm._v(" "), _c('div', {
+  }, [_c('p', [_vm._v("\n                                    mis à jour le " + _vm._s(_vm.currentTemplate.updated_at) + "\n                                ")])])]), _vm._v(" "), _c('div', {
     staticClass: "row letter-padding"
   }, [(_vm.page == 'letter') ? _c('div', {
     staticClass: "col-lg-6"
@@ -51801,8 +51938,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "col-lg-4"
   }, [_c('span', [_vm._v(" " + _vm._s(_vm.currentTemplate.name) + " ")])]), _vm._v(" "), _vm._m(2), _vm._v(" "), _c('div', {
     staticClass: "col-lg-1"
-  }, [_c('h4', [_c('span', {
+  }, [_c('p', [_c('span', {
     staticClass: "ion-eye pull-right ion-btn",
+    staticStyle: {
+      "font-size": "20px"
+    },
     attrs: {
       "data-toggle": "modal",
       "data-target": ".bs-letter-preview"
@@ -52078,7 +52218,34 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       },
       expression: "currentTemplate.letter.content"
     }
-  })], 1)])]), _vm._v(" "), _vm._m(5), _vm._v(" "), _c('div', {
+  })], 1)])]), _vm._v(" "), _c('div', {
+    staticClass: "col-lg-12"
+  }, [_c('div', {
+    attrs: {
+      "id": "letter-greetings"
+    }
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.currentTemplate.letter.salutation),
+      expression: "currentTemplate.letter.salutation"
+    }],
+    staticClass: "form-control form-smaller-custom",
+    attrs: {
+      "type": "text",
+      "placeholder": "Salutations dinstingués"
+    },
+    domProps: {
+      "value": (_vm.currentTemplate.letter.salutation)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.currentTemplate.letter.salutation = $event.target.value
+      }
+    }
+  })])]), _vm._v(" "), _c('div', {
     staticClass: "col-lg-12",
     attrs: {
       "id": "signature-wrapper"
@@ -52105,16 +52272,16 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('div', {
     staticClass: "modal-content"
-  }, [_vm._m(6), _vm._v(" "), _c('div', {
+  }, [_vm._m(5), _vm._v(" "), _c('div', {
     staticClass: "modal-body"
   }, [(!_vm.preloadingPdf) ? _c('div', {
     staticClass: "col-lg-12",
     attrs: {
       "id": "letter-preview"
     }
-  }, [_vm._m(7)]) : _c('div', [_c('span', {
+  }, [_vm._m(6)]) : _c('div', [_c('span', {
     staticClass: "fa fa-circle-o-notch"
-  })])]), _vm._v(" "), _vm._m(8)])])]), _vm._v(" "), (_vm.page == 'letter') ? _c('div', {
+  })])]), _vm._v(" "), _vm._m(7)])])]), _vm._v(" "), (_vm.page == 'letter') ? _c('div', {
     staticClass: "col-lg-3 card"
   }, [_c('div', {
     staticClass: "panel panel-default"
@@ -52181,7 +52348,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.addAppendice($event)
       }
     }
-  }, [_vm._m(9), _vm._v(" "), _c('input', {
+  }, [_vm._m(8), _vm._v(" "), _c('input', {
     directives: [{
       name: "mask",
       rawName: "v-mask",
@@ -52294,20 +52461,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   })])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('p', [_c('br'), _c('br')])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "col-lg-12"
-  }, [_c('div', {
-    attrs: {
-      "id": "letter-greetings"
-    }
-  }, [_c('input', {
-    staticClass: "form-control form-smaller-custom",
-    attrs: {
-      "type": "text",
-      "value": "Salutations dinstingués"
-    }
-  })])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "modal-header"
@@ -52462,7 +52615,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "id": "avatar-data"
     }
-  }, [_c('p', [_c('strong', [_vm._v(_vm._s(_vm._f("uppercase")(_vm.userData.firstname)) + " " + _vm._s(_vm._f("uppercase")(_vm.userData.lastname)) + " ")]), _vm._v("\n                    Communication\n                ")])]), _vm._v(" "), _vm._m(0)])]), _vm._v(" "), _c('div', {
+  }, [_c('p', [_c('strong', [_vm._v(_vm._s(_vm._f("uppercase")(_vm.userData.firstname)) + " " + _vm._s(_vm._f("uppercase")(_vm.userData.lastname)) + " ")]), _vm._v("\n                    " + _vm._s(_vm.userArea) + "\n                ")])]), _vm._v(" "), _vm._m(0)])]), _vm._v(" "), _c('div', {
     staticClass: "collapse userDataFormCollapse",
     attrs: {
       "id": "userDataFormCollapse"
@@ -52779,7 +52932,67 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "modal-header"
   }, [_vm._t("header", [_c('h2', [_vm._v("Proposition d'amélioration")])])], 2), _vm._v(" "), _c('div', {
     staticClass: "modal-body"
-  }, [_vm._t("body", [_vm._m(3)])], 2), _vm._v(" "), _c('div', {
+  }, [_vm._t("body", [_c('form', {
+    staticClass: "form-control",
+    attrs: {
+      "action": ""
+    }
+  }, [_c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    attrs: {
+      "for": ""
+    }
+  }, [_vm._v("Objet")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.improvement.object),
+      expression: "improvement.object"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "type": "text"
+    },
+    domProps: {
+      "value": (_vm.improvement.object)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.improvement.object = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    attrs: {
+      "for": ""
+    }
+  }, [_vm._v("Proposition")]), _vm._v(" "), _c('textarea', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.improvement.content),
+      expression: "improvement.content"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "name": "",
+      "id": "",
+      "cols": "30",
+      "rows": "10"
+    },
+    domProps: {
+      "value": (_vm.improvement.content)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.improvement.content = $event.target.value
+      }
+    }
+  })])])])], 2), _vm._v(" "), _c('div', {
     staticClass: "modal-footer"
   }, [_vm._t("footer", [_c('button', {
     on: {
@@ -52792,6 +53005,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "border-radius": "20px",
       "border": "0px",
       "color": "white"
+    },
+    on: {
+      "click": _vm.sendImprovement
     }
   }, [_vm._v("\n                            Envoyer\n                        ")])])], 2)])])]) : _vm._e()])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -52834,38 +53050,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "href": "/logout"
     }
   }, [_vm._v("Me déconnecter")])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('form', {
-    staticClass: "form-control",
-    attrs: {
-      "action": ""
-    }
-  }, [_c('div', {
-    staticClass: "form-group"
-  }, [_c('label', {
-    attrs: {
-      "for": ""
-    }
-  }, [_vm._v("Objet")]), _vm._v(" "), _c('input', {
-    staticClass: "form-control",
-    attrs: {
-      "type": "text"
-    }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "form-group"
-  }, [_c('label', {
-    attrs: {
-      "for": ""
-    }
-  }, [_vm._v("Proposition")]), _vm._v(" "), _c('textarea', {
-    staticClass: "form-control",
-    attrs: {
-      "name": "",
-      "id": "",
-      "cols": "30",
-      "rows": "10"
-    }
-  })])])
 }]}
 module.exports.render._withStripped = true
 if (false) {
@@ -52915,7 +53099,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._m(3), _vm._v(" "), _vm._l((_vm.templates), function(template) {
     return _c('div', {
-      key: template.id
+      key: template.id,
+      staticClass: "col-lg-12 no-padding-left no-padding-right"
     }, [_c('div', {
       staticClass: "panel-group template-panel-item"
     }, [_c('div', {
@@ -52959,11 +53144,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }, [_c('span', {
       staticClass: "ion-more",
+      staticStyle: {
+        "color": "white"
+      },
       attrs: {
         "title": "afficher les détails"
       }
     })])])])]) : _c('div', {
-      staticClass: "panel-heading"
+      staticClass: "panel-heading "
     }, [_c('div', {
       staticClass: "panel-title"
     }, [_c('div', {
@@ -52987,7 +53175,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }, [_c('span', {
       staticClass: "ion-ios-copy",
       staticStyle: {
-        "color": "white"
+        "color": "black"
       },
       attrs: {
         "title": "copier ce template"
@@ -53024,13 +53212,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "title": "supprimer ce template"
       }
     })])])])])])])
-  })], 2)]), _vm._v(" "), _vm._m(4), _vm._v(" "), _c('div', {
+  })], 2)]), _vm._v(" "), _c('div', {
     staticClass: "row"
   }, [_c('div', {
     staticClass: "col-lg-12"
   }, [_c('div', {
     staticClass: "col-lg-12"
-  }, [_c('router-link', {
+  }, [_c('br'), _vm._v(" "), _c('router-link', {
     staticClass: "center-align",
     attrs: {
       "to": "/mail-filler"
@@ -53212,10 +53400,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "href": "/#/"
     }
   }, [_vm._v("+")])])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "col-lg-12"
-  }, [_c('h4', [_vm._v("Nos Modèles")])])
 }]}
 module.exports.render._withStripped = true
 if (false) {
