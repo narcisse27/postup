@@ -153,6 +153,10 @@
             this.userKey = apiKey;
         },
         watch: {
+            recipientsList: function()
+            {
+                this.$emit('input', this.recipientsList);
+            }
         },
         methods: {
             putTomailsToSend: function(contact)
@@ -160,6 +164,7 @@
                 if(this.mailsToSend == [])
                 {
                     this.mailsToSend = this.mailsToSend.concat(contact); // if mailsToSend dont contain this contact add this one
+                    this.$emit('input', this.mailsToSend);
                 }else{
                     var containThisContact = false;
                     for(var i = 0; i <= this.mailsToSend.length; i++ )
@@ -173,6 +178,8 @@
                     if(containThisContact === false)
                     {
                         this.mailsToSend = this.mailsToSend.concat(contact); // if mailsToSend dont contain this contact add this one
+                        this.$emit('input', this.mailsToSend);
+
                     }
 
                     if(containThisContact === true)

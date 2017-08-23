@@ -93,6 +93,8 @@ class TemplateController extends Controller
                 $city = $request['city'];
                 $phone = $request['phone'];
                 $salutation = $request['salutation'];
+                $emailer_object = $request['email_object'];
+                $emailer_content = $request['email_content'];
                 // update user data adresse
                 if($user){
                     User::where('id', $id)->update([
@@ -116,6 +118,8 @@ class TemplateController extends Controller
                 $template->object = $object;
                 $template->content = $content;
                 $template->salutation = $salutation;
+                $template->email_object = $emailer_object;
+                $template->email_content = $emailer_content;
                 $template->user_id = $id;
                 $template->save();
                 return new JsonResponse(
@@ -177,6 +181,8 @@ class TemplateController extends Controller
                 $object = $request['object'];
                 $content = $request['content'];
                 $salutation = $request['salutation'];
+                $emailer_object = $request['email_object'];
+                $emailer_content = $request['email_content'];
 
                 $random = str_random(16);
                 $slug = str_slug('tmp-'.$random, '-');
@@ -188,6 +194,8 @@ class TemplateController extends Controller
                 $template->content = $content;
                 $template->salutation = $salutation;
                 $template->user_id = $id;
+                $template->email_object = $emailer_object;
+                $template->email_content = $emailer_content;
                 $template->save();
                 return response()->json(
                     [
@@ -249,6 +257,8 @@ class TemplateController extends Controller
             $object = $request['object'];
             $content = $request['content'];
             $salutation = $request['salutation'];
+            $emailer_object = $request['email_object'];
+            $emailer_content = $request['email_content'];
             $random = str_random(16);
             $slug = str_slug($name . '-' . $random, '-');
             Template::where('id', $id)->update(
@@ -256,7 +266,9 @@ class TemplateController extends Controller
                     'name' => $name,
                     'object' => $object,
                     'content' => $content,
-                    'salutation' => $salutation
+                    'salutation' => $salutation,
+                    'email_object' => $emailer_object,
+                    'email_content' => $emailer_content
                 ]
             );
             $template = Template::where('id', $id)->first();
@@ -340,6 +352,8 @@ class TemplateController extends Controller
             $template->object = $oldTemplate->object;
             $template->content = $oldTemplate->content;
             $template->user_id = Auth::id();
+            $template->email_object = $oldTemplate->email_object;
+            $template->email_content = $oldTemplate->email_content;
             $template->save();
 
 

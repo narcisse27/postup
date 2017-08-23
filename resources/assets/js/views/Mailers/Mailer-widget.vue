@@ -25,11 +25,11 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Objet" v-model="mailerObject">
+                        <input type="text" class="form-control" placeholder="Objet" v-model="currentTemplate.mailer.object">
                     </div>
                     <div class="col-lg-12" id="mailer-content-toolbar"></div>
                     <div class="col-lg-12">
-                        <ckeditor v-model="mailerMessage" :config="configMailer"></ckeditor>
+                        <ckeditor v-model="currentTemplate.mailer.content" :config="configMailer"></ckeditor>
                     </div>
                 </div>
                 <button class="btn pull-right" @click="mailerSendToMe">Send Me</button>
@@ -177,6 +177,10 @@
             'Multiselect' : Multiselect,
             'ckeditor': Ckeditor
         },
+        props: {
+            recipientManagerList: [],
+            currentTemplate: []
+        },
         data() {
             return {
                 areaList: '',
@@ -184,7 +188,7 @@
                 userKey : '',
                 configMailer: {
                     language: 'fr',
-                    //removePlugins: 'elementspath',
+                    removePlugins: 'elementspath',
                     height: 200,
                     extraAllowedContent:
                     {
@@ -202,7 +206,6 @@
                         [ 'Bold', 'Italic', 'Underline','PostupAutomatisator']
                     ],
                 },
-                currentTemplate: {},
                 corporateFiltered: '',
                 corporatesearch: '',
                 corporatesToAdd: [],
@@ -217,6 +220,7 @@
                 "Cordialement"+
                 "Prénom Nom"+
                 "Numéro de téléphone</p>",
+                mailer: [],
                 mailsTags: [],
                 namesearch: '',
                 options: [],
@@ -228,12 +232,14 @@
                 showModal : false,
                 userData: [],
                 value: [],
+                valueRecipientsManager : [],
                 selectedEmailsNb: 0
             }
         },
         created() {
             var apiKey = document.getElementById('userKey').value;
             this.userKey = apiKey;
+
             axios.get('api/user?api_token='+this.userKey, {
             }).then((response) => {
                 this.userData = response.data;
@@ -241,21 +247,65 @@
                 .catch((error) => {
                         console.log(error);
                 });
+
         },
         watch: {
-            mailsearch : function(){
-                if(this.mailsearch != ""){
+
+            '$route': function(newRoute, oldRoute)
+            {
+
+                if(newRoute.params.type === "usine")
+                {
+                    axios.get('api/factorytemplate/convertSlug/'+newRoute.params.slug+'?api_token='+this.userKey)
+                            .then((response) => {
+                        console.log(response.data);
+                    this.loadThisFactoryTemplate(esponse.data.id); // load this factory template
+                })
+                .catch((error) => {
+                    console.log(error);
+                    //this.showLoadTemplateError();
+                    console.log('error convert factory slug');
+                });
+                    this.factoryTemplate = true;
+
+                }
+
+
+                if(newRoute.params.type === "mix")
+                {
+                    axios.get('api/template/convertSlug/'+newRoute.params.slug+'?api_token='+this.userKey)
+                            .then((response) => {
+                        console.log(response.data);
+                    this.loadThisTemplate(response.data); // load this private factory template
+                })
+                .catch((error) => {
+                    console.log(error);
+                    //this.showLoadTemplateError();
+                    console.log('error convert slug');
+                });
+
+                    this.factoryTemplate = false;
+                }
+            },
+
+            mailsearch : function()
+            {
+                if(this.mailsearch != "")
+                {
                     this.sendable = true;
                 }else{
                     this.sendable = false;
                 }
-                if(this.mailsToSendlength > 0){
+                if(this.mailsToSendlength > 0)
+                {
                     this.sendable = true;
                 }else{
                     this.sendable = false;
                 }
             },
-            value : function(){
+            value : function()
+            {
+
                 var modalState = false;
                 var corporatesUnknown = [];
                 $.each(this.value, function(key, value)
@@ -293,10 +343,54 @@
                     this.showModal = true; // change global var for active modal
                 }
 
-                this.selectedEmailsNb = $(this.value).toArray().length;
+                this.selectedEmailsNb = $(this.value).toArray().length + this.recipientManagerList.length;
+            },
+            recipientManagerList: function()
+            {
+                //alert('props changed');
+                console.log(this.recipientManagerList.length);
+                this.selectedEmailsNb = $(this.value).toArray().length + this.recipientManagerList.length;
+                this.valueRecipientsManager = this.recipientManagerList;
+
+
+            },
+            currentTemplate: function(){
+                //this.mailer = this.currentTemplate;
+                this.$emit('input', this.currentTemplate);
             }
         },
         methods: {
+            loadThisTemplate: function(id)
+            {
+
+
+                axios.get('api/template/'+id+'?api_token='+this.userKey)
+                        .then((response) => {
+                    console.log(response.data);
+                    this.currentTemplate.letter.currentDate = moment().format('LL');
+                    this.dataToTemplate(response.data);
+                })
+                    .catch((error) => {
+                    console.log(error);
+                    //this.showLoadTemplateError();
+                });
+
+            },
+            dataToTemplate: function(data)
+            {
+                this.currentTemplate.id = data.id;
+                this.currentTemplate.name = data.name;
+                this.currentTemplate.oldName = data.name;
+                this.currentTemplate.letter.object = data.object;
+                this.currentTemplate.letter.content = data.content;
+                this.currentTemplate.letter.salutation = data.salutation;
+                this.currentTemplate.updated_at = moment(String(data.updated_at)).format('DD/MM/YYYY à hh:mm');
+                this.currentTemplate.mailer.object = data.email_object;
+                this.currentTemplate.mailer.content = data.email_content;
+                this.templateName = data.name;
+                this.templateNameOld = data.name;
+                this.selectedTemplateId = data.id; // for template manager selected elements
+            },
             goToMailer: function(){
                 if($("#wrapper").attr('class') == "" || $("#wrapper").attr('class') === null)
                 {
@@ -377,8 +471,8 @@
 
                 axios.post('/api/emailer/sendToMe?api_token='+this.userKey, {
                     template_slug : this.$route.params.slug,
-                    mail_object: this.mailerObject,
-                    mail_content: this.mailerMessage
+                    mail_object: this.currentTemplate.mailer.object,
+                    mail_content: this.currentTemplate.mailer.content
                 })
                         .then((response) => {
                     //console.log(response.data);
@@ -497,18 +591,51 @@
             sendThisMailer: function()
             {
                 //console.log(this.value);
+                if(this.value != [])
+                {
+                        axios.post('/api/emailer/sendToRecipe?api_token=' + this.userKey, qs.stringify({
+                            slug: this.$route.params.slug,
+                            recipients_list: JSON.stringify(this.value),
+                            mail_object: this.currentTemplate.mailer.object,
+                            mail_content: this.currentTemplate.mailer.content
+                        })).then((response) => {
+                            console.log(response.data);
+                            this.userData.mails_reserve = this.userData.mails_reserve - this.value.length;
+                        }).
+                        catch((error) => {
+                                console.log(error.response);
+                        });
+                }
 
-                axios.post('/api/emailer/sendToRecipe?api_token='+this.userKey, qs.stringify({
-                    slug: this.$route.params.slug,
-                    recipients_list: JSON.stringify(this.value),
-                    mail_object: this.mailerObject,
-                    mail_content: this.mailerMessage
-                })).then((response) => {
-                    console.log(response.data);
+                // send to recipients from recipients manager
+                if(this.valueRecipientsManager != [])
+                {
 
-                 }).catch((error) => {
+                    var recipientsValue = [];
+                    $.each(this.valueRecipientsManager, function(index, value) {
+                    //    console.log(value);
+                        var recip = {
+                          name : value.email
+                        };
+                        recipientsValue.push(recip);
+                    });
+                    console.log(recipientsValue);
+
+                    axios.post('/api/emailer/sendToRecipe?api_token='+this.userKey, qs.stringify({
+                        slug: this.$route.params.slug,
+                        recipients_list: JSON.stringify(recipientsValue),
+                        mail_object: this.currentTemplate.mailer.object,
+                        mail_content: this.currentTemplate.mailer.content
+                        })).then((response) => {
+                            console.log(response.data);
+                            console.log('*** recipients value *****');
+                            console.log(recipientsValue);
+                            this.userData.mails_reserve = (this.userData.mails_reserve - this.valueRecipientsManager.length);
+
+                    }).catch((error) => {
                         console.log(error.response);
-                });
+                    });
+                }
 
             },
             checkField: function(data)
@@ -587,6 +714,10 @@
     .modal-wrapper {
         display: table-cell;
         vertical-align: middle;
+    }
+
+    .mailer-wrapper input{
+        font-size: 12px;
     }
 
     .modal-container {

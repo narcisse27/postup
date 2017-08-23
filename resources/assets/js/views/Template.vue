@@ -13,7 +13,6 @@
                 <User-Mini-Manager :currentTemplate.letter.adresse.sync="userData"></User-Mini-Manager>
             </div>
         </nav>
-
         <div id="wrapper">
             <!-- Sidebar -->
             <div id="slidebar-white" class="slidebar-nav">
@@ -24,9 +23,13 @@
                 </nav><!--/.navbar -->
             </div>
             <!--/.sidebar-nav -->
-
             <!-- Page Content -->
             <main id="page-wrapper6">
+                <!--
+                <button @click="statusTemplateLoading()">Loading</button>
+                <button @click="statusTemplateSuccess()">Success</button>
+                <button @click="statusTemplateError()">Error</button>
+                -->
                 <div class="container-fluid no-padding-left no-padding-right">
                     <div class="row no-padding-left no-padding-right">
                         <div class="col-lg-12 no-padding-left no-padding-right">
@@ -48,14 +51,44 @@
                                     </div>
                                     <div v-else class="ion-btn" @click="updateThisTemplate(currentTemplate.id)" id="currentTemplate.id">
                                         <!--<span class="ion-edit" title="mettre à jour les modifications"></span>-->
-                                        <div id="template-succes-animation" class="icon icon--order-success svg">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="auto">
-                                                <g fill="none" stroke="#8EC343" stroke-width="4">
-                                                    <circle cx="36" cy="36" r="25" style="stroke-dasharray:240px, 240px; stroke-dashoffset: 480px;"></circle>
-                                                    <path d="M17.417,37.778l9.93,9.909l25.444-25.393" style="stroke-dasharray:50px, 50px; stroke-dashoffset: 0px;"></path>
-                                                </g>
+                                        <div v-if="templateStatus == 'loading'">
+                                            <!--<span class="ion-refresh ion-rotate"></span>-->
+                                            <svg version="1.1" class="svg-template-picto" id="Calque_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="20" height="20"
+                                                 viewBox="0 0 132.2 132.2" style="enable-background:new 0 0 132.2 132.2;" xml:space="preserve">
+                                                <path  class="st0 ion-rotate" d="M129.1,69.2c-2.8-3.6-7.1-5.7-11.6-5.7c-6.7,0-12.6,4.6-14.3,11.1c-4.4,17.4-20.7,29.2-38.6,28.1
+                                                    c-18.8-1.1-33.9-16.2-35.1-35.1C28.4,49.7,40.2,33.5,57.6,29c6.6-1.7,11.1-7.5,11.1-14.3c0-4.6-2.1-8.8-5.7-11.6
+                                                    c-3.6-2.8-8.2-3.8-12.6-2.6C20.2,8.1-1,36.4,0,67.6c1.2,35,29.5,63.4,64.6,64.6c0.7,0,1.5,0,2.2,0c30.3,0,57.4-20.9,64.9-50.4
+                                                    C132.9,77.4,131.9,72.8,129.1,69.2z"/>
                                             </svg>
                                         </div>
+                                        <div v-if="templateStatus == 'success'">
+                                            <!--<span class="ion-checkmark-round ion-success-green"></span>-->
+                                            <svg version="1.1" class="svg-template-picto" id="Calque_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="20" height="20"
+                                                 viewBox="0 0 149.6 123.3" style="enable-background:new 0 0 149.6 123.3;" xml:space="preserve">
+                                                <path class="st1 ion-success-green" d="M143.9,3.2c-6.5-5.1-15.9-4-21.1,2.5L59.1,86.9L24.6,58.1C18.3,52.8,8.8,53.6,3.5,60C-1.8,66.4-1,75.8,5.4,81.1
+                                                    l46.3,38.7c0.1,0.1,0.1,0.1,0.2,0.1c0.1,0,0.1,0.1,0.2,0.1c0.1,0.1,0.3,0.2,0.4,0.3c0.2,0.1,0.3,0.2,0.5,0.4
+                                                    c0.2,0.1,0.4,0.2,0.6,0.4c0.2,0.1,0.4,0.2,0.5,0.3c0.2,0.1,0.4,0.2,0.6,0.3c0.2,0.1,0.4,0.2,0.5,0.3c0.2,0.1,0.4,0.2,0.6,0.3
+                                                    c0.2,0.1,0.4,0.1,0.5,0.2c0.2,0.1,0.5,0.1,0.7,0.2c0.2,0.1,0.3,0.1,0.5,0.2c0.3,0.1,0.5,0.1,0.8,0.2c0.2,0,0.3,0.1,0.5,0.1
+                                                    c0.3,0,0.6,0.1,0.9,0.1c0.1,0,0.2,0,0.4,0.1c0.4,0,0.8,0.1,1.2,0.1c0,0,0,0,0,0c0,0,0,0,0,0c0.5,0,1.1,0,1.6-0.1
+                                                    c0.2,0,0.3-0.1,0.5-0.1c0.4-0.1,0.8-0.1,1.1-0.2c0.2,0,0.4-0.1,0.6-0.2c0.3-0.1,0.7-0.2,1-0.3c0.2-0.1,0.4-0.2,0.6-0.2
+                                                    c0.3-0.1,0.6-0.2,0.9-0.4c0.2-0.1,0.4-0.2,0.6-0.3c0.3-0.1,0.6-0.3,0.8-0.5c0.2-0.1,0.4-0.3,0.6-0.4c0.2-0.2,0.5-0.3,0.7-0.5
+                                                    c0.2-0.2,0.4-0.3,0.6-0.5c0.2-0.2,0.4-0.4,0.7-0.6c0.2-0.2,0.4-0.4,0.6-0.6c0.2-0.2,0.3-0.3,0.5-0.5c0.1-0.1,0.1-0.1,0.1-0.2
+                                                    c0-0.1,0.1-0.1,0.1-0.2l73.3-93.3C151.5,17.7,150.4,8.3,143.9,3.2z"/>
+                                            </svg>
+                                        </div>
+                                        <div v-if="templateStatus == 'error'">
+                                            <!--<span class="ion-close-round ion-error-red"></span>-->
+                                            <svg version="1.1" class="svg-template-picto" id="Calque_1 ion-error-red" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="20" height="20"
+                                                 viewBox="0 0 100.7 100.7" style="enable-background:new 0 0 100.7 100.7;" xml:space="preserve">
+                                                <path class="st0" d="M96.3,75.1L71.6,50.4l24.7-24.7c5.9-5.9,5.9-15.4,0-21.2c-5.9-5.9-15.4-5.9-21.2,0L50.4,29.1L25.6,4.4
+                                                    c-5.9-5.9-15.4-5.9-21.2,0s-5.9,15.4,0,21.2l24.7,24.7L4.4,75.1c-5.9,5.9-5.9,15.4,0,21.2c5.9,5.9,15.4,5.9,21.2,0l24.7-24.7
+                                                    l24.7,24.7c5.9,5.9,15.4,5.9,21.2,0C102.2,90.5,102.2,81,96.3,75.1z"/>
+                                            </svg>
+                                        </div>
+                                        <!--<div id="template-succes-animation" class="icon icon--order-success svg">
+
+                                        </div>
+                                        -->
                                     </div>
                                 </div>
                                 <div class="col-lg-2">
@@ -250,11 +283,12 @@
                                 </div>
 
                                 <div id="recipient-manger-col-wrapper"  v-if="page == 'mailer'"  v-cloak>
-                                    <Recipient-manager></Recipient-manager>
+                                    <Recipient-manager v-model="recipientManagerList"></Recipient-manager>
                                 </div>
 
                                 <!-- Mailer -->
-                                <Mailer v-model="page" :userData="userData" :template.sync="currentTemplate"></Mailer>
+                                <!-- -->
+                                <Mailer v-model="page" v-bind:recipientManagerList="recipientManagerList" v-bind:currentTemplate="currentTemplate" ></Mailer>
                                 <!-- End Mailer -->
 
                             </div>
@@ -342,6 +376,10 @@
                         content: '',
                         salutation: ''
                     },
+                    mailer: {
+                      object: '',
+                      content: ''
+                    },
                     appendices:[
                         { id: 0 , name: 'cv.pdf', file: 'cv.pdf' },
                         { id: 1 , name: 'titre.pdf', file: 'titre.pdf' },
@@ -361,6 +399,7 @@
                 pageLoading: true,
                 preloadingPdf: true,
                 page: 'letter',
+                recipientManagerList: [],
                 regionsearch: '',
                 selectedTemplateId: '',
                 sendable : true,
@@ -368,12 +407,13 @@
                 templateName: '',
                 templateNameOld: '',
                 templateCreateNew : false,
+                templateStatus: '', // loading success error
                 template: [],
                 userKey: '',
                 userId: '',
                 userLastname: '',
                 userData: [],
-                userAdresse: {}
+                userAdresse: {},
 
             }
         },
@@ -392,16 +432,18 @@
             this.currentTemplate.letter.adresse.phone = response.data.phone;
             this.currentTemplate.letter.adresse.email = response.data.email;
             this.currentTemplate.updated_at = moment(String(response.data.updated_at)).format('DD/MM/YYYY à hh:mm');
+            this.statusTemplateSuccess();
         });
             // end get user data
             var content;
             if(this.$route.params.type == "usine")
             {
+                this.statusTemplateLoading();
                 axios.get('api/factorytemplate/convertSlug/'+this.$route.params.slug+'?api_token='+this.userKey)
                         .then((response) => {
                     console.log(response.data.id);
                 this.loadThisFactoryTemplate(response.data.id);
-                console.log()
+                this.statusTemplateSuccess();
             })
             .catch((error) => {
                 console.log(error);
@@ -413,11 +455,12 @@
 
             if(this.$route.params.type == "mix")
             {
-
+                this.statusTemplateLoading();
                 axios.get('api/template/convertSlug/'+this.$route.params.slug+'?api_token='+this.userKey)
                         .then((response) => {
                     console.log(response.data);
                 this.loadThisTemplate(response.data);
+                this.statusTemplateSuccess();
             })
             .catch((error) => {
                 console.log(error);
@@ -456,10 +499,12 @@
 
                 if(newRoute.params.type === "usine")
                 {
+                    this.statusTemplateLoading();
                     axios.get('api/factorytemplate/convertSlug/'+newRoute.params.slug+'?api_token='+this.userKey)
                             .then((response) => {
                         console.log(response.data);
                     this.loadThisFactoryTemplate(esponse.data.id); // load this factory template
+                    this.statusTemplateSuccess();
                 })
                 .catch((error) => {
                     console.log(error);
@@ -473,10 +518,12 @@
 
                 if(newRoute.params.type === "mix")
                 {
+                    this.statusTemplateLoading();
                     axios.get('api/template/convertSlug/'+newRoute.params.slug+'?api_token='+this.userKey)
                             .then((response) => {
                         console.log(response.data);
                     this.loadThisTemplate(response.data); // load this private factory template
+                    this.statusTemplateSuccess();
                 })
                 .catch((error) => {
                     console.log(error);
@@ -487,6 +534,7 @@
                     this.factoryTemplate = false;
                 }
             },
+
         },
         computed: {
 
@@ -495,18 +543,19 @@
 
             refreshAppendice: function()
             {
-                axios.get('/api/appendice/'+this.currentTemplate.id+'?api_token='+this.userKey, {
-
-                })
+                this.statusTemplateLoading();
+                axios.get('/api/appendice/'+this.currentTemplate.id+'?api_token='+this.userKey)
                         .then((response) => {
                     //console.log(response.data);
                     this.currentTemplate.appendices = response.data;
+                    this.statusTemplateSuccess();
             })
-                .catch((error) => {
-                //console.log(error.response.data.message);
-            });
+                    .catch((error) => {
+                    //console.log(error.response.data.message);
+                });
             },
             updateAppendiceName: function(appendice){
+                this.statusTemplateLoading();
                 axios.put('/api/appendice/'+appendice.id+'/?api_token='+this.userKey, {
                     id: appendice.id,
                     name: appendice.name
@@ -514,9 +563,9 @@
                         .then((response) => {
                     //console.log(response.data);
                     this.refreshTemplateManager(); // refresh all data in template manager
-                this.refreshAppendice();
-                this.animateSuccess();
-
+                    this.refreshAppendice();
+                    this.animateSuccess();
+                    this.statusTemplateSuccess();
             })
                 .catch((error) => {
                     //console.log(error.response.data.message);
@@ -531,6 +580,7 @@
                 fileReader.readAsDataURL(e.target.files[0]);
                 fileReader.onload = (e) => {
                 var newAppendice = {};
+                this.statusTemplateLoading();
                 axios.post('/api/appendice?api_token='+this.userKey, {
                     appendice : e.target.result,
                     extension: type,
@@ -540,10 +590,10 @@
                         .then((response) => {
                     //console.log(response.data);
                     this.refreshAppendice(); // refresh all appendices in appendices manager
-                this.refreshTemplateManager(); // refresh all data in template manager
-                $('#appendiceInputFile').val(""); //  empty input value
-
-            })
+                    this.refreshTemplateManager(); // refresh all data in template manager
+                    $('#appendiceInputFile').val(""); //  empty input value
+                    this.statusTemplateSuccess();
+                })
             .catch((error) => {
                     //console.log(error.response.data.message);
                 });
@@ -551,21 +601,18 @@
             },
             deleteAppendice: function(appendice)
             {
-                axios.delete('/api/appendice/'+appendice.id+'/?api_token='+this.userKey, {
-
-                })
+                this.statusTemplateLoading();
+                axios.delete('/api/appendice/'+appendice.id+'/?api_token='+this.userKey)
                         .then((response) => {
                     console.log(response.data);
-                this.refreshTemplateManager(); // refresh all data in template manager
-                this.refreshAppendice();
-                if(error.response.data.code == 409){
-                    console.log(error.response.data.message);
-                    this.showAddAppendiceError();
-                }else{
-
-
-                }
-                // TODO succes message
+                    this.refreshTemplateManager(); // refresh all data in template manager
+                    this.refreshAppendice();
+                    if(error.response.data.code == 409){
+                        console.log(error.response.data.message);
+                        this.showAddAppendiceError();
+                    }else{
+                    }
+                    this.statusTemplateSuccess();
             })
                 .catch((error) => {
 
@@ -594,14 +641,12 @@
                 if(this.templateName != this.templateNameOld)
                 {
                     this.templateCreateNew = true;
-
                 }else
                 {
                     this.templateCreateNew = false;
                 }
             },
-            dataToTemplate: function(data)
-            {
+            dataToTemplate: function(data){
                 this.currentTemplate.id = data.id;
                 this.currentTemplate.name = data.name;
                 this.currentTemplate.oldName = data.name;
@@ -612,6 +657,8 @@
                 this.templateName = data.name;
                 this.templateNameOld = data.name;
                 this.selectedTemplateId = data.id; // for template manager selected elements
+                this.currentTemplate.mailer.object = data.email_object;
+                this.currentTemplate.mailer.content = data.email_content;
             },
             createNewTemplate: function()
             {
@@ -627,6 +674,7 @@
                 }else
                 {
 
+                    this.statusTemplateLoading();
                     axios.post('/api/template?api_token='+this.userKey, {
                         user_id: this.userId,
                         name : this.currentTemplate.name,
@@ -637,12 +685,16 @@
                         npa: this.currentTemplate.letter.adresse.npa,
                         city: this.currentTemplate.letter.adresse.city,
                         phone: this.currentTemplate.letter.adresse.phone,
+                        email_object: this.currentTemplate.mailer.object,
+                        email_content: this.currentTemplate.mailer.content
 
                     })
                             .then((response) => {
                         //console.log(response.data);
                         this.refreshTemplateManager(); // refresh all data in template manager
-                        this.showSuccessNotification({message: response.data.message});
+                        //this.showSuccessNotification({message: response.data.message});
+                        this.statusTemplateSuccess();
+
                 })
                 .catch((error) => {
                     //console.log(error.response.data.message);
@@ -656,21 +708,26 @@
             updateThisTemplate: function(id)
             {
                 this.template.name = this.templateName;
+                this.statusTemplateLoading();
                 axios.patch('api/template/'+id+'?api_token='+this.userKey, {
                     id: this.currentTemplate.id,
                     name: this.currentTemplate.name,
                     content: this.currentTemplate.letter.content,
                     object: this.currentTemplate.letter.object,
                     salutation: this.currentTemplate.letter.salutation,
+                    email_object: this.currentTemplate.mailer.object,
+                    email_content: this.currentTemplate.mailer.content
 
                 })
                         .then((response) => {
                         this.refreshTemplateManager(); // refresh all data in template manager
                         this.showTemplateUpdateSuccess();
                         this.currentTemplate.updated_at = moment().format('DD/MM/YYYY à HH:mm');
-                        this.animateSuccess();
+                        //this.animateSuccess();
+                        this.statusTemplateSuccess();
 
-                })
+
+            })
                 .catch((error) => {
                 console.log(error);
                 //TODO: add error msg
@@ -680,51 +737,49 @@
             loadThisTemplate: function(id)
             {
 
-
-                axios.get('api/template/'+id+'?api_token='+this.userKey, {
-
-                })
-                        .then((response) => {
+                this.statusTemplateLoading();
+                axios.get('api/template/'+id+'?api_token='+this.userKey)
+                .then((response) => {
                     console.log(response.data);
-                this.currentTemplate.letter.currentDate = moment().format('LL');
-                this.dataToTemplate(response.data);
-                this.refreshAppendice();
-                //var editor = tinymce.get('letter-personal-content'); TODO delete when handmande wysiwig ok
-                //editor.setContent( this.currentTemplate.letter.content ); //TODO delete when handmande wysiwig ok change dinamicly tiny content
+                    this.currentTemplate.letter.currentDate = moment().format('LL');
+                    this.dataToTemplate(response.data);
+                    this.refreshAppendice();
+                    this.statusTemplateSuccess();
 
             })
                 .catch((error) => {
-                console.log(error);
-                this.showLoadTemplateError();
-            });
+                    console.log("*************Error Loading Template ***********");
+                    console.log(error);
+                    this.showLoadTemplateError();
+                });
 
             },
             loadThisFactoryTemplate: function(id)
             {
 
-
-                axios.get('api/factorytemplate/'+id+'?api_token='+this.userKey, {
-
-                })
-                        .then((response) => {
+                this.statusTemplateLoading();
+                axios.get('api/factorytemplate/'+id+'?api_token='+this.userKey)
+                .then((response) => {
                     console.log(response.data);
-                this.currentTemplate.letter.currentDate = moment().format('LL');
-                this.dataToTemplate(response.data);
-                this.refreshAppendice();
+                    this.currentTemplate.letter.currentDate = moment().format('LL');
+                    this.dataToTemplate(response.data);
+                    this.refreshAppendice();
+                    this.statusTemplateSuccess();
             })
                 .catch((error) => {
-                console.log(error);
-                this.showLoadTemplateError();
-            });
+                    console.log(error);
+                    this.showLoadTemplateError();
+                });
 
             },
 
             refreshTemplateManager: function ()
             {
-                axios.get('api/template?api_token='+this.userKey, {
-                })
-                        .then((response) => {
-                    this.myTemplates = response.data[0];
+                this.statusTemplateLoading();
+                axios.get('api/template?api_token='+this.userKey)
+                    .then((response) => {
+                        this.myTemplates = response.data[0];
+                        this.statusTemplateSuccess();
                 })
                     .catch((error) => {
                     //console.log(error);
@@ -762,6 +817,18 @@
                     this.pageLoading = false;
                     self.pageLoading = false;
                 }, 2000);
+            },
+            statusTemplateLoading: function()
+            {
+                this.templateStatus = 'loading';
+            },
+            statusTemplateSuccess: function()
+            {
+                this.templateStatus = 'success';
+            },
+            statusTemplateError: function()
+            {
+                this.templateStatus = 'error';
             }
         },
         notifications: {
@@ -789,11 +856,6 @@
                 title: 'Oups!!',
                 message: "le template n'a pas pu être crée!",
                 type: 'error' //Default: 'info', also you can use VueNotifications.type.error instead of 'error'
-            },
-            showTemplateUpdateSuccess: {
-                title: 'Super!',
-                message: 'Le modèle a bien été mise à jour',
-                type: 'success' //Default: 'info', also you can use VueNotifications.type.error instead of 'error'
             },
             showTemplateDeleteSuccess: {
                 title: 'Succès!',
@@ -827,7 +889,7 @@
             },
             showLoadTemplateError: {
                 title: 'Oups!',
-                message: "Une erreur s'est produite lors du chargement de ce tempalte, veuillez actualiser la page.",
+                message: "Une erreur s'est produite lors du chargement de ce template, veuillez actualiser la page.",
                 type: 'error'
             },
             showAddAppendiceError: {
@@ -840,6 +902,85 @@
     }
 </script>
 <style>
+    .st0{
+        fill:#EC0B61;
+    }
+    .st1{
+        fill:#00D01C;
+    }
+
+    .ion-rotate{
+        animation-name: rotateInfinite;
+        animation-duration: 1s;
+        /* Things added */
+        animation-iteration-count: infinite;
+        transform-origin: 50% 50%;
+        display: inline-block;
+        font-size: 16px;
+        transition: 100ms;
+    }
+
+    @keyframes rotateInfinite {
+        0% {
+            fill: #EC4A61 ;
+            transition: 200ms;
+            transform: rotate(0deg);
+        }
+        25% {
+            fill: #CD3C89 ;
+            transition: 200ms;
+        }
+        50% {
+            fill: #B42EA9 ;
+            transition: 200ms;
+        }
+        75% {
+            fill: #911FD6 ;
+            transition: 200ms;
+        }
+        100% {
+            fill: #7915F3 ;
+            transition: 200ms;
+            transform: rotate(360deg);
+        }
+    }
+    .svg-template-picto{
+        width: 20;
+        height: 20;
+        animation: scalePictoLoading;
+        animation-direction: 100ms;
+        -webkit-animation-name: scalePictoLoading; /* Safari 4.0 - 8.0 */
+        -webkit-animation-duration: 100ms; /* Safari 4.0 - 8.0 */
+    }
+    .ion-error-red{
+        color: #f7006b;
+        -webkit-transition: opacity 100ms, visibility 100ms;
+        transition: opacity 100ms, visibility 100ms;
+    }
+
+    @-webkit-keyframes scalePictoLoading {
+        from {
+            width: 0;
+            height:0;}
+        to {
+            width: 30;
+            height: 30;
+        }
+    }
+
+    /* Standard syntax */
+    @keyframes scalePictoLoading {
+        from {
+            width: 0;
+            height:0;}
+        to {
+            width: 30;
+            height: 30;
+        }
+    }
+
+
+
     input {
         outline: none;
         border: none !important;
@@ -1317,4 +1458,72 @@
             margin-top: 70px;
         }
     }
+
+
+
+
+    .loader {
+        position: relative;
+        margin: 0px auto;
+        width: 100px;
+        height:100px;
+        zoom: $zoom;
+    }
+    .circular{animation:rotate 2s linear forwards ;width:100px;height:100px;position:relative}
+    .path{stroke:#007aff; stroke-dasharray: 1,200;
+        stroke-dashoffset: 0;
+        animation:
+                dash 1.5s ease-in-out forwards,
+                color 6s ease-in-out infinite
+    ;
+        stroke-linecap: round;}
+    @keyframes dash{
+        0%{
+            stroke-dasharray: 1,200;
+            stroke-dashoffset: 0;
+        }
+
+        100%{
+            stroke-dasharray: 150,200;
+            stroke-dashoffset: 10;
+        }
+
+    }
+    @keyframes color{
+        100%, 0%{
+            stroke: #f00;
+        }
+        40%{
+            stroke: #007aff;
+        }
+        66%{
+            stroke: #24555d;
+        }
+        80%, 90%{
+            stroke: #789642;
+        }
+    }
+    @keyframes rotate{
+        100%{transform:rotate(360deg)}
+    }
+
+    .checkmark__check {
+        transform-origin: 50% 50%;
+        stroke-dasharray: 48;
+        stroke-dashoffset: 48;
+
+        animation: stroke 0.5s  cubic-bezier(0.65, 0, 0.45, 1) 1.5s forwards, color 6s linear infinite;}
+    @keyframes stroke {
+        100% {
+            stroke-dashoffset: 0;
+        }
+    }
+    .suc{
+        stroke:#007aff;
+        stroke-width:2;
+        position:absolute;top:30px;left:30px;
+        width:40px;height:40px;
+    }
+
+
 </style>

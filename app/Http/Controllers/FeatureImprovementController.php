@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\FeatureImprovement;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -65,7 +67,20 @@ class FeatureImprovementController extends Controller
      */
     public function show($id)
     {
-        //
+
+        if(Auth::check())
+        {
+            $feature = FeatureImprovement::where('id', $id)->first();
+            if($feature != "" && $feature != null)
+            {
+
+                $user = User::where('id', $feature->user_id)->first();
+
+                return view('admin.improvements.improvement-index', ['user' => $user, 'feature' => $feature]);
+            }
+
+
+        }
     }
 
     /**
@@ -100,5 +115,17 @@ class FeatureImprovementController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function listAll()
+    {
+        if(Auth::check())
+        {
+
+            $features = FeatureImprovement::all();
+
+            return view('admin.improvements.improvements', ['features' => $features]);
+
+        }
     }
 }

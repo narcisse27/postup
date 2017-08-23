@@ -3,47 +3,49 @@
         <div class="row">
             <div class="col-lg-12 card">
                 <div class="panel panel-default">
-                    <div class="panel-heading heading-custom">
-                        <div class="col-lg-12">
-                            <div class="col-lg-2">
-                                <img :src="'storage/' + userData.picture_name" alt="user profil picture" draggable="false" class="img img-responsive img-avatar">
-                            </div>
-                                {{ userData.firstname }} {{ userData.lastname}}
+                    <div class="panel-heading heading-custom text-center">
+                        <div class="col-lg-1">
+                            <img :src="'storage/' + userData.picture_name" alt="user profil picture" draggable="false" class="img img-responsive img-avatar">
+                        </div>
+                        <div class="col-lg-9">
+                            Carnet de postulation
                         </div>
                     </div>
                     <div class="panel-body">
-                        <div class="col-lg-12">
-                            <span>Historique de vos postulations</span>
-                        </div>
-                        <div class="col-lg-12">
-                            <a href="/desk">Bureau</a>
-                        </div>
-                        <div id="hostory-content-scroll">
-                            <div class="col-lg-12">
-                                <div class="col-lg-4">
-                                    <h5>Modèle</h5>
-                                </div>
-                                <div class="col-lg-4">
-                                    <h5>Destinataire</h5>
-                                </div>
-                                <div class="col-lg-4">
-                                    <h5>Date d'envoi</h5>
+                        <div class="row">
+                            <div class="col-lg-5">
+                                <div id="hostory-content-scroll">
+                                    <div class="col-lg-12">
+                                        <div class="col-lg-4">
+                                            <h5>Modèle</h5>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <h5>Destinataire</h5>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <h5>Date d'envoi</h5>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-12 list-item" v-for="item in history">
+                                        <div class="col-lg-4">
+                                            {{ item.template.name }}
+                                        </div>
+                                        <div class="col-lg-4">
+                                            {{ item.corporate.name }}
+                                        </div>
+                                        <div class="col-lg-4">
+                                            {{ item.created_at }}
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
-
-                            <div class="col-lg-12 list-item" v-for="item in history">
-                                <div class="col-lg-4">
-                                    {{ item.template.name }}
-                                </div>
-                                <div class="col-lg-4">
-                                    {{ item.corporate.name }}
-                                </div>
-                                <div class="col-lg-4">
-                                    {{ item.created_at }}
-                                </div>
+                            <div class="col-lg-7">
+                                <img src="http://lorempicsum.com/futurama/350/200/1" alt="">
                             </div>
-
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -89,5 +91,10 @@ export default {
     }
     .list-item{
         border-bottom: 1px solid gainsboro;
+    }
+
+    #panel-data{
+        height: 100%;
+        width: 100%;
     }
 </style>

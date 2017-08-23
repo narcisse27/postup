@@ -18,7 +18,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        $users = User::all();
+        return view('admin.users.users', ['users' => $users]);
     }
 
     /**
@@ -50,7 +51,12 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        if(Auth::check())
+        {
+            $user = User::where('id', $id)->first();
+            return view('admin.users.user-index', [ 'user' =>  $user]);
+
+        }
     }
 
     /**

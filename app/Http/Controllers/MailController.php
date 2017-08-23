@@ -8,14 +8,21 @@ use App\FactoryTemplate;
 use App\Improvement;
 use App\MailSended;
 use App\Template;
+use App\User;
 use Mail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Controllers\PdfController;
+
 class MailController extends Controller
 {
-
+    protected $pdfController;
+    public function __construct(PdfController $pdfController)
+    {
+        $this->pdfController = $pdfController;
+    }
 
     public function sendToRecipient(Request $request)
     {
@@ -73,26 +80,40 @@ class MailController extends Controller
                 $mailsSended = new MailSended();
                 $mailsSended->user_id = Auth::id();
                 $mailsSended->template_id = $template->id;
+                $mailsSended->template_name = $template->name;
+                $mailsSended->content = $template->content;
+                $mailsSended->salutation = $template->salutation;
                 $mailsSended->corporate_id = $recipient->id;
                 $mailsSended->mail_object = $request['mail_object'];
+                $mailsSended->mail_content = $request['mail_content'];
                 $mailsSended->test_mail = false; // this sending is one test (destinated to me)
                 $mailsSended->save();
 
 
+                $pdfData = $this->pdfController->generateSendablePdf($template->id, $recipient->id);
+                $data['pdf_name'] = $pdfData;
+                //return $data['pdf_name'];
                 Mail::send('emails.mail', [ 'mailContent' => $request['mail_content']], function ($message) use ($data)
                 {
                     $message->from(Auth::user()->email, $data['mail_object']);
                     $message->subject($data['mail_object']); // mail object
-                    foreach($data['appendices'] as $appendice)
+
+                    // motivation letter attach
+                    $pdf = public_path().'/temp/'.$data['pdf_name'];
+                    $message->attach($pdf, ['as' => 'lettre_de_motivation.pdf']);
+
+
+                    foreach($data['appendices'] as $appendice) // attach all another appendices
                     {
                         $file = storage_path('app/'.$appendice->filename);
-                        //$message->attach( $file , ['as' => $appendice->name, 'mime' => $appendice->type]);
+                        $message->attach( $file , ['as' => $appendice->name, 'mime' => $appendice->type]);
                     }
                     $message->to($data['to']);
                 });
 
-                // store this mail datat
-
+                $user = User::where('id', Auth::id())->first();
+                $userReserveMail = $user->mails_reserve;
+                User::where('id', Auth::id())->decrement('mails_reserve');
 
             }
 

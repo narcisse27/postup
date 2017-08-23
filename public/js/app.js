@@ -31018,6 +31018,10 @@ var qs = __webpack_require__(183);
         'Multiselect': __WEBPACK_IMPORTED_MODULE_0_vue_multiselect___default.a,
         'ckeditor': __WEBPACK_IMPORTED_MODULE_1_vue_ckeditor2___default.a
     },
+    props: {
+        recipientManagerList: [],
+        currentTemplate: []
+    },
     data: function data() {
         return {
             areaList: '',
@@ -31025,7 +31029,7 @@ var qs = __webpack_require__(183);
             userKey: '',
             configMailer: {
                 language: 'fr',
-                //removePlugins: 'elementspath',
+                removePlugins: 'elementspath',
                 height: 200,
                 extraAllowedContent: {
                     span: {
@@ -31040,7 +31044,6 @@ var qs = __webpack_require__(183);
                 },
                 toolbar: [['Bold', 'Italic', 'Underline', 'PostupAutomatisator']]
             },
-            currentTemplate: {},
             corporateFiltered: '',
             corporatesearch: '',
             corporatesToAdd: [],
@@ -31050,6 +31053,7 @@ var qs = __webpack_require__(183);
             mailsToSend: [],
             mailerObject: '',
             mailerMessage: "<p>Je vous propose ma candidature spontanée pour un poste de… . Afin que vous puissiez en savoir plus sur mes compétences et" + "mes motivations, je vous joins mon CV et ma lettre de motivation." + "Disponible dans les plus brefs délais, je suis à votre disposition pour d’éventuelles informations complémentaires." + "Cordialement" + "Prénom Nom" + "Numéro de téléphone</p>",
+            mailer: [],
             mailsTags: [],
             namesearch: '',
             options: [],
@@ -31061,6 +31065,7 @@ var qs = __webpack_require__(183);
             showModal: false,
             userData: [],
             value: [],
+            valueRecipientsManager: [],
             selectedEmailsNb: 0
         };
     },
@@ -31069,6 +31074,7 @@ var qs = __webpack_require__(183);
 
         var apiKey = document.getElementById('userKey').value;
         this.userKey = apiKey;
+
         axios.get('api/user?api_token=' + this.userKey, {}).then(function (response) {
             _this.userData = response.data;
         }).catch(function (error) {
@@ -31077,6 +31083,36 @@ var qs = __webpack_require__(183);
     },
 
     watch: {
+
+        '$route': function $route(newRoute, oldRoute) {
+            var _this2 = this;
+
+            if (newRoute.params.type === "usine") {
+                axios.get('api/factorytemplate/convertSlug/' + newRoute.params.slug + '?api_token=' + this.userKey).then(function (response) {
+                    console.log(response.data);
+                    _this2.loadThisFactoryTemplate(esponse.data.id); // load this factory template
+                }).catch(function (error) {
+                    console.log(error);
+                    //this.showLoadTemplateError();
+                    console.log('error convert factory slug');
+                });
+                this.factoryTemplate = true;
+            }
+
+            if (newRoute.params.type === "mix") {
+                axios.get('api/template/convertSlug/' + newRoute.params.slug + '?api_token=' + this.userKey).then(function (response) {
+                    console.log(response.data);
+                    _this2.loadThisTemplate(response.data); // load this private factory template
+                }).catch(function (error) {
+                    console.log(error);
+                    //this.showLoadTemplateError();
+                    console.log('error convert slug');
+                });
+
+                this.factoryTemplate = false;
+            }
+        },
+
         mailsearch: function mailsearch() {
             if (this.mailsearch != "") {
                 this.sendable = true;
@@ -31090,6 +31126,7 @@ var qs = __webpack_require__(183);
             }
         },
         value: function value() {
+
             var modalState = false;
             var corporatesUnknown = [];
             $.each(this.value, function (key, value) {
@@ -31124,10 +31161,46 @@ var qs = __webpack_require__(183);
                 this.showModal = true; // change global var for active modal
             }
 
-            this.selectedEmailsNb = $(this.value).toArray().length;
+            this.selectedEmailsNb = $(this.value).toArray().length + this.recipientManagerList.length;
+        },
+        recipientManagerList: function recipientManagerList() {
+            //alert('props changed');
+            console.log(this.recipientManagerList.length);
+            this.selectedEmailsNb = $(this.value).toArray().length + this.recipientManagerList.length;
+            this.valueRecipientsManager = this.recipientManagerList;
+        },
+        currentTemplate: function currentTemplate() {
+            //this.mailer = this.currentTemplate;
+            this.$emit('input', this.currentTemplate);
         }
     },
     methods: (_methods = {
+        loadThisTemplate: function loadThisTemplate(id) {
+            var _this3 = this;
+
+            axios.get('api/template/' + id + '?api_token=' + this.userKey).then(function (response) {
+                console.log(response.data);
+                _this3.currentTemplate.letter.currentDate = moment().format('LL');
+                _this3.dataToTemplate(response.data);
+            }).catch(function (error) {
+                console.log(error);
+                //this.showLoadTemplateError();
+            });
+        },
+        dataToTemplate: function dataToTemplate(data) {
+            this.currentTemplate.id = data.id;
+            this.currentTemplate.name = data.name;
+            this.currentTemplate.oldName = data.name;
+            this.currentTemplate.letter.object = data.object;
+            this.currentTemplate.letter.content = data.content;
+            this.currentTemplate.letter.salutation = data.salutation;
+            this.currentTemplate.updated_at = moment(String(data.updated_at)).format('DD/MM/YYYY à hh:mm');
+            this.currentTemplate.mailer.object = data.email_object;
+            this.currentTemplate.mailer.content = data.email_content;
+            this.templateName = data.name;
+            this.templateNameOld = data.name;
+            this.selectedTemplateId = data.id; // for template manager selected elements
+        },
         goToMailer: function goToMailer() {
             if ($("#wrapper").attr('class') == "" || $("#wrapper").attr('class') === null) {
                 $("#wrapper").toggleClass("active"); // close the side navbar
@@ -31151,7 +31224,7 @@ var qs = __webpack_require__(183);
         },
         putTomailsToSend: function putTomailsToSend(contact) {},
         refreshMailSearch: function refreshMailSearch() {
-            var _this2 = this;
+            var _this4 = this;
 
             if (this.mailsearch.length > 2) {
 
@@ -31162,8 +31235,8 @@ var qs = __webpack_require__(183);
                 }).then(function (response) {
 
                     //console.log(response.data);
-                    var self = _this2;
-                    _this2.recipientsList = response.data;
+                    var self = _this4;
+                    _this4.recipientsList = response.data;
                 }).catch(function (error) {
 
                     console.log(error);
@@ -31172,7 +31245,7 @@ var qs = __webpack_require__(183);
             }
         },
         areaSearch: function areaSearch() {
-            var _this3 = this;
+            var _this5 = this;
 
             if (this.areasearch.length > 2) {
                 axios.get('/api/search/area?area=' + this.areasearch, {
@@ -31182,7 +31255,7 @@ var qs = __webpack_require__(183);
                 }).then(function (response) {
 
                     //console.log(response.data);
-                    _this3.areaList = response.data;
+                    _this5.areaList = response.data;
                 }).catch(function (error) {
 
                     //console.log(error);
@@ -31195,8 +31268,8 @@ var qs = __webpack_require__(183);
 
             axios.post('/api/emailer/sendToMe?api_token=' + this.userKey, {
                 template_slug: this.$route.params.slug,
-                mail_object: this.mailerObject,
-                mail_content: this.mailerMessage
+                mail_object: this.currentTemplate.mailer.object,
+                mail_content: this.currentTemplate.mailer.content
             }).then(function (response) {
                 //console.log(response.data);
                 // TODO add success message
@@ -31229,7 +31302,7 @@ var qs = __webpack_require__(183);
             }
         },
         reloadCorporates: function reloadCorporates(newTag) {
-            var _this4 = this;
+            var _this6 = this;
 
             if (newTag.length > 2) {
                 this.options = [];
@@ -31245,7 +31318,7 @@ var qs = __webpack_require__(183);
 
                         allTags.push(tag);
                     });
-                    _this4.options = allTags;
+                    _this6.options = allTags;
                 }).catch(function (error) {
 
                     console.log(error);
@@ -31256,13 +31329,13 @@ var qs = __webpack_require__(183);
 
         checkUnknownMail: function checkUnknownMail(email) {},
         regionSearch: function regionSearch(region) {
-            var _this5 = this;
+            var _this7 = this;
 
             if (region.length > 2) {
 
                 axios.get('/api/search/region?region=' + region + '&api_token=' + this.userKey).then(function (response) {
                     //console.log(response.data);
-                    _this5.regionList = response.data;
+                    _this7.regionList = response.data;
                 }).catch(function (error) {
                     console.log(error);
                     //TODO: add error msg
@@ -31270,13 +31343,13 @@ var qs = __webpack_require__(183);
             }
         }
     }, _defineProperty(_methods, 'areaSearch', function areaSearch(search) {
-        var _this6 = this;
+        var _this8 = this;
 
         if (search.length > 2) {
 
             axios.get('/api/search/area?area=' + search + '&api_token=' + this.userKey).then(function (response) {
                 console.log(response.data);
-                _this6.areaList = response.data;
+                _this8.areaList = response.data;
             }).catch(function (error) {
 
                 //console.log(error);
@@ -31285,18 +31358,50 @@ var qs = __webpack_require__(183);
             });
         }
     }), _defineProperty(_methods, 'sendThisMailer', function sendThisMailer() {
-        //console.log(this.value);
+        var _this9 = this;
 
-        axios.post('/api/emailer/sendToRecipe?api_token=' + this.userKey, qs.stringify({
-            slug: this.$route.params.slug,
-            recipients_list: JSON.stringify(this.value),
-            mail_object: this.mailerObject,
-            mail_content: this.mailerMessage
-        })).then(function (response) {
-            console.log(response.data);
-        }).catch(function (error) {
-            console.log(error.response);
-        });
+        //console.log(this.value);
+        if (this.value != []) {
+            axios.post('/api/emailer/sendToRecipe?api_token=' + this.userKey, qs.stringify({
+                slug: this.$route.params.slug,
+                recipients_list: JSON.stringify(this.value),
+                mail_object: this.currentTemplate.mailer.object,
+                mail_content: this.currentTemplate.mailer.content
+            })).then(function (response) {
+                console.log(response.data);
+                _this9.userData.mails_reserve = _this9.userData.mails_reserve - _this9.value.length;
+            }).catch(function (error) {
+                console.log(error.response);
+            });
+        }
+
+        // send to recipients from recipients manager
+        if (this.valueRecipientsManager != []) {
+
+            var recipientsValue = [];
+            $.each(this.valueRecipientsManager, function (index, value) {
+                //    console.log(value);
+                var recip = {
+                    name: value.email
+                };
+                recipientsValue.push(recip);
+            });
+            console.log(recipientsValue);
+
+            axios.post('/api/emailer/sendToRecipe?api_token=' + this.userKey, qs.stringify({
+                slug: this.$route.params.slug,
+                recipients_list: JSON.stringify(recipientsValue),
+                mail_object: this.currentTemplate.mailer.object,
+                mail_content: this.currentTemplate.mailer.content
+            })).then(function (response) {
+                console.log(response.data);
+                console.log('*** recipients value *****');
+                console.log(recipientsValue);
+                _this9.userData.mails_reserve = _this9.userData.mails_reserve - _this9.valueRecipientsManager.length;
+            }).catch(function (error) {
+                console.log(error.response);
+            });
+        }
     }), _defineProperty(_methods, 'checkField', function checkField(data) {
         if (data.length < 3 || data == "" || data == undefined) {
             return 'has-warning';
@@ -31492,11 +31597,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         this.userKey = apiKey;
     },
 
-    watch: {},
+    watch: {
+        recipientsList: function recipientsList() {
+            this.$emit('input', this.recipientsList);
+        }
+    },
     methods: {
         putTomailsToSend: function putTomailsToSend(contact) {
             if (this.mailsToSend == []) {
                 this.mailsToSend = this.mailsToSend.concat(contact); // if mailsToSend dont contain this contact add this one
+                this.$emit('input', this.mailsToSend);
             } else {
                 var containThisContact = false;
                 for (var i = 0; i <= this.mailsToSend.length; i++) {
@@ -31507,6 +31617,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
                 if (containThisContact === false) {
                     this.mailsToSend = this.mailsToSend.concat(contact); // if mailsToSend dont contain this contact add this one
+                    this.$emit('input', this.mailsToSend);
                 }
 
                 if (containThisContact === true) {
@@ -32081,6 +32192,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -32130,6 +32243,40 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Templates_Default_Project_Name_Bar___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__Templates_Default_Project_Name_Bar__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__User_User_Mini_Manager__ = __webpack_require__(198);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__User_User_Mini_Manager___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__User_User_Mini_Manager__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -32470,6 +32617,10 @@ var $ = __webpack_require__(179);
                     content: '',
                     salutation: ''
                 },
+                mailer: {
+                    object: '',
+                    content: ''
+                },
                 appendices: [{ id: 0, name: 'cv.pdf', file: 'cv.pdf' }, { id: 1, name: 'titre.pdf', file: 'titre.pdf' }, { id: 2, name: 'attestation.pdf', file: 'attestation.pdf' }]
             },
             corporateFiltered: '',
@@ -32485,6 +32636,7 @@ var $ = __webpack_require__(179);
             pageLoading: true,
             preloadingPdf: true,
             page: 'letter',
+            recipientManagerList: [],
             regionsearch: '',
             selectedTemplateId: '',
             sendable: true,
@@ -32492,6 +32644,7 @@ var $ = __webpack_require__(179);
             templateName: '',
             templateNameOld: '',
             templateCreateNew: false,
+            templateStatus: '', // loading success error
             template: [],
             userKey: '',
             userId: '',
@@ -32518,14 +32671,16 @@ var $ = __webpack_require__(179);
             _this.currentTemplate.letter.adresse.phone = response.data.phone;
             _this.currentTemplate.letter.adresse.email = response.data.email;
             _this.currentTemplate.updated_at = __WEBPACK_IMPORTED_MODULE_0_moment___default()(String(response.data.updated_at)).format('DD/MM/YYYY à hh:mm');
+            _this.statusTemplateSuccess();
         });
         // end get user data
         var content;
         if (this.$route.params.type == "usine") {
+            this.statusTemplateLoading();
             axios.get('api/factorytemplate/convertSlug/' + this.$route.params.slug + '?api_token=' + this.userKey).then(function (response) {
                 console.log(response.data.id);
                 _this.loadThisFactoryTemplate(response.data.id);
-                console.log();
+                _this.statusTemplateSuccess();
             }).catch(function (error) {
                 console.log(error);
                 //this.showLoadTemplateError();
@@ -32535,10 +32690,11 @@ var $ = __webpack_require__(179);
         }
 
         if (this.$route.params.type == "mix") {
-
+            this.statusTemplateLoading();
             axios.get('api/template/convertSlug/' + this.$route.params.slug + '?api_token=' + this.userKey).then(function (response) {
                 console.log(response.data);
                 _this.loadThisTemplate(response.data);
+                _this.statusTemplateSuccess();
             }).catch(function (error) {
                 console.log(error);
                 //this.showLoadTemplateError();
@@ -32575,9 +32731,11 @@ var $ = __webpack_require__(179);
             var _this2 = this;
 
             if (newRoute.params.type === "usine") {
+                this.statusTemplateLoading();
                 axios.get('api/factorytemplate/convertSlug/' + newRoute.params.slug + '?api_token=' + this.userKey).then(function (response) {
                     console.log(response.data);
                     _this2.loadThisFactoryTemplate(esponse.data.id); // load this factory template
+                    _this2.statusTemplateSuccess();
                 }).catch(function (error) {
                     console.log(error);
                     //this.showLoadTemplateError();
@@ -32587,9 +32745,11 @@ var $ = __webpack_require__(179);
             }
 
             if (newRoute.params.type === "mix") {
+                this.statusTemplateLoading();
                 axios.get('api/template/convertSlug/' + newRoute.params.slug + '?api_token=' + this.userKey).then(function (response) {
                     console.log(response.data);
                     _this2.loadThisTemplate(response.data); // load this private factory template
+                    _this2.statusTemplateSuccess();
                 }).catch(function (error) {
                     console.log(error);
                     //this.showLoadTemplateError();
@@ -32599,6 +32759,7 @@ var $ = __webpack_require__(179);
                 this.factoryTemplate = false;
             }
         }
+
     },
     computed: {},
     methods: {
@@ -32606,9 +32767,11 @@ var $ = __webpack_require__(179);
         refreshAppendice: function refreshAppendice() {
             var _this3 = this;
 
-            axios.get('/api/appendice/' + this.currentTemplate.id + '?api_token=' + this.userKey, {}).then(function (response) {
+            this.statusTemplateLoading();
+            axios.get('/api/appendice/' + this.currentTemplate.id + '?api_token=' + this.userKey).then(function (response) {
                 //console.log(response.data);
                 _this3.currentTemplate.appendices = response.data;
+                _this3.statusTemplateSuccess();
             }).catch(function (error) {
                 //console.log(error.response.data.message);
             });
@@ -32616,6 +32779,7 @@ var $ = __webpack_require__(179);
         updateAppendiceName: function updateAppendiceName(appendice) {
             var _this4 = this;
 
+            this.statusTemplateLoading();
             axios.put('/api/appendice/' + appendice.id + '/?api_token=' + this.userKey, {
                 id: appendice.id,
                 name: appendice.name
@@ -32624,6 +32788,7 @@ var $ = __webpack_require__(179);
                 _this4.refreshTemplateManager(); // refresh all data in template manager
                 _this4.refreshAppendice();
                 _this4.animateSuccess();
+                _this4.statusTemplateSuccess();
             }).catch(function (error) {
                 //console.log(error.response.data.message);
             });
@@ -32638,6 +32803,7 @@ var $ = __webpack_require__(179);
             fileReader.readAsDataURL(e.target.files[0]);
             fileReader.onload = function (e) {
                 var newAppendice = {};
+                _this5.statusTemplateLoading();
                 axios.post('/api/appendice?api_token=' + _this5.userKey, {
                     appendice: e.target.result,
                     extension: type,
@@ -32648,6 +32814,7 @@ var $ = __webpack_require__(179);
                     _this5.refreshAppendice(); // refresh all appendices in appendices manager
                     _this5.refreshTemplateManager(); // refresh all data in template manager
                     $('#appendiceInputFile').val(""); //  empty input value
+                    _this5.statusTemplateSuccess();
                 }).catch(function (error) {
                     //console.log(error.response.data.message);
                 });
@@ -32656,7 +32823,8 @@ var $ = __webpack_require__(179);
         deleteAppendice: function deleteAppendice(appendice) {
             var _this6 = this;
 
-            axios.delete('/api/appendice/' + appendice.id + '/?api_token=' + this.userKey, {}).then(function (response) {
+            this.statusTemplateLoading();
+            axios.delete('/api/appendice/' + appendice.id + '/?api_token=' + this.userKey).then(function (response) {
                 console.log(response.data);
                 _this6.refreshTemplateManager(); // refresh all data in template manager
                 _this6.refreshAppendice();
@@ -32664,7 +32832,7 @@ var $ = __webpack_require__(179);
                     console.log(error.response.data.message);
                     _this6.showAddAppendiceError();
                 } else {}
-                // TODO succes message
+                _this6.statusTemplateSuccess();
             }).catch(function (error) {});
         },
         checkField: function checkField(data) {
@@ -32700,6 +32868,8 @@ var $ = __webpack_require__(179);
             this.templateName = data.name;
             this.templateNameOld = data.name;
             this.selectedTemplateId = data.id; // for template manager selected elements
+            this.currentTemplate.mailer.object = data.email_object;
+            this.currentTemplate.mailer.content = data.email_content;
         },
         createNewTemplate: function createNewTemplate() {
             var _this7 = this;
@@ -32708,6 +32878,7 @@ var $ = __webpack_require__(179);
                 this.showTemplateFillError();
             } else {
 
+                this.statusTemplateLoading();
                 axios.post('/api/template?api_token=' + this.userKey, {
                     user_id: this.userId,
                     name: this.currentTemplate.name,
@@ -32717,12 +32888,15 @@ var $ = __webpack_require__(179);
                     adresse: this.currentTemplate.letter.adresse.adresse,
                     npa: this.currentTemplate.letter.adresse.npa,
                     city: this.currentTemplate.letter.adresse.city,
-                    phone: this.currentTemplate.letter.adresse.phone
+                    phone: this.currentTemplate.letter.adresse.phone,
+                    email_object: this.currentTemplate.mailer.object,
+                    email_content: this.currentTemplate.mailer.content
 
                 }).then(function (response) {
                     //console.log(response.data);
                     _this7.refreshTemplateManager(); // refresh all data in template manager
-                    _this7.showSuccessNotification({ message: response.data.message });
+                    //this.showSuccessNotification({message: response.data.message});
+                    _this7.statusTemplateSuccess();
                 }).catch(function (error) {
                     //console.log(error.response.data.message);
                     _this7.showErrorNotification({ message: error.response.data.message });
@@ -32733,18 +32907,22 @@ var $ = __webpack_require__(179);
             var _this8 = this;
 
             this.template.name = this.templateName;
+            this.statusTemplateLoading();
             axios.patch('api/template/' + id + '?api_token=' + this.userKey, {
                 id: this.currentTemplate.id,
                 name: this.currentTemplate.name,
                 content: this.currentTemplate.letter.content,
                 object: this.currentTemplate.letter.object,
-                salutation: this.currentTemplate.letter.salutation
+                salutation: this.currentTemplate.letter.salutation,
+                email_object: this.currentTemplate.mailer.object,
+                email_content: this.currentTemplate.mailer.content
 
             }).then(function (response) {
                 _this8.refreshTemplateManager(); // refresh all data in template manager
                 _this8.showTemplateUpdateSuccess();
                 _this8.currentTemplate.updated_at = __WEBPACK_IMPORTED_MODULE_0_moment___default()().format('DD/MM/YYYY à HH:mm');
-                _this8.animateSuccess();
+                //this.animateSuccess();
+                _this8.statusTemplateSuccess();
             }).catch(function (error) {
                 console.log(error);
                 //TODO: add error msg
@@ -32753,14 +32931,15 @@ var $ = __webpack_require__(179);
         loadThisTemplate: function loadThisTemplate(id) {
             var _this9 = this;
 
-            axios.get('api/template/' + id + '?api_token=' + this.userKey, {}).then(function (response) {
+            this.statusTemplateLoading();
+            axios.get('api/template/' + id + '?api_token=' + this.userKey).then(function (response) {
                 console.log(response.data);
                 _this9.currentTemplate.letter.currentDate = __WEBPACK_IMPORTED_MODULE_0_moment___default()().format('LL');
                 _this9.dataToTemplate(response.data);
                 _this9.refreshAppendice();
-                //var editor = tinymce.get('letter-personal-content'); TODO delete when handmande wysiwig ok
-                //editor.setContent( this.currentTemplate.letter.content ); //TODO delete when handmande wysiwig ok change dinamicly tiny content
+                _this9.statusTemplateSuccess();
             }).catch(function (error) {
+                console.log("*************Error Loading Template ***********");
                 console.log(error);
                 _this9.showLoadTemplateError();
             });
@@ -32768,11 +32947,13 @@ var $ = __webpack_require__(179);
         loadThisFactoryTemplate: function loadThisFactoryTemplate(id) {
             var _this10 = this;
 
-            axios.get('api/factorytemplate/' + id + '?api_token=' + this.userKey, {}).then(function (response) {
+            this.statusTemplateLoading();
+            axios.get('api/factorytemplate/' + id + '?api_token=' + this.userKey).then(function (response) {
                 console.log(response.data);
                 _this10.currentTemplate.letter.currentDate = __WEBPACK_IMPORTED_MODULE_0_moment___default()().format('LL');
                 _this10.dataToTemplate(response.data);
                 _this10.refreshAppendice();
+                _this10.statusTemplateSuccess();
             }).catch(function (error) {
                 console.log(error);
                 _this10.showLoadTemplateError();
@@ -32782,8 +32963,10 @@ var $ = __webpack_require__(179);
         refreshTemplateManager: function refreshTemplateManager() {
             var _this11 = this;
 
-            axios.get('api/template?api_token=' + this.userKey, {}).then(function (response) {
+            this.statusTemplateLoading();
+            axios.get('api/template?api_token=' + this.userKey).then(function (response) {
                 _this11.myTemplates = response.data[0];
+                _this11.statusTemplateSuccess();
             }).catch(function (error) {
                 //console.log(error);
                 _this11.ShowRefreshTemplatesError();
@@ -32818,6 +33001,15 @@ var $ = __webpack_require__(179);
                 this.pageLoading = false;
                 self.pageLoading = false;
             }, 2000);
+        },
+        statusTemplateLoading: function statusTemplateLoading() {
+            this.templateStatus = 'loading';
+        },
+        statusTemplateSuccess: function statusTemplateSuccess() {
+            this.templateStatus = 'success';
+        },
+        statusTemplateError: function statusTemplateError() {
+            this.templateStatus = 'error';
         }
     },
     notifications: {
@@ -32845,11 +33037,6 @@ var $ = __webpack_require__(179);
             title: 'Oups!!',
             message: "le template n'a pas pu être crée!",
             type: 'error' //Default: 'info', also you can use VueNotifications.type.error instead of 'error'
-        },
-        showTemplateUpdateSuccess: {
-            title: 'Super!',
-            message: 'Le modèle a bien été mise à jour',
-            type: 'success' //Default: 'info', also you can use VueNotifications.type.error instead of 'error'
         },
         showTemplateDeleteSuccess: {
             title: 'Succès!',
@@ -32883,7 +33070,7 @@ var $ = __webpack_require__(179);
         },
         showLoadTemplateError: {
             title: 'Oups!',
-            message: "Une erreur s'est produite lors du chargement de ce tempalte, veuillez actualiser la page.",
+            message: "Une erreur s'est produite lors du chargement de ce template, veuillez actualiser la page.",
             type: 'error'
         },
         showAddAppendiceError: {
@@ -33364,21 +33551,21 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\n#mailer-col-wrapper {\n    float: right;\n    -webkit-transition-property: width height right top;\n    -webkit-transition-duration: 0.3s;\n    -webkit-transition-timing-function: ease-out;\n    transition-property: width height right top ;\n    transition-duration: 0.3s;\n    transition-timing-function: ease-out;\n}\n#mailer-col-wrapper panel{\n    height: 100%;\n}\n#mailer-col-wrapper textarea{\n}\n.modal-mask {\n     position: fixed;\n     z-index: 9998;\n     top: 0;\n     left: 0;\n     width: 100%;\n     height: 100%;\n     background-color: rgba(0, 0, 0, .5);\n     display: table;\n     transition: opacity .3s ease;\n}\n.modal-wrapper {\n    display: table-cell;\n    vertical-align: middle;\n}\n.modal-container {\n    width: 70%;\n    margin: 0px auto;\n    padding: 20px 30px;\n    background-color: #fff;\n    border-radius: 2px;\n    box-shadow: 0 2px 8px rgba(0, 0, 0, .33);\n    transition: all .3s ease;\n    font-family: Helvetica, Arial, sans-serif;\n}\n.modal-header h3 {\n    margin-top: 0;\n    color: #42b983;\n}\n.modal-body {\n    margin: 20px 0;\n}\n.modal-default-button {\n    float: right;\n}\n.modal-enter {\n    opacity: 0;\n}\n.modal-leave-active {\n    opacity: 0;\n}\n.modal-enter .modal-container,\n.modal-leave-active .modal-container {\n    -webkit-transform: scale(1.1);\n    transform: scale(1.1);\n}\n#cke_2_contents{\n    /*position: absolute;*/\n}\n", ""]);
+exports.push([module.i, "\n#mailer-col-wrapper {\n    float: right;\n    -webkit-transition-property: width height right top;\n    -webkit-transition-duration: 0.3s;\n    -webkit-transition-timing-function: ease-out;\n    transition-property: width height right top ;\n    transition-duration: 0.3s;\n    transition-timing-function: ease-out;\n}\n#mailer-col-wrapper panel{\n    height: 100%;\n}\n#mailer-col-wrapper textarea{\n}\n.modal-mask {\n     position: fixed;\n     z-index: 9998;\n     top: 0;\n     left: 0;\n     width: 100%;\n     height: 100%;\n     background-color: rgba(0, 0, 0, .5);\n     display: table;\n     transition: opacity .3s ease;\n}\n.modal-wrapper {\n    display: table-cell;\n    vertical-align: middle;\n}\n.mailer-wrapper input{\n    font-size: 12px;\n}\n.modal-container {\n    width: 70%;\n    margin: 0px auto;\n    padding: 20px 30px;\n    background-color: #fff;\n    border-radius: 2px;\n    box-shadow: 0 2px 8px rgba(0, 0, 0, .33);\n    transition: all .3s ease;\n    font-family: Helvetica, Arial, sans-serif;\n}\n.modal-header h3 {\n    margin-top: 0;\n    color: #42b983;\n}\n.modal-body {\n    margin: 20px 0;\n}\n.modal-default-button {\n    float: right;\n}\n.modal-enter {\n    opacity: 0;\n}\n.modal-leave-active {\n    opacity: 0;\n}\n.modal-enter .modal-container,\n.modal-leave-active .modal-container {\n    -webkit-transform: scale(1.1);\n    transform: scale(1.1);\n}\n#cke_2_contents{\n    /*position: absolute;*/\n}\n", ""]);
 
 /***/ }),
 /* 172 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\n.img-avatar {\n    width: 40px;\n    height: 40px;\n    margin-top: 10px;\n    border-radius: 50%;\n    border: 1px solid #f64a8a;\n}\n.list-item{\n    border-bottom: 1px solid gainsboro;\n}\n", ""]);
+exports.push([module.i, "\n.img-avatar {\n    width: 40px;\n    height: 40px;\n    margin-top: 10px;\n    border-radius: 50%;\n    border: 1px solid #f64a8a;\n}\n.list-item{\n    border-bottom: 1px solid gainsboro;\n}\n#panel-data{\n    height: 100%;\n    width: 100%;\n}\n", ""]);
 
 /***/ }),
 /* 173 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\ninput {\n    outline: none;\n    border: none !important;\n    box-shadow: none !important;\n}\nonly screen and (min-width: 980px)\n{\nbody{\n        overflow-y: hidden!important;\n}\n}\n#template-list-wrapper {\n    /*visibility: hidden;*/\n}\n#project-name-wrapper{\n    height: 70px;\n    background-color: #dadada;\n}\n[v-cloak] {\n    display: none;\n}\n#recipient-manger-col-wrapper{\n    opacity: 1;\n    transition: opacity 1s ease-in-out;\n    -webkit-transition: opacity 1s ease-in-out;\n    -moz-transition: opacity 1s ease-in-out;\n    -ms-transition: opacity 1s ease-in-out;\n    -o-transition: opacity 1s ease-in-out;\n}\n.template-manager-selected-template{\n    background-image: url(\"/assets/app/img/btn-gradiant-tmplate-manager.jpg\");\n    transition: 100ms;\n}\n#letter-personal-text{\n    height: 100mm;\n}\n#letter-wrapper .panel-body{\n    height: 80vh;\n    overflow-y: scroll;\n}\n#recipient-data{\n    margin-left: 57%;\n}\n.to-deliver-list-item:hover{\n    color: red!important;\n    transition: 100ms;\n    cursor: pointer;\n}\n#letter-object-wrapper{\n    margin-top: 9.5%;\n}\n.corporate-list-item:hover{\n    cursor: pointer;\n    color: #2ab27b;\n    transition: 100ms;\n}\n.corporate-list-item{\n    transition: 100ms;\n}\n.heading-custom{\n    background-color: #f1f1f1!important;\n    height: 40px;\n}\n.modal-large{\n    width: 80%;\n    margin-left: 10%;\n    margin-right: 10%;\n}\n#letter-wrapper{\n    height: 80vh;\n}\n.mailer-wrapper input{\n    width: 100%;\n    height: auto;\n}\n.mailer-wrapper{\n    width: 100%;\n    height: auto;\n}\n.ion-btn{\n    transition: 100ms;\n}\n.ion-btn:hover{\n    color: #0c84e4;\n    transition: 100ms;\n    cursor: pointer;\n}\n.template-manager-header{\n    width: 100%;\n    height: 20px;\n}\n.template-manager-temp-name{\n    width: 70%;\n    white-space: nowrap;\n    overflow: hidden;\n    text-overflow: ellipsis;\n    font-size: 12px!important;\n    float: left;\n    cursor: pointer;\n}\n.template-manager-temp-icons{\n    width: 11%;\n    padding-left: 2%;\n    padding-right: 2%;\n    float: left;\n}\n#letter-toolbar-wrapper{\n    width: 100%;\n    height: auto;\n}\n#toolbar-wrapper{\n    top: 0px!important;\n}\n.letter-fonts{\n    font-size: 12pt!important;\n}\n#letter-content-scroll{\n    width: 100%;\n    height: auto;\n    display: inline-block;\n    overflow: hidden;\n}\n#sheet-paper{\n    margin-left: auto;\n    margin-right: auto;\n    overflow: hidden;\n}\n.paper-sheet{\n    size: A4;\n    margin: auto;\n    width: 793px;\n    height: 1122px;\n    padding-left: 132px;\n    padding-right: 94px;\n    padding-top: 94px;\n    padding-bottom: 94px;\n    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);\n    -moz-box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);\n    font-size: 10pt!important;\n}\n.paper-sheet .form-control{\n    font-size: 10pt!important;\n}\n#sender-data-wrapper{\n    width: 50%;\n}\n#letter-current-date-wrapper{\n    margin-left: 57%;\n}\n.letter-appendicies-list{\n    bottom: 0;\n    width: 100%;\n    height: auto;\n}\n#letter-preview-frame{\n    width: 60%;\n    margin-left: 20%;\n    height: auto;\n    margin: auto;\n}\n#letter-preview-frame-data{\n    display: block;\n    float: left;\n    width: 60%;\n    margin-left: 20%;\n    margin-right: 20%;\n    margin: auto;\n    height: auto;\n}\n.form-smaller-custom{\n    font-size: 12pt!important;\n    height: 16px!important;\n}\n.templates-list{\n    width: 100%;\n    height: auto;\n}\n.templatelistappear-enter-active{\n    -webkit-animation: templatelistappear;\n            animation: templatelistappear;\n    -webkit-animation-duration: 1s;\n            animation-duration: 1s;\n}\n#letter-personal-content{\n    height: auto;\n}\n#signature-wrapper{\n    margin-left: 57%;\n    height: auto;\n    margin-top: 50px;\n}\n#signature-image{\n    width: 100%;\n    height: 40%;\n    background-color: #a6e1ec;\n}\n.auto-value-letter{\n    background-color: #a6e1ec;\n}\n.templatelistappear-leave-active{\n\n    -webkit-animation: templatelistdisappear;\n\n            animation: templatelistdisappear;\n}\n.letter-padding{\n    padding-left: 80px;\n    padding-right: 50px;\n}\n#page-loading-animation{\n    position: absolute;\n    overflow-x: hidden;\n    overflow-y: hidden;\n    width: 100vw;\n    height: 100vh;\n    background-color: white;\n    -webkit-animation: fadein;\n    -webkit-animation-duration: 2s;\n    z-index: 2000;\n    visibility: hidden;\n}\n@-webkit-keyframes fadein{\n0%{\n        visibility: visible;\n}\n100%{\n        visibility: hidden;\n}\n}\n\n\n/* Loading */\n.loader{\n    margin:200px auto;\n}\n.loader span{\n    width:16px;\n    height:16px;\n    border-radius:50%;\n    display:inline-block;\n    position:absolute;\n    left:50%;\n    margin-left:-10px;\n    -webkit-animation:3s infinite linear;\n    -moz-animation:3s infinite linear;\n    -o-animation:3s infinite linear;\n}\n.loader span:nth-child(2){\n    background:#E84C3D;\n    -webkit-animation:kiri 1.2s infinite linear;\n    -moz-animation:kiri 1.2s infinite linear;\n    -o-animation:kiri 1.2s infinite linear;\n}\n.loader span:nth-child(3){\n    background:#F1C40F;\n    z-index:100;\n}\n.loader span:nth-child(4){\n    background:#2FCC71;\n    -webkit-animation:kanan 1.2s infinite linear;\n    -moz-animation:kanan 1.2s infinite linear;\n    -o-animation:kanan 1.2s infinite linear;\n}\n@-webkit-keyframes kanan {\n0% {-webkit-transform:translateX(20px);\n}\n50%{-webkit-transform:translateX(-20px);\n}\n100%{-webkit-transform:translateX(20px);\n        z-index:200;\n}\n}\n\n/* CKEDITOR */\n.cke_top{\n    border: 0px!important;\n    background-color: #f1f1f1!important;\n    zoom: 0.74!important;\n}\n.cke_chrome {\n    display: block;\n    border: 0px!important;\n    padding: 0;\n}\n.color-red{\n    color: #fe0364;\n}\n.mini-toastr__notification{\n    width: 100%!important;\n    top: 0px!important;\n    right: 0px!important;\n}\n.-success{\n    background-color: darkred!important;\n}\n.editableSpanners{\n    background-color: #fe0364;\n    color: white;\n    border-radius: 5px;\n}\n.appendice-control-wrap{\n    float: left;\n    width: 100%;\n    height: auto;\n    border-bottom: 1px solid grey;\n}\n.appendice-control-wrap:hover{\n    background-color: #dadada;\n    color: #7f27d5;\n    transition: 100ms;\n}\n.appendice-control-wrap:hover input{\n    background-color: #dadada;\n    color: #7f27d5;\n    transition: 100ms;\n}\n.appendice-focused {\n    background-image: url(\"/assets/app/img/btn-gradiant-tmplate-manager.jpg\")!important;\n    transition: 100ms;\n    width: 100%;\n    height: auto;\n    color: white!important!important;\n}\n.appendice-focused input:focus{\n    color: white!important;\n}\n.appendice-focuses:focus{\n    color: white!important!important;\n}\n.transaprant-input{\n    background: transparent!important;\n    border: none!important;\n}\n#appendice-add-btn:hover{\n    cursor: pointer;\n}\n.cke_editable{\n    margin: 0!important;\n}\n@-webkit-keyframes checkmark {\n0% {\n        stroke-dashoffset: 50px\n}\n100% {\n        stroke-dashoffset: 0\n}\n}\n@keyframes checkmark {\n0% {\n        stroke-dashoffset: 50px\n}\n100% {\n        stroke-dashoffset: 0\n}\n}\n@-webkit-keyframes checkmark-circle {\n0% {\n        stroke-dashoffset: 240px\n}\n100% {\n        stroke-dashoffset: 480px\n}\n}\n@keyframes checkmark-circle {\n0% {\n        stroke-dashoffset: 240px\n}\n100% {\n        stroke-dashoffset: 480px\n}\n}\n\n/* other styles */\n/* .svg svg {\n    display: none\n}\n */\n.inlinesvg .svg svg {\n    display: inline\n}\n\n/* .svg img {\n    display: none\n} */\n.icon--order-success svg path {\n    -webkit-animation: checkmark 0.25s ease-in-out 0.7s backwards;\n    animation: checkmark 0.25s ease-in-out 0.7s backwards\n}\n.icon--order-success svg circle {\n    -webkit-animation: checkmark-circle 0.6s ease-in-out backwards;\n    animation: checkmark-circle 0.6s ease-in-out backwards\n}\n@media (max-width:767px){\n#wrapper{\n        margin-top: 70px;\n}\n}\n", ""]);
+exports.push([module.i, "\n.st0{\n    fill:#EC0B61;\n}\n.st1{\n    fill:#00D01C;\n}\n.ion-rotate{\n    -webkit-animation-name: rotateInfinite;\n            animation-name: rotateInfinite;\n    -webkit-animation-duration: 1s;\n            animation-duration: 1s;\n    /* Things added */\n    -webkit-animation-iteration-count: infinite;\n            animation-iteration-count: infinite;\n    -webkit-transform-origin: 50% 50%;\n            transform-origin: 50% 50%;\n    display: inline-block;\n    font-size: 16px;\n    transition: 100ms;\n}\n@-webkit-keyframes rotateInfinite {\n0% {\n        fill: #EC4A61 ;\n        transition: 200ms;\n        -webkit-transform: rotate(0deg);\n                transform: rotate(0deg);\n}\n25% {\n        fill: #CD3C89 ;\n        transition: 200ms;\n}\n50% {\n        fill: #B42EA9 ;\n        transition: 200ms;\n}\n75% {\n        fill: #911FD6 ;\n        transition: 200ms;\n}\n100% {\n        fill: #7915F3 ;\n        transition: 200ms;\n        -webkit-transform: rotate(360deg);\n                transform: rotate(360deg);\n}\n}\n@keyframes rotateInfinite {\n0% {\n        fill: #EC4A61 ;\n        transition: 200ms;\n        -webkit-transform: rotate(0deg);\n                transform: rotate(0deg);\n}\n25% {\n        fill: #CD3C89 ;\n        transition: 200ms;\n}\n50% {\n        fill: #B42EA9 ;\n        transition: 200ms;\n}\n75% {\n        fill: #911FD6 ;\n        transition: 200ms;\n}\n100% {\n        fill: #7915F3 ;\n        transition: 200ms;\n        -webkit-transform: rotate(360deg);\n                transform: rotate(360deg);\n}\n}\n.svg-template-picto{\n    width: 20;\n    height: 20;\n    -webkit-animation: scalePictoLoading;\n            animation: scalePictoLoading;\n    -webkit-animation-direction: 100ms;\n            animation-direction: 100ms;\n    -webkit-animation-name: scalePictoLoading; /* Safari 4.0 - 8.0 */\n    -webkit-animation-duration: 100ms; /* Safari 4.0 - 8.0 */\n}\n.ion-error-red{\n    color: #f7006b;\n    transition: opacity 100ms, visibility 100ms;\n}\n@-webkit-keyframes scalePictoLoading {\nfrom {\n        width: 0;\n        height:0;\n}\nto {\n        width: 30;\n        height: 30;\n}\n}\n\n/* Standard syntax */\n@keyframes scalePictoLoading {\nfrom {\n        width: 0;\n        height:0;\n}\nto {\n        width: 30;\n        height: 30;\n}\n}\ninput {\n    outline: none;\n    border: none !important;\n    box-shadow: none !important;\n}\nonly screen and (min-width: 980px)\n{\nbody{\n        overflow-y: hidden!important;\n}\n}\n#template-list-wrapper {\n    /*visibility: hidden;*/\n}\n#project-name-wrapper{\n    height: 70px;\n    background-color: #dadada;\n}\n[v-cloak] {\n    display: none;\n}\n#recipient-manger-col-wrapper{\n    opacity: 1;\n    transition: opacity 1s ease-in-out;\n    -webkit-transition: opacity 1s ease-in-out;\n    -moz-transition: opacity 1s ease-in-out;\n    -ms-transition: opacity 1s ease-in-out;\n    -o-transition: opacity 1s ease-in-out;\n}\n.template-manager-selected-template{\n    background-image: url(\"/assets/app/img/btn-gradiant-tmplate-manager.jpg\");\n    transition: 100ms;\n}\n#letter-personal-text{\n    height: 100mm;\n}\n#letter-wrapper .panel-body{\n    height: 80vh;\n    overflow-y: scroll;\n}\n#recipient-data{\n    margin-left: 57%;\n}\n.to-deliver-list-item:hover{\n    color: red!important;\n    transition: 100ms;\n    cursor: pointer;\n}\n#letter-object-wrapper{\n    margin-top: 9.5%;\n}\n.corporate-list-item:hover{\n    cursor: pointer;\n    color: #2ab27b;\n    transition: 100ms;\n}\n.corporate-list-item{\n    transition: 100ms;\n}\n.heading-custom{\n    background-color: #f1f1f1!important;\n    height: 40px;\n}\n.modal-large{\n    width: 80%;\n    margin-left: 10%;\n    margin-right: 10%;\n}\n#letter-wrapper{\n    height: 80vh;\n}\n.mailer-wrapper input{\n    width: 100%;\n    height: auto;\n}\n.mailer-wrapper{\n    width: 100%;\n    height: auto;\n}\n.ion-btn{\n    transition: 100ms;\n}\n.ion-btn:hover{\n    color: #0c84e4;\n    transition: 100ms;\n    cursor: pointer;\n}\n.template-manager-header{\n    width: 100%;\n    height: 20px;\n}\n.template-manager-temp-name{\n    width: 70%;\n    white-space: nowrap;\n    overflow: hidden;\n    text-overflow: ellipsis;\n    font-size: 12px!important;\n    float: left;\n    cursor: pointer;\n}\n.template-manager-temp-icons{\n    width: 11%;\n    padding-left: 2%;\n    padding-right: 2%;\n    float: left;\n}\n#letter-toolbar-wrapper{\n    width: 100%;\n    height: auto;\n}\n#toolbar-wrapper{\n    top: 0px!important;\n}\n.letter-fonts{\n    font-size: 12pt!important;\n}\n#letter-content-scroll{\n    width: 100%;\n    height: auto;\n    display: inline-block;\n    overflow: hidden;\n}\n#sheet-paper{\n    margin-left: auto;\n    margin-right: auto;\n    overflow: hidden;\n}\n.paper-sheet{\n    size: A4;\n    margin: auto;\n    width: 793px;\n    height: 1122px;\n    padding-left: 132px;\n    padding-right: 94px;\n    padding-top: 94px;\n    padding-bottom: 94px;\n    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);\n    -moz-box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);\n    font-size: 10pt!important;\n}\n.paper-sheet .form-control{\n    font-size: 10pt!important;\n}\n#sender-data-wrapper{\n    width: 50%;\n}\n#letter-current-date-wrapper{\n    margin-left: 57%;\n}\n.letter-appendicies-list{\n    bottom: 0;\n    width: 100%;\n    height: auto;\n}\n#letter-preview-frame{\n    width: 60%;\n    margin-left: 20%;\n    height: auto;\n    margin: auto;\n}\n#letter-preview-frame-data{\n    display: block;\n    float: left;\n    width: 60%;\n    margin-left: 20%;\n    margin-right: 20%;\n    margin: auto;\n    height: auto;\n}\n.form-smaller-custom{\n    font-size: 12pt!important;\n    height: 16px!important;\n}\n.templates-list{\n    width: 100%;\n    height: auto;\n}\n.templatelistappear-enter-active{\n    -webkit-animation: templatelistappear;\n            animation: templatelistappear;\n    -webkit-animation-duration: 1s;\n            animation-duration: 1s;\n}\n#letter-personal-content{\n    height: auto;\n}\n#signature-wrapper{\n    margin-left: 57%;\n    height: auto;\n    margin-top: 50px;\n}\n#signature-image{\n    width: 100%;\n    height: 40%;\n    background-color: #a6e1ec;\n}\n.auto-value-letter{\n    background-color: #a6e1ec;\n}\n.templatelistappear-leave-active{\n\n    -webkit-animation: templatelistdisappear;\n\n            animation: templatelistdisappear;\n}\n.letter-padding{\n    padding-left: 80px;\n    padding-right: 50px;\n}\n#page-loading-animation{\n    position: absolute;\n    overflow-x: hidden;\n    overflow-y: hidden;\n    width: 100vw;\n    height: 100vh;\n    background-color: white;\n    -webkit-animation: fadein;\n    -webkit-animation-duration: 2s;\n    z-index: 2000;\n    visibility: hidden;\n}\n@-webkit-keyframes fadein{\n0%{\n        visibility: visible;\n}\n100%{\n        visibility: hidden;\n}\n}\n\n\n/* Loading */\n.loader{\n    margin:200px auto;\n}\n.loader span{\n    width:16px;\n    height:16px;\n    border-radius:50%;\n    display:inline-block;\n    position:absolute;\n    left:50%;\n    margin-left:-10px;\n    -webkit-animation:3s infinite linear;\n    -moz-animation:3s infinite linear;\n    -o-animation:3s infinite linear;\n}\n.loader span:nth-child(2){\n    background:#E84C3D;\n    -webkit-animation:kiri 1.2s infinite linear;\n    -moz-animation:kiri 1.2s infinite linear;\n    -o-animation:kiri 1.2s infinite linear;\n}\n.loader span:nth-child(3){\n    background:#F1C40F;\n    z-index:100;\n}\n.loader span:nth-child(4){\n    background:#2FCC71;\n    -webkit-animation:kanan 1.2s infinite linear;\n    -moz-animation:kanan 1.2s infinite linear;\n    -o-animation:kanan 1.2s infinite linear;\n}\n@-webkit-keyframes kanan {\n0% {-webkit-transform:translateX(20px);\n}\n50%{-webkit-transform:translateX(-20px);\n}\n100%{-webkit-transform:translateX(20px);\n        z-index:200;\n}\n}\n\n/* CKEDITOR */\n.cke_top{\n    border: 0px!important;\n    background-color: #f1f1f1!important;\n    zoom: 0.74!important;\n}\n.cke_chrome {\n    display: block;\n    border: 0px!important;\n    padding: 0;\n}\n.color-red{\n    color: #fe0364;\n}\n.mini-toastr__notification{\n    width: 100%!important;\n    top: 0px!important;\n    right: 0px!important;\n}\n.-success{\n    background-color: darkred!important;\n}\n.editableSpanners{\n    background-color: #fe0364;\n    color: white;\n    border-radius: 5px;\n}\n.appendice-control-wrap{\n    float: left;\n    width: 100%;\n    height: auto;\n    border-bottom: 1px solid grey;\n}\n.appendice-control-wrap:hover{\n    background-color: #dadada;\n    color: #7f27d5;\n    transition: 100ms;\n}\n.appendice-control-wrap:hover input{\n    background-color: #dadada;\n    color: #7f27d5;\n    transition: 100ms;\n}\n.appendice-focused {\n    background-image: url(\"/assets/app/img/btn-gradiant-tmplate-manager.jpg\")!important;\n    transition: 100ms;\n    width: 100%;\n    height: auto;\n    color: white!important!important;\n}\n.appendice-focused input:focus{\n    color: white!important;\n}\n.appendice-focuses:focus{\n    color: white!important!important;\n}\n.transaprant-input{\n    background: transparent!important;\n    border: none!important;\n}\n#appendice-add-btn:hover{\n    cursor: pointer;\n}\n.cke_editable{\n    margin: 0!important;\n}\n@-webkit-keyframes checkmark {\n0% {\n        stroke-dashoffset: 50px\n}\n100% {\n        stroke-dashoffset: 0\n}\n}\n@keyframes checkmark {\n0% {\n        stroke-dashoffset: 50px\n}\n100% {\n        stroke-dashoffset: 0\n}\n}\n@-webkit-keyframes checkmark-circle {\n0% {\n        stroke-dashoffset: 240px\n}\n100% {\n        stroke-dashoffset: 480px\n}\n}\n@keyframes checkmark-circle {\n0% {\n        stroke-dashoffset: 240px\n}\n100% {\n        stroke-dashoffset: 480px\n}\n}\n\n/* other styles */\n/* .svg svg {\n    display: none\n}\n */\n.inlinesvg .svg svg {\n    display: inline\n}\n\n/* .svg img {\n    display: none\n} */\n.icon--order-success svg path {\n    -webkit-animation: checkmark 0.25s ease-in-out 0.7s backwards;\n    animation: checkmark 0.25s ease-in-out 0.7s backwards\n}\n.icon--order-success svg circle {\n    -webkit-animation: checkmark-circle 0.6s ease-in-out backwards;\n    animation: checkmark-circle 0.6s ease-in-out backwards\n}\n@media (max-width:767px){\n#wrapper{\n        margin-top: 70px;\n}\n}\n.loader {\n    position: relative;\n    margin: 0px auto;\n    width: 100px;\n    height:100px;\n    zoom: $zoom;\n}\n.circular{-webkit-animation:rotate 2s linear forwards ;animation:rotate 2s linear forwards ;width:100px;height:100px;position:relative\n}\n.path{stroke:#007aff; stroke-dasharray: 1,200;\n    stroke-dashoffset: 0;\n    -webkit-animation:\n            dash 1.5s ease-in-out forwards,\n            color 6s ease-in-out infinite\n;\n            animation:\n            dash 1.5s ease-in-out forwards,\n            color 6s ease-in-out infinite\n;\n    stroke-linecap: round;\n}\n@-webkit-keyframes dash{\n0%{\n        stroke-dasharray: 1,200;\n        stroke-dashoffset: 0;\n}\n100%{\n        stroke-dasharray: 150,200;\n        stroke-dashoffset: 10;\n}\n}\n@keyframes dash{\n0%{\n        stroke-dasharray: 1,200;\n        stroke-dashoffset: 0;\n}\n100%{\n        stroke-dasharray: 150,200;\n        stroke-dashoffset: 10;\n}\n}\n@-webkit-keyframes color{\n100%, 0%{\n        stroke: #f00;\n}\n40%{\n        stroke: #007aff;\n}\n66%{\n        stroke: #24555d;\n}\n80%, 90%{\n        stroke: #789642;\n}\n}\n@keyframes color{\n100%, 0%{\n        stroke: #f00;\n}\n40%{\n        stroke: #007aff;\n}\n66%{\n        stroke: #24555d;\n}\n80%, 90%{\n        stroke: #789642;\n}\n}\n@-webkit-keyframes rotate{\n100%{-webkit-transform:rotate(360deg);transform:rotate(360deg)\n}\n}\n@keyframes rotate{\n100%{-webkit-transform:rotate(360deg);transform:rotate(360deg)\n}\n}\n.checkmark__check {\n    -webkit-transform-origin: 50% 50%;\n            transform-origin: 50% 50%;\n    stroke-dasharray: 48;\n    stroke-dashoffset: 48;\n\n    -webkit-animation: stroke 0.5s  cubic-bezier(0.65, 0, 0.45, 1) 1.5s forwards, color 6s linear infinite;\n\n            animation: stroke 0.5s  cubic-bezier(0.65, 0, 0.45, 1) 1.5s forwards, color 6s linear infinite;\n}\n@-webkit-keyframes stroke {\n100% {\n        stroke-dashoffset: 0;\n}\n}\n@keyframes stroke {\n100% {\n        stroke-dashoffset: 0;\n}\n}\n.suc{\n    stroke:#007aff;\n    stroke-width:2;\n    position:absolute;top:30px;left:30px;\n    width:40px;height:40px;\n}\n\n\n", ""]);
 
 /***/ }),
 /* 174 */
@@ -51254,8 +51441,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.mailerObject),
-      expression: "mailerObject"
+      value: (_vm.currentTemplate.mailer.object),
+      expression: "currentTemplate.mailer.object"
     }],
     staticClass: "form-control",
     attrs: {
@@ -51263,12 +51450,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "placeholder": "Objet"
     },
     domProps: {
-      "value": (_vm.mailerObject)
+      "value": (_vm.currentTemplate.mailer.object)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.mailerObject = $event.target.value
+        _vm.currentTemplate.mailer.object = $event.target.value
       }
     }
   })]), _vm._v(" "), _c('div', {
@@ -51283,11 +51470,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "config": _vm.configMailer
     },
     model: {
-      value: (_vm.mailerMessage),
+      value: (_vm.currentTemplate.mailer.content),
       callback: function($$v) {
-        _vm.mailerMessage = $$v
+        _vm.currentTemplate.mailer.content = $$v
       },
-      expression: "mailerMessage"
+      expression: "currentTemplate.mailer.content"
     }
   })], 1)]), _vm._v(" "), _c('button', {
     staticClass: "btn pull-right",
@@ -51692,11 +51879,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('div', {
     staticClass: "panel panel-default"
   }, [_c('div', {
-    staticClass: "panel-heading heading-custom"
+    staticClass: "panel-heading heading-custom text-center"
   }, [_c('div', {
-    staticClass: "col-lg-12"
-  }, [_c('div', {
-    staticClass: "col-lg-2"
+    staticClass: "col-lg-1"
   }, [_c('img', {
     staticClass: "img img-responsive img-avatar",
     attrs: {
@@ -51704,36 +51889,30 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "alt": "user profil picture",
       "draggable": "false"
     }
-  })]), _vm._v("\n                            " + _vm._s(_vm.userData.firstname) + " " + _vm._s(_vm.userData.lastname) + "\n                    ")])]), _vm._v(" "), _c('div', {
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "col-lg-9"
+  }, [_vm._v("\n                        Carnet de postulation\n                    ")])]), _vm._v(" "), _c('div', {
     staticClass: "panel-body"
-  }, [_vm._m(0), _vm._v(" "), _vm._m(1), _vm._v(" "), _c('div', {
+  }, [_c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col-lg-5"
+  }, [_c('div', {
     attrs: {
       "id": "hostory-content-scroll"
     }
-  }, [_vm._m(2), _vm._v(" "), _vm._l((_vm.history), function(item) {
+  }, [_vm._m(0), _vm._v(" "), _vm._l((_vm.history), function(item) {
     return _c('div', {
       staticClass: "col-lg-12 list-item"
     }, [_c('div', {
       staticClass: "col-lg-4"
-    }, [_vm._v("\n                                " + _vm._s(item.template.name) + "\n                            ")]), _vm._v(" "), _c('div', {
+    }, [_vm._v("\n                                        " + _vm._s(item.template.name) + "\n                                    ")]), _vm._v(" "), _c('div', {
       staticClass: "col-lg-4"
-    }, [_vm._v("\n                                " + _vm._s(item.corporate.name) + "\n                            ")]), _vm._v(" "), _c('div', {
+    }, [_vm._v("\n                                        " + _vm._s(item.corporate.name) + "\n                                    ")]), _vm._v(" "), _c('div', {
       staticClass: "col-lg-4"
-    }, [_vm._v("\n                                " + _vm._s(item.created_at) + "\n                            ")])])
-  })], 2)])])])])])
+    }, [_vm._v("\n                                        " + _vm._s(item.created_at) + "\n                                    ")])])
+  })], 2)]), _vm._v(" "), _vm._m(1)])])])])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "col-lg-12"
-  }, [_c('span', [_vm._v("Historique de vos postulations")])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "col-lg-12"
-  }, [_c('a', {
-    attrs: {
-      "href": "/desk"
-    }
-  }, [_vm._v("Bureau")])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "col-lg-12"
   }, [_c('div', {
@@ -51743,6 +51922,15 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('h5', [_vm._v("Destinataire")])]), _vm._v(" "), _c('div', {
     staticClass: "col-lg-4"
   }, [_c('h5', [_vm._v("Date d'envoi")])])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "col-lg-7"
+  }, [_c('img', {
+    attrs: {
+      "src": "http://lorempicsum.com/futurama/350/200/1",
+      "alt": ""
+    }
+  })])
 }]}
 module.exports.render._withStripped = true
 if (false) {
@@ -51878,42 +52066,73 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.updateThisTemplate(_vm.currentTemplate.id)
       }
     }
-  }, [_c('div', {
-    staticClass: "icon icon--order-success svg",
+  }, [(_vm.templateStatus == 'loading') ? _c('div', [_c('svg', {
+    staticClass: "svg-template-picto",
+    staticStyle: {
+      "enable-background": "new 0 0 132.2 132.2"
+    },
     attrs: {
-      "id": "template-succes-animation"
-    }
-  }, [_c('svg', {
-    attrs: {
+      "version": "1.1",
+      "id": "Calque_1",
       "xmlns": "http://www.w3.org/2000/svg",
-      "width": "100%",
-      "height": "auto"
+      "xmlns:xlink": "http://www.w3.org/1999/xlink",
+      "x": "0px",
+      "y": "0px",
+      "width": "20",
+      "height": "20",
+      "viewBox": "0 0 132.2 132.2",
+      "xml:space": "preserve"
     }
-  }, [_c('g', {
+  }, [_c('path', {
+    staticClass: "st0 ion-rotate",
     attrs: {
-      "fill": "none",
-      "stroke": "#8EC343",
-      "stroke-width": "4"
+      "d": "M129.1,69.2c-2.8-3.6-7.1-5.7-11.6-5.7c-6.7,0-12.6,4.6-14.3,11.1c-4.4,17.4-20.7,29.2-38.6,28.1\n                                                c-18.8-1.1-33.9-16.2-35.1-35.1C28.4,49.7,40.2,33.5,57.6,29c6.6-1.7,11.1-7.5,11.1-14.3c0-4.6-2.1-8.8-5.7-11.6\n                                                c-3.6-2.8-8.2-3.8-12.6-2.6C20.2,8.1-1,36.4,0,67.6c1.2,35,29.5,63.4,64.6,64.6c0.7,0,1.5,0,2.2,0c30.3,0,57.4-20.9,64.9-50.4\n                                                C132.9,77.4,131.9,72.8,129.1,69.2z"
     }
-  }, [_c('circle', {
+  })])]) : _vm._e(), _vm._v(" "), (_vm.templateStatus == 'success') ? _c('div', [_c('svg', {
+    staticClass: "svg-template-picto",
     staticStyle: {
-      "stroke-dasharray": "240px, 240px",
-      "stroke-dashoffset": "480px"
+      "enable-background": "new 0 0 149.6 123.3"
     },
     attrs: {
-      "cx": "36",
-      "cy": "36",
-      "r": "25"
+      "version": "1.1",
+      "id": "Calque_1",
+      "xmlns": "http://www.w3.org/2000/svg",
+      "xmlns:xlink": "http://www.w3.org/1999/xlink",
+      "x": "0px",
+      "y": "0px",
+      "width": "20",
+      "height": "20",
+      "viewBox": "0 0 149.6 123.3",
+      "xml:space": "preserve"
     }
-  }), _vm._v(" "), _c('path', {
+  }, [_c('path', {
+    staticClass: "st1 ion-success-green",
+    attrs: {
+      "d": "M143.9,3.2c-6.5-5.1-15.9-4-21.1,2.5L59.1,86.9L24.6,58.1C18.3,52.8,8.8,53.6,3.5,60C-1.8,66.4-1,75.8,5.4,81.1\n                                                l46.3,38.7c0.1,0.1,0.1,0.1,0.2,0.1c0.1,0,0.1,0.1,0.2,0.1c0.1,0.1,0.3,0.2,0.4,0.3c0.2,0.1,0.3,0.2,0.5,0.4\n                                                c0.2,0.1,0.4,0.2,0.6,0.4c0.2,0.1,0.4,0.2,0.5,0.3c0.2,0.1,0.4,0.2,0.6,0.3c0.2,0.1,0.4,0.2,0.5,0.3c0.2,0.1,0.4,0.2,0.6,0.3\n                                                c0.2,0.1,0.4,0.1,0.5,0.2c0.2,0.1,0.5,0.1,0.7,0.2c0.2,0.1,0.3,0.1,0.5,0.2c0.3,0.1,0.5,0.1,0.8,0.2c0.2,0,0.3,0.1,0.5,0.1\n                                                c0.3,0,0.6,0.1,0.9,0.1c0.1,0,0.2,0,0.4,0.1c0.4,0,0.8,0.1,1.2,0.1c0,0,0,0,0,0c0,0,0,0,0,0c0.5,0,1.1,0,1.6-0.1\n                                                c0.2,0,0.3-0.1,0.5-0.1c0.4-0.1,0.8-0.1,1.1-0.2c0.2,0,0.4-0.1,0.6-0.2c0.3-0.1,0.7-0.2,1-0.3c0.2-0.1,0.4-0.2,0.6-0.2\n                                                c0.3-0.1,0.6-0.2,0.9-0.4c0.2-0.1,0.4-0.2,0.6-0.3c0.3-0.1,0.6-0.3,0.8-0.5c0.2-0.1,0.4-0.3,0.6-0.4c0.2-0.2,0.5-0.3,0.7-0.5\n                                                c0.2-0.2,0.4-0.3,0.6-0.5c0.2-0.2,0.4-0.4,0.7-0.6c0.2-0.2,0.4-0.4,0.6-0.6c0.2-0.2,0.3-0.3,0.5-0.5c0.1-0.1,0.1-0.1,0.1-0.2\n                                                c0-0.1,0.1-0.1,0.1-0.2l73.3-93.3C151.5,17.7,150.4,8.3,143.9,3.2z"
+    }
+  })])]) : _vm._e(), _vm._v(" "), (_vm.templateStatus == 'error') ? _c('div', [_c('svg', {
+    staticClass: "svg-template-picto",
     staticStyle: {
-      "stroke-dasharray": "50px, 50px",
-      "stroke-dashoffset": "0px"
+      "enable-background": "new 0 0 100.7 100.7"
     },
     attrs: {
-      "d": "M17.417,37.778l9.93,9.909l25.444-25.393"
+      "version": "1.1",
+      "id": "Calque_1 ion-error-red",
+      "xmlns": "http://www.w3.org/2000/svg",
+      "xmlns:xlink": "http://www.w3.org/1999/xlink",
+      "x": "0px",
+      "y": "0px",
+      "width": "20",
+      "height": "20",
+      "viewBox": "0 0 100.7 100.7",
+      "xml:space": "preserve"
     }
-  })])])])])]), _vm._v(" "), _c('div', {
+  }, [_c('path', {
+    staticClass: "st0",
+    attrs: {
+      "d": "M96.3,75.1L71.6,50.4l24.7-24.7c5.9-5.9,5.9-15.4,0-21.2c-5.9-5.9-15.4-5.9-21.2,0L50.4,29.1L25.6,4.4\n                                                c-5.9-5.9-15.4-5.9-21.2,0s-5.9,15.4,0,21.2l24.7,24.7L4.4,75.1c-5.9,5.9-5.9,15.4,0,21.2c5.9,5.9,15.4,5.9,21.2,0l24.7-24.7\n                                                l24.7,24.7c5.9,5.9,15.4,5.9,21.2,0C102.2,90.5,102.2,81,96.3,75.1z"
+    }
+  })])]) : _vm._e()])]), _vm._v(" "), _c('div', {
     staticClass: "col-lg-2"
   }, [_c('p', [_vm._v("\n                                    mis à jour le " + _vm._s(_vm.currentTemplate.updated_at) + "\n                                ")])])]), _vm._v(" "), _c('div', {
     staticClass: "row letter-padding"
@@ -52370,15 +52589,18 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "id": "recipient-manger-col-wrapper"
     }
-  }, [_c('Recipient-manager')], 1) : _vm._e(), _vm._v(" "), _c('Mailer', {
+  }, [_c('Recipient-manager', {
+    model: {
+      value: (_vm.recipientManagerList),
+      callback: function($$v) {
+        _vm.recipientManagerList = $$v
+      },
+      expression: "recipientManagerList"
+    }
+  })], 1) : _vm._e(), _vm._v(" "), _c('Mailer', {
     attrs: {
-      "userData": _vm.userData,
-      "template": _vm.currentTemplate
-    },
-    on: {
-      "update:template": function($event) {
-        _vm.currentTemplate = $event
-      }
+      "recipientManagerList": _vm.recipientManagerList,
+      "currentTemplate": _vm.currentTemplate
     },
     model: {
       value: (_vm.page),

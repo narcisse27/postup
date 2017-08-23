@@ -101,6 +101,10 @@ Route::group(['prefix' => '/administrator', 'middleware' => ['auth', 'role:admin
 
     Route::get('/', function(){ return view('admin.dashboard'); });
     Route::get('/corporate/add', ['uses' => 'CorporateController@indexAddManually']);
+    Route::get('/improvements', ['uses' => 'FeatureImprovementController@listAll']);
+    Route::get('/improvements/{id}', ['uses' => 'FeatureImprovementController@show']);
+    Route::get('/users', ['uses' => 'UserController@index']);
+    Route::get('/user/{id}', ['uses' => 'UserController@show']);
 
 
 });

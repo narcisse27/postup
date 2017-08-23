@@ -20,6 +20,8 @@ class CreateFactoryTemplatesTable extends Migration
             $table->integer('area_id');
             $table->string('object');
             $table->longText('content');
+            $table->string('email_object')->nullable();
+            $table->longText('email_content')->nullable();
             $table->timestamps();
         });
     }

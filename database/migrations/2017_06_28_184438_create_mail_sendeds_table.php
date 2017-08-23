@@ -17,9 +17,13 @@ class CreateMailSendedsTable extends Migration
             $table->increments('id');
             $table->integer('user_id');
             $table->integer('template_id');
+            $table->string('template_name');
+            $table->longText('content')->nullable();
+            $table->string('salutation')->nullable();
             $table->integer('corporate_id');
             $table->boolean('test_mail');
             $table->string('mail_object')->nullable();
+            $table->text('mail_content')->nullable();
             $table->timestamps();
         });
     }
