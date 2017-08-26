@@ -82,6 +82,9 @@ Route::group(['prefix' => 'api', 'middleware' => 'auth:api'], function()
     Route::post('/user/checkMailReserve', ['uses' => 'UserController@checkMailReserve']);
     Route::post('/addManuallyCorporate', ['uses' => 'CorporateController@addManually']);
     Route::post('/addManuallyCorporateByUser', ['uses' => 'CorporateController@addManuallyByUser']); // corporates added by user on front-end
+
+    // ************** Payment *************
+    Route::resource('/payment', "PaymentController");
 });
 
 

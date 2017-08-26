@@ -14,12 +14,12 @@
                             <multiselect v-model="value" tag-placeholder="ajouter adresse" SelectLabel="Enter/tab pour séléctionner" SelectedLabel="Selectionné" DeselectLabel="Supprimer" placeholder="Chercher ou ajouter une adresse mail" label="name" track-by="code" :options="options" :multiple="true" :taggable="true" @tag="addTag" :max="userData.mails_reserve" @search-change="reloadCorporates" noResult="Aucun résultat" :HideSelected="true"></multiselect>
                         </div>
                         <div class="col-lg-1 ion-btn">
-                            <div class="ion-btn">
+                            <div v-if="page = 'letter'" class="ion-btn">
                                 <a href="" @click.prevent="goToMailer">
                                     <span class="ion-navicon-round"></span>
                                 </a>
                             </div>
-                            <div class="ion-btn">
+                            <div v-if="page == 'mailer'" class="ion-btn">
                                 <a href="" @click.prevent="goToLetter">Letter</a>
                             </div>
                         </div>
@@ -179,7 +179,7 @@
         },
         props: {
             recipientManagerList: [],
-            currentTemplate: []
+            currentTemplate: [],
         },
         data() {
             return {
@@ -213,17 +213,10 @@
                 loadingdata: false,
                 mailsearch: '',
                 mailsToSend: [],
-                mailerObject: '',
-                mailerMessage: "<p>Je vous propose ma candidature spontanée pour un poste de… . Afin que vous puissiez en savoir plus sur mes compétences et"+
-                "mes motivations, je vous joins mon CV et ma lettre de motivation."+
-                "Disponible dans les plus brefs délais, je suis à votre disposition pour d’éventuelles informations complémentaires."+
-                "Cordialement"+
-                "Prénom Nom"+
-                "Numéro de téléphone</p>",
-                mailer: [],
                 mailsTags: [],
                 namesearch: '',
                 options: [],
+                page: '',
                 recipientsList : '',
                 regionList: '',
                 regionsearch: '',
@@ -402,7 +395,7 @@
                 $('#mailer-col-wrapper').addClass('col-lg-6');
                 $('#mailer-textarea').attr("rows", 13);
                 this.$emit('input', 'mailer');
-
+                this.page = 'mailer';
                 //this.$route.router.go('/#/desk/template/mailer');
             },
             goToLetter: function(){
@@ -412,6 +405,7 @@
                 $('#mailer-col-wrapper').addClass('col-lg-3');
                 $('#mailer-textarea').attr("rows", 5);
                 this.$emit('input', 'letter');
+                this.page = 'letter';
             },
             putTomailsToSend: function(contact)
             {

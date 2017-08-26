@@ -29,6 +29,7 @@
     "qs": "^6.5.0",
     "vue-ckeditor2": "^1.0.6",
     "vue-multiselect": "^2.0.0-beta.15",
+    "vue-stripe-elements": "^0.2.1",
     "vue-tagsinput": "^2.0.1",
     "vue-tinymce": "github:lpreterite/vue-tinymce"
   }
