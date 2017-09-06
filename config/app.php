@@ -179,7 +179,10 @@ return [
         Laravel\Scout\ScoutServiceProvider::class,
         Zizaco\Entrust\EntrustServiceProvider::class, // role manager
         Barryvdh\DomPDF\ServiceProvider::class, // PDF MANAGER
-        Intervention\Image\ImageServiceProvider::class // IMage manager
+        Intervention\Image\ImageServiceProvider::class, // IMage manager
+        Maatwebsite\Excel\ExcelServiceProvider::class, // Excell import/export
+        Unisharp\Laravelfilemanager\LaravelFilemanagerServiceProvider::class, // file manager
+        Intervention\Image\ImageServiceProvider::class, // file manager
 
 
     ],
@@ -232,6 +235,8 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Entrust'   => Zizaco\Entrust\EntrustFacade::class, // role manager
         'PDF' => Barryvdh\DomPDF\Facade::class, // pdf manager
+        'Image' => Intervention\Image\Facades\Image::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'Image' => Intervention\Image\Facades\Image::class,
 
     ],

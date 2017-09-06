@@ -9,6 +9,7 @@ let routes = [
   */
   {
     path: '/',
+    name: 'desk',
     component: require('./views/Desk')
   },/*
    {

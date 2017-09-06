@@ -35,12 +35,12 @@
                         <div class="col-lg-12 no-padding-left no-padding-right">
                             <div class="col-lg-12 well " id="project-name-wrapper" v-cloak>
                                 <div class="col-lg-9">
-                                    <div class="col-lg-1">
+                                    <div class="template-title-wrap "> <!-- col-lg-1 -->
                                         <!--<h4><span class="ion-ios-folder-outline"></span></h4>-->
                                         <span>TITRE : </span>
                                     </div>
                                     <div class="form-group" v-bind:class="checkField(currentTemplate.name)">
-                                        <div class="col-lg-11">
+                                        <div class="template-title-input"> <!-- col-lg-11 -->
                                             <input type="text" class="form-control"  v-model="currentTemplate.name" v-on:keyup="checkIfCreateTemplate" placeholder="nomdutemplate" v-on:keyup.enter="createNewTemplate">
                                         </div>
                                     </div>
@@ -91,7 +91,7 @@
                                         -->
                                     </div>
                                 </div>
-                                <div class="col-lg-2">
+                                <div class="col-lg-2 only-desktop">
                                     <p>
                                         mis à jour le {{ currentTemplate.updated_at }}
                                     </p>
@@ -126,8 +126,8 @@
                                         <div class="panel-body">
                                             <div id="letter-content-scroll">
                                                 <div id="sheet-paper" class="paper-sheet">
-                                                    <div class="sender-data-wrapper row">
-                                                        <div class="col-lg-6" id="sender-data">
+                                                    <div id="" class="col-lg-12 no-padding-left no-padding-right sender-data-wrapper row">
+                                                        <div class="col-lg-12" id="sender-data">
                                                             <!-- lastname -->
                                                             <div class="col-lg-6" v-bind:class="checkAdresseField(currentTemplate.letter.adresse.lastname)">
                                                                 <div class="form-group">
@@ -195,20 +195,20 @@
                                                     </div>
 
                                                     <div class="col-lg-12" id="letter-object-wrapper">
-                                                        <input type="text" placeholder="Object" class="form-control form-smaller-custom" v-model="currentTemplate.letter.object">
+                                                        <input type="text" placeholder="Object" class="form-control form-smaller-custom" v-model="currentTemplate.letter.object" @keyup="updateThisTemplate(currentTemplate.id)">
                                                     </div>
                                                     <div class="col-lg-12 no-padding-left no-padding-right">
                                                         <div id="letter-personal-text">
                                                             <p><br><br></p>
                                                             <div id="letter-personal-content">
                                                                 <!--<div>{{ currentTemplate.letter.content }}</div>-->
-                                                                <ckeditor v-model="currentTemplate.letter.content" :config="config"></ckeditor>
+                                                                <ckeditor v-model="currentTemplate.letter.content" :config="config" @mouseLeave="ckLeave"></ckeditor>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-12">
                                                         <div id="letter-greetings">
-                                                            <input type="text" class="form-control form-smaller-custom" placeholder="Salutations dinstingués" v-model="currentTemplate.letter.salutation" />
+                                                            <input type="text" class="form-control form-smaller-custom" placeholder="Salutations dinstingués" v-model="currentTemplate.letter.salutation" @keyup="updateThisTemplate(currentTemplate.id)"/>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-12" id="signature-wrapper">
@@ -829,6 +829,9 @@
             statusTemplateError: function()
             {
                 this.templateStatus = 'error';
+            },
+            ckLeave: function(){
+                alert("ckeditor alert save tempalte");
             }
         },
         notifications: {
@@ -902,6 +905,15 @@
     }
 </script>
 <style>
+    .template-title-wrap{
+        width: 9%;
+        margin-right: 5%;
+        float:left;
+    }
+    .template-title-input{
+        width: 50%;
+        float: left;
+    }
     .st0{
         fill:#EC0B61;
     }
@@ -1456,6 +1468,23 @@
     @media (max-width:767px){
         #wrapper{
             margin-top: 70px;
+        }
+        .paper-sheet{
+            font-size: 12px;
+            width: 100%!important;
+            height: auto;
+            padding-left: 0px;
+            padding-right: 0px;
+        }
+        .letter-padding:{
+            margin-left: 40px;
+            margin-right: 40px;
+        }
+        #mailer-col-wrapper{
+            float: left;
+        }
+        .only-desktop{
+            display:none;
         }
     }
 

@@ -36,7 +36,7 @@
                             </div>
                         </div>
                         <div id="package-payment-1" style="display:none;">
-                            <span class="package-reserve"><strong>50</strong> mails</span></h3>
+                            <p>Rechargez votre réserve de 50 mails</p>
                             <card class='stripe-card'
                                   ref='50mails'
                                   :class='{ complete }'

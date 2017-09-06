@@ -112,7 +112,6 @@
             <div class="row">
                 <div class="col-lg-12">
                     <p>
-                        <router-link to="/history">Mes dernières postulations</router-link>
                         <br>
                         <a @click.prevent="openImporvementModal">Proposer des améliorations</a>
                         <br>

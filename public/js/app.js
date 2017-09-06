@@ -41267,6 +41267,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
 
 // import tagsInput from 'vue-tagsinput'; TODO delete this package
 
@@ -42162,6 +42165,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['currentTemplate', 'templates'],
@@ -42559,6 +42564,32 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -42566,7 +42597,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             userData: [],
             userId: '',
             userKey: '',
-            history: ''
+            history: '',
+            selectedTemplate: ''
 
         };
     },
@@ -42583,6 +42615,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             console.log(response.data);
             _this.history = response.data;
         });
+        this.selectedTemplate = '';
+    },
+
+    methods: {
+        loadTemplate: function loadTemplate(item) {
+            this.selectedTemplate = item;
+        },
+        emptyTemplate: function emptyTemplate() {
+            this.selectedTemplate = '';
+        }
     }
 });
 
@@ -43375,6 +43417,9 @@ var $ = __webpack_require__(14);
         },
         statusTemplateError: function statusTemplateError() {
             this.templateStatus = 'error';
+        },
+        ckLeave: function ckLeave() {
+            alert("ckeditor alert save tempalte");
         }
     },
     notifications: {
@@ -43487,7 +43532,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-//
 //
 //
 //
@@ -43868,6 +43912,7 @@ var routes = [
 */
 {
   path: '/',
+  name: 'desk',
   component: __webpack_require__(189)
 }, /*
    {
@@ -43923,14 +43968,14 @@ exports.push([module.i, "\n#mailer-col-wrapper {\n    float: right;\n    -webkit
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\n.img-avatar {\n    width: 40px;\n    height: 40px;\n    margin-top: 10px;\n    border-radius: 50%;\n    border: 1px solid #f64a8a;\n}\n.list-item{\n    border-bottom: 1px solid gainsboro;\n}\n#panel-data{\n    height: 100%;\n    width: 100%;\n}\n", ""]);
+exports.push([module.i, "\n#hostory-content-scroll{\n    height: 80vh;\n    overflow-y: scroll;\n}\n#hostory-content-scroll::-webkit-scrollbar {\n    width: 12px;\n}\n#hostory-content-scroll::-webkit-scrollbar-track {\n    background-color: white;\n    border-radius: 10px;\n}\n#hostory-content-scroll::-webkit-scrollbar-thumb {\n    border-radius: 10px;\n    background-color: rgb(118,43,238);\n}\n.template-btn{\n    width: 100%;\n    height: auto;\n    background-color: white;\n    color: #303030;\n    transition: 100ms;\n    border-bottom: 1px solid gainsboro;\n}\n.template-btn:hover{\n    width: 100%;\n    height: auto;\n    background-color: #7e1ef3;\n    color: white;\n    transition: 100ms;\n    cursor: pointer;\n}\n.img-avatar {\n    width: 40px;\n    height: 40px;\n    margin-top: 10px;\n    border-radius: 50%;\n    border: 1px solid #f64a8a;\n}\n#panel-data{\n    height: 100%;\n    width: 100%;\n}\n#sheet{\n    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);\n}\n.empty-template:hover{\n    cursor: pointer;\n    color: #7e1ef3;\n    transition: 100ms;\n}\n", ""]);
 
 /***/ }),
 /* 174 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\n.st0{\n    fill:#EC0B61;\n}\n.st1{\n    fill:#00D01C;\n}\n.ion-rotate{\n    -webkit-animation-name: rotateInfinite;\n            animation-name: rotateInfinite;\n    -webkit-animation-duration: 1s;\n            animation-duration: 1s;\n    /* Things added */\n    -webkit-animation-iteration-count: infinite;\n            animation-iteration-count: infinite;\n    -webkit-transform-origin: 50% 50%;\n            transform-origin: 50% 50%;\n    display: inline-block;\n    font-size: 16px;\n    transition: 100ms;\n}\n@-webkit-keyframes rotateInfinite {\n0% {\n        fill: #EC4A61 ;\n        transition: 200ms;\n        -webkit-transform: rotate(0deg);\n                transform: rotate(0deg);\n}\n25% {\n        fill: #CD3C89 ;\n        transition: 200ms;\n}\n50% {\n        fill: #B42EA9 ;\n        transition: 200ms;\n}\n75% {\n        fill: #911FD6 ;\n        transition: 200ms;\n}\n100% {\n        fill: #7915F3 ;\n        transition: 200ms;\n        -webkit-transform: rotate(360deg);\n                transform: rotate(360deg);\n}\n}\n@keyframes rotateInfinite {\n0% {\n        fill: #EC4A61 ;\n        transition: 200ms;\n        -webkit-transform: rotate(0deg);\n                transform: rotate(0deg);\n}\n25% {\n        fill: #CD3C89 ;\n        transition: 200ms;\n}\n50% {\n        fill: #B42EA9 ;\n        transition: 200ms;\n}\n75% {\n        fill: #911FD6 ;\n        transition: 200ms;\n}\n100% {\n        fill: #7915F3 ;\n        transition: 200ms;\n        -webkit-transform: rotate(360deg);\n                transform: rotate(360deg);\n}\n}\n.svg-template-picto{\n    width: 20;\n    height: 20;\n    -webkit-animation: scalePictoLoading;\n            animation: scalePictoLoading;\n    -webkit-animation-direction: 100ms;\n            animation-direction: 100ms;\n    -webkit-animation-name: scalePictoLoading; /* Safari 4.0 - 8.0 */\n    -webkit-animation-duration: 100ms; /* Safari 4.0 - 8.0 */\n}\n.ion-error-red{\n    color: #f7006b;\n    transition: opacity 100ms, visibility 100ms;\n}\n@-webkit-keyframes scalePictoLoading {\nfrom {\n        width: 0;\n        height:0;\n}\nto {\n        width: 30;\n        height: 30;\n}\n}\n\n/* Standard syntax */\n@keyframes scalePictoLoading {\nfrom {\n        width: 0;\n        height:0;\n}\nto {\n        width: 30;\n        height: 30;\n}\n}\ninput {\n    outline: none;\n    border: none !important;\n    box-shadow: none !important;\n}\nonly screen and (min-width: 980px)\n{\nbody{\n        overflow-y: hidden!important;\n}\n}\n#template-list-wrapper {\n    /*visibility: hidden;*/\n}\n#project-name-wrapper{\n    height: 70px;\n    background-color: #dadada;\n}\n[v-cloak] {\n    display: none;\n}\n#recipient-manger-col-wrapper{\n    opacity: 1;\n    transition: opacity 1s ease-in-out;\n    -webkit-transition: opacity 1s ease-in-out;\n    -moz-transition: opacity 1s ease-in-out;\n    -ms-transition: opacity 1s ease-in-out;\n    -o-transition: opacity 1s ease-in-out;\n}\n.template-manager-selected-template{\n    background-image: url(\"/assets/app/img/btn-gradiant-tmplate-manager.jpg\");\n    transition: 100ms;\n}\n#letter-personal-text{\n    height: 100mm;\n}\n#letter-wrapper .panel-body{\n    height: 80vh;\n    overflow-y: scroll;\n}\n#recipient-data{\n    margin-left: 57%;\n}\n.to-deliver-list-item:hover{\n    color: red!important;\n    transition: 100ms;\n    cursor: pointer;\n}\n#letter-object-wrapper{\n    margin-top: 9.5%;\n}\n.corporate-list-item:hover{\n    cursor: pointer;\n    color: #2ab27b;\n    transition: 100ms;\n}\n.corporate-list-item{\n    transition: 100ms;\n}\n.heading-custom{\n    background-color: #f1f1f1!important;\n    height: 40px;\n}\n.modal-large{\n    width: 80%;\n    margin-left: 10%;\n    margin-right: 10%;\n}\n#letter-wrapper{\n    height: 80vh;\n}\n.mailer-wrapper input{\n    width: 100%;\n    height: auto;\n}\n.mailer-wrapper{\n    width: 100%;\n    height: auto;\n}\n.ion-btn{\n    transition: 100ms;\n}\n.ion-btn:hover{\n    color: #0c84e4;\n    transition: 100ms;\n    cursor: pointer;\n}\n.template-manager-header{\n    width: 100%;\n    height: 20px;\n}\n.template-manager-temp-name{\n    width: 70%;\n    white-space: nowrap;\n    overflow: hidden;\n    text-overflow: ellipsis;\n    font-size: 12px!important;\n    float: left;\n    cursor: pointer;\n}\n.template-manager-temp-icons{\n    width: 11%;\n    padding-left: 2%;\n    padding-right: 2%;\n    float: left;\n}\n#letter-toolbar-wrapper{\n    width: 100%;\n    height: auto;\n}\n#toolbar-wrapper{\n    top: 0px!important;\n}\n.letter-fonts{\n    font-size: 12pt!important;\n}\n#letter-content-scroll{\n    width: 100%;\n    height: auto;\n    display: inline-block;\n    overflow: hidden;\n}\n#sheet-paper{\n    margin-left: auto;\n    margin-right: auto;\n    overflow: hidden;\n}\n.paper-sheet{\n    size: A4;\n    margin: auto;\n    width: 793px;\n    height: 1122px;\n    padding-left: 132px;\n    padding-right: 94px;\n    padding-top: 94px;\n    padding-bottom: 94px;\n    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);\n    -moz-box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);\n    font-size: 10pt!important;\n}\n.paper-sheet .form-control{\n    font-size: 10pt!important;\n}\n#sender-data-wrapper{\n    width: 50%;\n}\n#letter-current-date-wrapper{\n    margin-left: 57%;\n}\n.letter-appendicies-list{\n    bottom: 0;\n    width: 100%;\n    height: auto;\n}\n#letter-preview-frame{\n    width: 60%;\n    margin-left: 20%;\n    height: auto;\n    margin: auto;\n}\n#letter-preview-frame-data{\n    display: block;\n    float: left;\n    width: 60%;\n    margin-left: 20%;\n    margin-right: 20%;\n    margin: auto;\n    height: auto;\n}\n.form-smaller-custom{\n    font-size: 12pt!important;\n    height: 16px!important;\n}\n.templates-list{\n    width: 100%;\n    height: auto;\n}\n.templatelistappear-enter-active{\n    -webkit-animation: templatelistappear;\n            animation: templatelistappear;\n    -webkit-animation-duration: 1s;\n            animation-duration: 1s;\n}\n#letter-personal-content{\n    height: auto;\n}\n#signature-wrapper{\n    margin-left: 57%;\n    height: auto;\n    margin-top: 50px;\n}\n#signature-image{\n    width: 100%;\n    height: 40%;\n    background-color: #a6e1ec;\n}\n.auto-value-letter{\n    background-color: #a6e1ec;\n}\n.templatelistappear-leave-active{\n\n    -webkit-animation: templatelistdisappear;\n\n            animation: templatelistdisappear;\n}\n.letter-padding{\n    padding-left: 80px;\n    padding-right: 50px;\n}\n#page-loading-animation{\n    position: absolute;\n    overflow-x: hidden;\n    overflow-y: hidden;\n    width: 100vw;\n    height: 100vh;\n    background-color: white;\n    -webkit-animation: fadein;\n    -webkit-animation-duration: 2s;\n    z-index: 2000;\n    visibility: hidden;\n}\n@-webkit-keyframes fadein{\n0%{\n        visibility: visible;\n}\n100%{\n        visibility: hidden;\n}\n}\n\n\n/* Loading */\n.loader{\n    margin:200px auto;\n}\n.loader span{\n    width:16px;\n    height:16px;\n    border-radius:50%;\n    display:inline-block;\n    position:absolute;\n    left:50%;\n    margin-left:-10px;\n    -webkit-animation:3s infinite linear;\n    -moz-animation:3s infinite linear;\n    -o-animation:3s infinite linear;\n}\n.loader span:nth-child(2){\n    background:#E84C3D;\n    -webkit-animation:kiri 1.2s infinite linear;\n    -moz-animation:kiri 1.2s infinite linear;\n    -o-animation:kiri 1.2s infinite linear;\n}\n.loader span:nth-child(3){\n    background:#F1C40F;\n    z-index:100;\n}\n.loader span:nth-child(4){\n    background:#2FCC71;\n    -webkit-animation:kanan 1.2s infinite linear;\n    -moz-animation:kanan 1.2s infinite linear;\n    -o-animation:kanan 1.2s infinite linear;\n}\n@-webkit-keyframes kanan {\n0% {-webkit-transform:translateX(20px);\n}\n50%{-webkit-transform:translateX(-20px);\n}\n100%{-webkit-transform:translateX(20px);\n        z-index:200;\n}\n}\n\n/* CKEDITOR */\n.cke_top{\n    border: 0px!important;\n    background-color: #f1f1f1!important;\n    zoom: 0.74!important;\n}\n.cke_chrome {\n    display: block;\n    border: 0px!important;\n    padding: 0;\n}\n.color-red{\n    color: #fe0364;\n}\n.mini-toastr__notification{\n    width: 100%!important;\n    top: 0px!important;\n    right: 0px!important;\n}\n.-success{\n    background-color: darkred!important;\n}\n.editableSpanners{\n    background-color: #fe0364;\n    color: white;\n    border-radius: 5px;\n}\n.appendice-control-wrap{\n    float: left;\n    width: 100%;\n    height: auto;\n    border-bottom: 1px solid grey;\n}\n.appendice-control-wrap:hover{\n    background-color: #dadada;\n    color: #7f27d5;\n    transition: 100ms;\n}\n.appendice-control-wrap:hover input{\n    background-color: #dadada;\n    color: #7f27d5;\n    transition: 100ms;\n}\n.appendice-focused {\n    background-image: url(\"/assets/app/img/btn-gradiant-tmplate-manager.jpg\")!important;\n    transition: 100ms;\n    width: 100%;\n    height: auto;\n    color: white!important!important;\n}\n.appendice-focused input:focus{\n    color: white!important;\n}\n.appendice-focuses:focus{\n    color: white!important!important;\n}\n.transaprant-input{\n    background: transparent!important;\n    border: none!important;\n}\n#appendice-add-btn:hover{\n    cursor: pointer;\n}\n.cke_editable{\n    margin: 0!important;\n}\n@-webkit-keyframes checkmark {\n0% {\n        stroke-dashoffset: 50px\n}\n100% {\n        stroke-dashoffset: 0\n}\n}\n@keyframes checkmark {\n0% {\n        stroke-dashoffset: 50px\n}\n100% {\n        stroke-dashoffset: 0\n}\n}\n@-webkit-keyframes checkmark-circle {\n0% {\n        stroke-dashoffset: 240px\n}\n100% {\n        stroke-dashoffset: 480px\n}\n}\n@keyframes checkmark-circle {\n0% {\n        stroke-dashoffset: 240px\n}\n100% {\n        stroke-dashoffset: 480px\n}\n}\n\n/* other styles */\n/* .svg svg {\n    display: none\n}\n */\n.inlinesvg .svg svg {\n    display: inline\n}\n\n/* .svg img {\n    display: none\n} */\n.icon--order-success svg path {\n    -webkit-animation: checkmark 0.25s ease-in-out 0.7s backwards;\n    animation: checkmark 0.25s ease-in-out 0.7s backwards\n}\n.icon--order-success svg circle {\n    -webkit-animation: checkmark-circle 0.6s ease-in-out backwards;\n    animation: checkmark-circle 0.6s ease-in-out backwards\n}\n@media (max-width:767px){\n#wrapper{\n        margin-top: 70px;\n}\n}\n.loader {\n    position: relative;\n    margin: 0px auto;\n    width: 100px;\n    height:100px;\n    zoom: $zoom;\n}\n.circular{-webkit-animation:rotate 2s linear forwards ;animation:rotate 2s linear forwards ;width:100px;height:100px;position:relative\n}\n.path{stroke:#007aff; stroke-dasharray: 1,200;\n    stroke-dashoffset: 0;\n    -webkit-animation:\n            dash 1.5s ease-in-out forwards,\n            color 6s ease-in-out infinite\n;\n            animation:\n            dash 1.5s ease-in-out forwards,\n            color 6s ease-in-out infinite\n;\n    stroke-linecap: round;\n}\n@-webkit-keyframes dash{\n0%{\n        stroke-dasharray: 1,200;\n        stroke-dashoffset: 0;\n}\n100%{\n        stroke-dasharray: 150,200;\n        stroke-dashoffset: 10;\n}\n}\n@keyframes dash{\n0%{\n        stroke-dasharray: 1,200;\n        stroke-dashoffset: 0;\n}\n100%{\n        stroke-dasharray: 150,200;\n        stroke-dashoffset: 10;\n}\n}\n@-webkit-keyframes color{\n100%, 0%{\n        stroke: #f00;\n}\n40%{\n        stroke: #007aff;\n}\n66%{\n        stroke: #24555d;\n}\n80%, 90%{\n        stroke: #789642;\n}\n}\n@keyframes color{\n100%, 0%{\n        stroke: #f00;\n}\n40%{\n        stroke: #007aff;\n}\n66%{\n        stroke: #24555d;\n}\n80%, 90%{\n        stroke: #789642;\n}\n}\n@-webkit-keyframes rotate{\n100%{-webkit-transform:rotate(360deg);transform:rotate(360deg)\n}\n}\n@keyframes rotate{\n100%{-webkit-transform:rotate(360deg);transform:rotate(360deg)\n}\n}\n.checkmark__check {\n    -webkit-transform-origin: 50% 50%;\n            transform-origin: 50% 50%;\n    stroke-dasharray: 48;\n    stroke-dashoffset: 48;\n\n    -webkit-animation: stroke 0.5s  cubic-bezier(0.65, 0, 0.45, 1) 1.5s forwards, color 6s linear infinite;\n\n            animation: stroke 0.5s  cubic-bezier(0.65, 0, 0.45, 1) 1.5s forwards, color 6s linear infinite;\n}\n@-webkit-keyframes stroke {\n100% {\n        stroke-dashoffset: 0;\n}\n}\n@keyframes stroke {\n100% {\n        stroke-dashoffset: 0;\n}\n}\n.suc{\n    stroke:#007aff;\n    stroke-width:2;\n    position:absolute;top:30px;left:30px;\n    width:40px;height:40px;\n}\n\n\n", ""]);
+exports.push([module.i, "\n.template-title-wrap{\n    width: 9%;\n    margin-right: 5%;\n    float:left;\n}\n.template-title-input{\n    width: 50%;\n    float: left;\n}\n.st0{\n    fill:#EC0B61;\n}\n.st1{\n    fill:#00D01C;\n}\n.ion-rotate{\n    -webkit-animation-name: rotateInfinite;\n            animation-name: rotateInfinite;\n    -webkit-animation-duration: 1s;\n            animation-duration: 1s;\n    /* Things added */\n    -webkit-animation-iteration-count: infinite;\n            animation-iteration-count: infinite;\n    -webkit-transform-origin: 50% 50%;\n            transform-origin: 50% 50%;\n    display: inline-block;\n    font-size: 16px;\n    transition: 100ms;\n}\n@-webkit-keyframes rotateInfinite {\n0% {\n        fill: #EC4A61 ;\n        transition: 200ms;\n        -webkit-transform: rotate(0deg);\n                transform: rotate(0deg);\n}\n25% {\n        fill: #CD3C89 ;\n        transition: 200ms;\n}\n50% {\n        fill: #B42EA9 ;\n        transition: 200ms;\n}\n75% {\n        fill: #911FD6 ;\n        transition: 200ms;\n}\n100% {\n        fill: #7915F3 ;\n        transition: 200ms;\n        -webkit-transform: rotate(360deg);\n                transform: rotate(360deg);\n}\n}\n@keyframes rotateInfinite {\n0% {\n        fill: #EC4A61 ;\n        transition: 200ms;\n        -webkit-transform: rotate(0deg);\n                transform: rotate(0deg);\n}\n25% {\n        fill: #CD3C89 ;\n        transition: 200ms;\n}\n50% {\n        fill: #B42EA9 ;\n        transition: 200ms;\n}\n75% {\n        fill: #911FD6 ;\n        transition: 200ms;\n}\n100% {\n        fill: #7915F3 ;\n        transition: 200ms;\n        -webkit-transform: rotate(360deg);\n                transform: rotate(360deg);\n}\n}\n.svg-template-picto{\n    width: 20;\n    height: 20;\n    -webkit-animation: scalePictoLoading;\n            animation: scalePictoLoading;\n    -webkit-animation-direction: 100ms;\n            animation-direction: 100ms;\n    -webkit-animation-name: scalePictoLoading; /* Safari 4.0 - 8.0 */\n    -webkit-animation-duration: 100ms; /* Safari 4.0 - 8.0 */\n}\n.ion-error-red{\n    color: #f7006b;\n    transition: opacity 100ms, visibility 100ms;\n}\n@-webkit-keyframes scalePictoLoading {\nfrom {\n        width: 0;\n        height:0;\n}\nto {\n        width: 30;\n        height: 30;\n}\n}\n\n/* Standard syntax */\n@keyframes scalePictoLoading {\nfrom {\n        width: 0;\n        height:0;\n}\nto {\n        width: 30;\n        height: 30;\n}\n}\ninput {\n    outline: none;\n    border: none !important;\n    box-shadow: none !important;\n}\nonly screen and (min-width: 980px)\n{\nbody{\n        overflow-y: hidden!important;\n}\n}\n#template-list-wrapper {\n    /*visibility: hidden;*/\n}\n#project-name-wrapper{\n    height: 70px;\n    background-color: #dadada;\n}\n[v-cloak] {\n    display: none;\n}\n#recipient-manger-col-wrapper{\n    opacity: 1;\n    transition: opacity 1s ease-in-out;\n    -webkit-transition: opacity 1s ease-in-out;\n    -moz-transition: opacity 1s ease-in-out;\n    -ms-transition: opacity 1s ease-in-out;\n    -o-transition: opacity 1s ease-in-out;\n}\n.template-manager-selected-template{\n    background-image: url(\"/assets/app/img/btn-gradiant-tmplate-manager.jpg\");\n    transition: 100ms;\n}\n#letter-personal-text{\n    height: 100mm;\n}\n#letter-wrapper .panel-body{\n    height: 80vh;\n    overflow-y: scroll;\n}\n#recipient-data{\n    margin-left: 57%;\n}\n.to-deliver-list-item:hover{\n    color: red!important;\n    transition: 100ms;\n    cursor: pointer;\n}\n#letter-object-wrapper{\n    margin-top: 9.5%;\n}\n.corporate-list-item:hover{\n    cursor: pointer;\n    color: #2ab27b;\n    transition: 100ms;\n}\n.corporate-list-item{\n    transition: 100ms;\n}\n.heading-custom{\n    background-color: #f1f1f1!important;\n    height: 40px;\n}\n.modal-large{\n    width: 80%;\n    margin-left: 10%;\n    margin-right: 10%;\n}\n#letter-wrapper{\n    height: 80vh;\n}\n.mailer-wrapper input{\n    width: 100%;\n    height: auto;\n}\n.mailer-wrapper{\n    width: 100%;\n    height: auto;\n}\n.ion-btn{\n    transition: 100ms;\n}\n.ion-btn:hover{\n    color: #0c84e4;\n    transition: 100ms;\n    cursor: pointer;\n}\n.template-manager-header{\n    width: 100%;\n    height: 20px;\n}\n.template-manager-temp-name{\n    width: 70%;\n    white-space: nowrap;\n    overflow: hidden;\n    text-overflow: ellipsis;\n    font-size: 12px!important;\n    float: left;\n    cursor: pointer;\n}\n.template-manager-temp-icons{\n    width: 11%;\n    padding-left: 2%;\n    padding-right: 2%;\n    float: left;\n}\n#letter-toolbar-wrapper{\n    width: 100%;\n    height: auto;\n}\n#toolbar-wrapper{\n    top: 0px!important;\n}\n.letter-fonts{\n    font-size: 12pt!important;\n}\n#letter-content-scroll{\n    width: 100%;\n    height: auto;\n    display: inline-block;\n    overflow: hidden;\n}\n#sheet-paper{\n    margin-left: auto;\n    margin-right: auto;\n    overflow: hidden;\n}\n.paper-sheet{\n    size: A4;\n    margin: auto;\n    width: 793px;\n    height: 1122px;\n    padding-left: 132px;\n    padding-right: 94px;\n    padding-top: 94px;\n    padding-bottom: 94px;\n    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);\n    -moz-box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);\n    font-size: 10pt!important;\n}\n.paper-sheet .form-control{\n    font-size: 10pt!important;\n}\n#sender-data-wrapper{\n    width: 50%;\n}\n#letter-current-date-wrapper{\n    margin-left: 57%;\n}\n.letter-appendicies-list{\n    bottom: 0;\n    width: 100%;\n    height: auto;\n}\n#letter-preview-frame{\n    width: 60%;\n    margin-left: 20%;\n    height: auto;\n    margin: auto;\n}\n#letter-preview-frame-data{\n    display: block;\n    float: left;\n    width: 60%;\n    margin-left: 20%;\n    margin-right: 20%;\n    margin: auto;\n    height: auto;\n}\n.form-smaller-custom{\n    font-size: 12pt!important;\n    height: 16px!important;\n}\n.templates-list{\n    width: 100%;\n    height: auto;\n}\n.templatelistappear-enter-active{\n    -webkit-animation: templatelistappear;\n            animation: templatelistappear;\n    -webkit-animation-duration: 1s;\n            animation-duration: 1s;\n}\n#letter-personal-content{\n    height: auto;\n}\n#signature-wrapper{\n    margin-left: 57%;\n    height: auto;\n    margin-top: 50px;\n}\n#signature-image{\n    width: 100%;\n    height: 40%;\n    background-color: #a6e1ec;\n}\n.auto-value-letter{\n    background-color: #a6e1ec;\n}\n.templatelistappear-leave-active{\n\n    -webkit-animation: templatelistdisappear;\n\n            animation: templatelistdisappear;\n}\n.letter-padding{\n    padding-left: 80px;\n    padding-right: 50px;\n}\n#page-loading-animation{\n    position: absolute;\n    overflow-x: hidden;\n    overflow-y: hidden;\n    width: 100vw;\n    height: 100vh;\n    background-color: white;\n    -webkit-animation: fadein;\n    -webkit-animation-duration: 2s;\n    z-index: 2000;\n    visibility: hidden;\n}\n@-webkit-keyframes fadein{\n0%{\n        visibility: visible;\n}\n100%{\n        visibility: hidden;\n}\n}\n\n\n/* Loading */\n.loader{\n    margin:200px auto;\n}\n.loader span{\n    width:16px;\n    height:16px;\n    border-radius:50%;\n    display:inline-block;\n    position:absolute;\n    left:50%;\n    margin-left:-10px;\n    -webkit-animation:3s infinite linear;\n    -moz-animation:3s infinite linear;\n    -o-animation:3s infinite linear;\n}\n.loader span:nth-child(2){\n    background:#E84C3D;\n    -webkit-animation:kiri 1.2s infinite linear;\n    -moz-animation:kiri 1.2s infinite linear;\n    -o-animation:kiri 1.2s infinite linear;\n}\n.loader span:nth-child(3){\n    background:#F1C40F;\n    z-index:100;\n}\n.loader span:nth-child(4){\n    background:#2FCC71;\n    -webkit-animation:kanan 1.2s infinite linear;\n    -moz-animation:kanan 1.2s infinite linear;\n    -o-animation:kanan 1.2s infinite linear;\n}\n@-webkit-keyframes kanan {\n0% {-webkit-transform:translateX(20px);\n}\n50%{-webkit-transform:translateX(-20px);\n}\n100%{-webkit-transform:translateX(20px);\n        z-index:200;\n}\n}\n\n/* CKEDITOR */\n.cke_top{\n    border: 0px!important;\n    background-color: #f1f1f1!important;\n    zoom: 0.74!important;\n}\n.cke_chrome {\n    display: block;\n    border: 0px!important;\n    padding: 0;\n}\n.color-red{\n    color: #fe0364;\n}\n.mini-toastr__notification{\n    width: 100%!important;\n    top: 0px!important;\n    right: 0px!important;\n}\n.-success{\n    background-color: darkred!important;\n}\n.editableSpanners{\n    background-color: #fe0364;\n    color: white;\n    border-radius: 5px;\n}\n.appendice-control-wrap{\n    float: left;\n    width: 100%;\n    height: auto;\n    border-bottom: 1px solid grey;\n}\n.appendice-control-wrap:hover{\n    background-color: #dadada;\n    color: #7f27d5;\n    transition: 100ms;\n}\n.appendice-control-wrap:hover input{\n    background-color: #dadada;\n    color: #7f27d5;\n    transition: 100ms;\n}\n.appendice-focused {\n    background-image: url(\"/assets/app/img/btn-gradiant-tmplate-manager.jpg\")!important;\n    transition: 100ms;\n    width: 100%;\n    height: auto;\n    color: white!important!important;\n}\n.appendice-focused input:focus{\n    color: white!important;\n}\n.appendice-focuses:focus{\n    color: white!important!important;\n}\n.transaprant-input{\n    background: transparent!important;\n    border: none!important;\n}\n#appendice-add-btn:hover{\n    cursor: pointer;\n}\n.cke_editable{\n    margin: 0!important;\n}\n@-webkit-keyframes checkmark {\n0% {\n        stroke-dashoffset: 50px\n}\n100% {\n        stroke-dashoffset: 0\n}\n}\n@keyframes checkmark {\n0% {\n        stroke-dashoffset: 50px\n}\n100% {\n        stroke-dashoffset: 0\n}\n}\n@-webkit-keyframes checkmark-circle {\n0% {\n        stroke-dashoffset: 240px\n}\n100% {\n        stroke-dashoffset: 480px\n}\n}\n@keyframes checkmark-circle {\n0% {\n        stroke-dashoffset: 240px\n}\n100% {\n        stroke-dashoffset: 480px\n}\n}\n\n/* other styles */\n/* .svg svg {\n    display: none\n}\n */\n.inlinesvg .svg svg {\n    display: inline\n}\n\n/* .svg img {\n    display: none\n} */\n.icon--order-success svg path {\n    -webkit-animation: checkmark 0.25s ease-in-out 0.7s backwards;\n    animation: checkmark 0.25s ease-in-out 0.7s backwards\n}\n.icon--order-success svg circle {\n    -webkit-animation: checkmark-circle 0.6s ease-in-out backwards;\n    animation: checkmark-circle 0.6s ease-in-out backwards\n}\n@media (max-width:767px){\n#wrapper{\n        margin-top: 70px;\n}\n.paper-sheet{\n        font-size: 12px;\n        width: 100%!important;\n        height: auto;\n        padding-left: 0px;\n        padding-right: 0px;\n}\n.letter-padding:{\n        margin-left: 40px;\n        margin-right: 40px;\n}\n#mailer-col-wrapper{\n        float: left;\n}\n.only-desktop{\n        display:none;\n}\n}\n.loader {\n    position: relative;\n    margin: 0px auto;\n    width: 100px;\n    height:100px;\n    zoom: $zoom;\n}\n.circular{-webkit-animation:rotate 2s linear forwards ;animation:rotate 2s linear forwards ;width:100px;height:100px;position:relative\n}\n.path{stroke:#007aff; stroke-dasharray: 1,200;\n    stroke-dashoffset: 0;\n    -webkit-animation:\n            dash 1.5s ease-in-out forwards,\n            color 6s ease-in-out infinite\n;\n            animation:\n            dash 1.5s ease-in-out forwards,\n            color 6s ease-in-out infinite\n;\n    stroke-linecap: round;\n}\n@-webkit-keyframes dash{\n0%{\n        stroke-dasharray: 1,200;\n        stroke-dashoffset: 0;\n}\n100%{\n        stroke-dasharray: 150,200;\n        stroke-dashoffset: 10;\n}\n}\n@keyframes dash{\n0%{\n        stroke-dasharray: 1,200;\n        stroke-dashoffset: 0;\n}\n100%{\n        stroke-dasharray: 150,200;\n        stroke-dashoffset: 10;\n}\n}\n@-webkit-keyframes color{\n100%, 0%{\n        stroke: #f00;\n}\n40%{\n        stroke: #007aff;\n}\n66%{\n        stroke: #24555d;\n}\n80%, 90%{\n        stroke: #789642;\n}\n}\n@keyframes color{\n100%, 0%{\n        stroke: #f00;\n}\n40%{\n        stroke: #007aff;\n}\n66%{\n        stroke: #24555d;\n}\n80%, 90%{\n        stroke: #789642;\n}\n}\n@-webkit-keyframes rotate{\n100%{-webkit-transform:rotate(360deg);transform:rotate(360deg)\n}\n}\n@keyframes rotate{\n100%{-webkit-transform:rotate(360deg);transform:rotate(360deg)\n}\n}\n.checkmark__check {\n    -webkit-transform-origin: 50% 50%;\n            transform-origin: 50% 50%;\n    stroke-dasharray: 48;\n    stroke-dashoffset: 48;\n\n    -webkit-animation: stroke 0.5s  cubic-bezier(0.65, 0, 0.45, 1) 1.5s forwards, color 6s linear infinite;\n\n            animation: stroke 0.5s  cubic-bezier(0.65, 0, 0.45, 1) 1.5s forwards, color 6s linear infinite;\n}\n@-webkit-keyframes stroke {\n100% {\n        stroke-dashoffset: 0;\n}\n}\n@keyframes stroke {\n100% {\n        stroke-dashoffset: 0;\n}\n}\n.suc{\n    stroke:#007aff;\n    stroke-width:2;\n    position:absolute;top:30px;left:30px;\n    width:40px;height:40px;\n}\n\n\n", ""]);
 
 /***/ }),
 /* 175 */
@@ -51025,7 +51070,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "id": "package-payment-1"
     }
-  }, [_vm._m(3), _vm._v(" "), _c('card', {
+  }, [_c('p', [_vm._v("Rechargez votre réserve de 50 mails")]), _vm._v(" "), _c('card', {
     ref: "50mails",
     staticClass: "stripe-card",
     class: {
@@ -51047,7 +51092,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.pay(1)
       }
     }
-  }, [_vm._m(4)])], 1), _vm._v(" "), _c('div', {
+  }, [_vm._m(3)])], 1), _vm._v(" "), _c('div', {
     staticClass: "package-btn",
     attrs: {
       "id": "package-btn-1"
@@ -51057,32 +51102,32 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.selectPackage(1)
       }
     }
-  }, [_vm._m(5)])]), _vm._v(" "), _c('div', {
+  }, [_vm._m(4)])]), _vm._v(" "), _c('div', {
     staticClass: "package-wrap col-lg-4 no-padding-left no-padding-right",
     staticStyle: {
       "border-radius": "5px"
     }
-  }, [_vm._m(6), _vm._v(" "), _c('div', {
+  }, [_vm._m(5), _vm._v(" "), _c('div', {
     staticClass: "package-btn",
     on: {
       "click": function($event) {
         _vm.selectPackage(2)
       }
     }
-  }, [_vm._m(7)])]), _vm._v(" "), _c('div', {
+  }, [_vm._m(6)])]), _vm._v(" "), _c('div', {
     staticClass: "package-wrap col-lg-4 no-padding-left no-padding-right",
     staticStyle: {
       "border-radius": "5px",
       "border-right": "none!important"
     }
-  }, [_vm._m(8), _vm._v(" "), _c('div', {
+  }, [_vm._m(7), _vm._v(" "), _c('div', {
     staticClass: "package-btn",
     on: {
       "click": function($event) {
         _vm.selectPackage(3)
       }
     }
-  }, [_vm._m(9)])])]), _vm._v(" "), _vm._m(10)])])])
+  }, [_vm._m(8)])])]), _vm._v(" "), _vm._m(9)])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "col-lg-12"
@@ -51133,10 +51178,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('strong', [_vm._v("50")])]), _vm._v(" "), _c('span', {
     staticClass: "package-text"
   }, [_vm._v("mails")])])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('span', {
-    staticClass: "package-reserve"
-  }, [_c('strong', [_vm._v("50")]), _vm._v(" mails")])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "col-lg-12"
@@ -51601,7 +51642,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })], 1), _vm._v(" "), _c('div', {
     staticClass: "col-lg-1 ion-btn"
-  }, [(_vm.page = 'letter') ? _c('div', {
+  }, [_c('div', {
     staticClass: "ion-btn"
   }, [_c('a', {
     attrs: {
@@ -51615,7 +51656,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('span', {
     staticClass: "ion-navicon-round"
-  })])]) : _vm._e(), _vm._v(" "), (_vm.page == 'mailer') ? _c('div', {
+  })])]), _vm._v(" "), _c('div', {
     staticClass: "ion-btn"
   }, [_c('a', {
     attrs: {
@@ -51627,7 +51668,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.goToLetter($event)
       }
     }
-  }, [_vm._v("Letter")])]) : _vm._e()])]), _vm._v(" "), _c('div', {
+  }, [_vm._v("Letter")])])])]), _vm._v(" "), _c('div', {
     staticClass: "form-group"
   }, [_c('input', {
     directives: [{
@@ -51706,7 +51747,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "action": ""
       }
     }, [_c('div', {
-      staticClass: "col-md-4"
+      staticClass: "col-md-3"
     }, [_c('div', {
       staticClass: "form-group ",
       class: _vm.checkField(corporate.name)
@@ -51738,7 +51779,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }
     })])]), _vm._v(" "), _c('div', {
-      staticClass: "col-lg-4"
+      staticClass: "col-lg-3"
     }, [_c('div', {
       staticClass: "form-group"
     }, [_c('label', {
@@ -51769,7 +51810,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }
     })])]), _vm._v(" "), _c('div', {
-      staticClass: "col-lg-4"
+      staticClass: "col-lg-3"
     }, [_c('div', {
       staticClass: "form-group"
     }, [_c('label', {
@@ -51800,7 +51841,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }
     })])]), _vm._v(" "), _c('div', {
-      staticClass: "col-lg-4"
+      staticClass: "col-lg-3"
     }, [_c('div', {
       staticClass: "form-group"
     }, [_c('label', {
@@ -51839,7 +51880,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "value": "1"
       }
     }, [_vm._v("Homme")])])])]), _vm._v(" "), _c('div', {
-      staticClass: "col-lg-4"
+      staticClass: "col-lg-3"
     }, [_c('div', {
       staticClass: "form-group",
       class: _vm.checkField(corporate.city)
@@ -51871,7 +51912,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }
     })])]), _vm._v(" "), _c('div', {
-      staticClass: "col-lg-4"
+      staticClass: "col-lg-3"
     }, [_c('div', {
       staticClass: "form-group",
       class: _vm.checkField(corporate.adresse)
@@ -51903,7 +51944,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }
     })])]), _vm._v(" "), _c('div', {
-      staticClass: "col-lg-4"
+      staticClass: "col-lg-3"
     }, [_c('div', {
       staticClass: "form-group"
     }, [_c('div', {
@@ -51937,7 +51978,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }
     })])])]), _vm._v(" "), _c('div', {
-      staticClass: "col-lg-6"
+      staticClass: "col-lg-3"
     }, [_c('div', {
       staticClass: "form-group"
     }, [_c('label', {
@@ -51970,7 +52011,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           corporate.canton = $event.target.value
         }
       }
-    }), _vm._v(" "), _c('datalist', {
+    }), _vm._v("-->\n                                                    "), _c('datalist', {
       attrs: {
         "id": "regions"
       }
@@ -51987,7 +52028,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }, [_vm._v(_vm._s(region.name) + " - " + _vm._s(region.abbreviation))])
     }))])])]), _vm._v(" "), _c('div', {
-      staticClass: "col-lg-6"
+      staticClass: "col-lg-6 offset-col-lg-3"
     }, [_c('div', {
       staticClass: "form-group"
     }, [_c('label', {
@@ -52062,11 +52103,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "container"
-  }, [_c('div', {
-    staticClass: "row"
-  }, [_c('div', {
+  return _c('div', {}, [_c('div', {
     staticClass: "col-lg-12 card"
   }, [_c('div', {
     staticClass: "panel panel-default"
@@ -52083,47 +52120,70 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })]), _vm._v(" "), _c('div', {
     staticClass: "col-lg-9"
-  }, [_vm._v("\n                        Carnet de postulation\n                    ")])]), _vm._v(" "), _c('div', {
+  }, [_vm._v("\n                    Carnet de postulation\n\n                    "), _c('span', {
+    staticClass: "empty-template ion-close-round pull-right",
+    on: {
+      "click": _vm.emptyTemplate
+    }
+  })])]), _vm._v(" "), _c('div', {
     staticClass: "panel-body"
-  }, [_c('div', {
-    staticClass: "row"
   }, [_c('div', {
     staticClass: "col-lg-5"
   }, [_c('div', {
     attrs: {
       "id": "hostory-content-scroll"
     }
-  }, [_vm._m(0), _vm._v(" "), _vm._l((_vm.history), function(item) {
+  }, [_c('div', {
+    staticClass: "col-lg-12"
+  }, _vm._l((_vm.history), function(item) {
     return _c('div', {
-      staticClass: "col-lg-12 list-item"
+      staticClass: "template-btn col-lg-12",
+      attrs: {
+        "id": "item.id"
+      },
+      on: {
+        "click": function($event) {
+          _vm.loadTemplate(item)
+        }
+      }
     }, [_c('div', {
       staticClass: "col-lg-4"
-    }, [_vm._v("\n                                        " + _vm._s(item.template.name) + "\n                                    ")]), _vm._v(" "), _c('div', {
+    }, [_vm._v("\n                                    " + _vm._s(item.template.name) + "\n                                ")]), _vm._v(" "), _c('div', {
       staticClass: "col-lg-4"
-    }, [_vm._v("\n                                        " + _vm._s(item.corporate.name) + "\n                                    ")]), _vm._v(" "), _c('div', {
+    }, [_vm._v("\n                                    " + _vm._s(item.corporate.name) + "\n                                ")]), _vm._v(" "), _c('div', {
       staticClass: "col-lg-4"
-    }, [_vm._v("\n                                        " + _vm._s(item.created_at) + "\n                                    ")])])
-  })], 2)]), _vm._v(" "), _vm._m(1)])])])])])])
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "col-lg-12"
+    }, [_vm._v("\n                                    " + _vm._s(item.created_at) + "\n                                ")])])
+  }))])]), _vm._v(" "), _c('div', {
+    staticClass: "col-lg-6"
+  }, [(_vm.selectedTemplate != '') ? _c('div', {
+    staticClass: "container"
+  }, [_c('div', {
+    staticClass: "col-lg-6"
+  }, [_c('div', {
+    attrs: {
+      "id": "sheet"
+    }
   }, [_c('div', {
     staticClass: "col-lg-4"
-  }, [_c('h5', [_vm._v("Modèle")])]), _vm._v(" "), _c('div', {
-    staticClass: "col-lg-4"
-  }, [_c('h5', [_vm._v("Destinataire")])]), _vm._v(" "), _c('div', {
-    staticClass: "col-lg-4"
-  }, [_c('h5', [_vm._v("Date d'envoi")])])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "col-lg-7"
-  }, [_c('img', {
-    attrs: {
-      "src": "http://lorempicsum.com/futurama/350/200/1",
-      "alt": ""
+  }, [_c('p', [_vm._v("\n                                        " + _vm._s(_vm.userData.firstname) + " " + _vm._s(_vm.userData.lastname) + " "), _c('br'), _vm._v("\n                                        " + _vm._s(_vm.userData.adresse) + " "), _c('br'), _vm._v("\n                                        " + _vm._s(_vm.userData.npa) + " " + _vm._s(_vm.userData.canton)), _c('br'), _vm._v("\n                                        " + _vm._s(_vm.userData.phone) + " "), _c('br'), _vm._v("\n                                        " + _vm._s(_vm.userData.email) + "\n                                    ")])]), _vm._v(" "), _c('div', {
+    staticClass: "col-lg-4 col-lg-offset-4"
+  }, [_c('p', [_vm._v("\n                                        " + _vm._s(_vm.selectedTemplate.corporate.contact_firstname) + " " + _vm._s(_vm.selectedTemplate.corporate.contact_lastname) + "\n                                        "), _c('br'), _vm._v("\n                                        " + _vm._s(_vm.selectedTemplate.corporate.adresse) + " "), _c('br'), _vm._v("\n                                        " + _vm._s(_vm.selectedTemplate.corporate.npa) + " " + _vm._s(_vm.selectedTemplate.corporate.canton) + "\n                                        "), _c('br')])]), _vm._v(" "), _c('div', {
+    staticClass: "col-lg-12"
+  }, [_c('br'), _vm._v(" "), _c('p', [_c('strong', [_vm._v(_vm._s(_vm.selectedTemplate.template.object))]), _vm._v(" "), _c('br')]), _c('div', {
+    domProps: {
+      "innerHTML": _vm._s(_vm.selectedTemplate.template.content)
     }
-  })])
-}]}
+  }), _vm._v(" "), _c('p')])])]), _vm._v(" "), _c('div', {
+    staticClass: "col-lg-6"
+  }, [_c('div', {
+    staticClass: "corporate"
+  }, [_c('strong', [_vm._v(_vm._s(_vm.selectedTemplate.corporate.name))]), _vm._v(" "), _c('br'), _vm._v("\n                                " + _vm._s(_vm.selectedTemplate.corporate.adresse) + "\n                                " + _vm._s(_vm.selectedTemplate.corporate.npa) + "\n                                " + _vm._s(_vm.selectedTemplate.corporate.city) + "\n                            ")])])]) : _vm._e()])])])]), _vm._v(" "), _c('router-link', {
+    staticClass: "btn",
+    attrs: {
+      "to": "/"
+    }
+  }, [_vm._v("Bureau")])], 1)
+},staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
@@ -52210,7 +52270,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "form-group",
     class: _vm.checkField(_vm.currentTemplate.name)
   }, [_c('div', {
-    staticClass: "col-lg-11"
+    staticClass: "template-title-input"
   }, [_c('input', {
     directives: [{
       name: "model",
@@ -52325,7 +52385,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "d": "M96.3,75.1L71.6,50.4l24.7-24.7c5.9-5.9,5.9-15.4,0-21.2c-5.9-5.9-15.4-5.9-21.2,0L50.4,29.1L25.6,4.4\n                                                c-5.9-5.9-15.4-5.9-21.2,0s-5.9,15.4,0,21.2l24.7,24.7L4.4,75.1c-5.9,5.9-5.9,15.4,0,21.2c5.9,5.9,15.4,5.9,21.2,0l24.7-24.7\n                                                l24.7,24.7c5.9,5.9,15.4,5.9,21.2,0C102.2,90.5,102.2,81,96.3,75.1z"
     }
   })])]) : _vm._e()])]), _vm._v(" "), _c('div', {
-    staticClass: "col-lg-2"
+    staticClass: "col-lg-2 only-desktop"
   }, [_c('p', [_vm._v("\n                                    mis à jour le " + _vm._s(_vm.currentTemplate.updated_at) + "\n                                ")])])]), _vm._v(" "), _c('div', {
     staticClass: "row letter-padding"
   }, [(_vm.page == 'letter') ? _c('div', {
@@ -52373,9 +52433,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "id": "sheet-paper"
     }
   }, [_c('div', {
-    staticClass: "sender-data-wrapper row"
+    staticClass: "col-lg-12 no-padding-left no-padding-right sender-data-wrapper row",
+    attrs: {
+      "id": ""
+    }
   }, [_c('div', {
-    staticClass: "col-lg-6",
+    staticClass: "col-lg-12",
     attrs: {
       "id": "sender-data"
     }
@@ -52603,6 +52666,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "value": (_vm.currentTemplate.letter.object)
     },
     on: {
+      "keyup": function($event) {
+        _vm.updateThisTemplate(_vm.currentTemplate.id)
+      },
       "input": function($event) {
         if ($event.target.composing) { return; }
         _vm.currentTemplate.letter.object = $event.target.value
@@ -52621,6 +52687,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('ckeditor', {
     attrs: {
       "config": _vm.config
+    },
+    on: {
+      "mouseLeave": _vm.ckLeave
     },
     model: {
       value: (_vm.currentTemplate.letter.content),
@@ -52651,6 +52720,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "value": (_vm.currentTemplate.letter.salutation)
     },
     on: {
+      "keyup": function($event) {
+        _vm.updateThisTemplate(_vm.currentTemplate.id)
+      },
       "input": function($event) {
         if ($event.target.composing) { return; }
         _vm.currentTemplate.letter.salutation = $event.target.value
@@ -52816,7 +52888,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("LOADING")]), _vm._v(" "), _c('span'), _vm._v(" "), _c('span'), _vm._v(" "), _c('span')])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
-    staticClass: "col-lg-1"
+    staticClass: "template-title-wrap "
   }, [_c('span', [_vm._v("TITRE : ")])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
@@ -53325,18 +53397,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "row"
   }, [_c('div', {
     staticClass: "col-lg-12"
-  }, [_c('p', [_c('router-link', {
-    attrs: {
-      "to": "/history"
-    }
-  }, [_vm._v("Mes dernières postulations")]), _vm._v(" "), _c('br'), _vm._v(" "), _c('a', {
+  }, [_c('p', [_c('br'), _vm._v(" "), _c('a', {
     on: {
       "click": function($event) {
         $event.preventDefault();
         _vm.openImporvementModal($event)
       }
     }
-  }, [_vm._v("Proposer des améliorations")]), _vm._v(" "), _c('br')], 1)])])]), _vm._v(" "), (_vm.showImporvementModal) ? _c('div', {
+  }, [_vm._v("Proposer des améliorations")]), _vm._v(" "), _c('br')])])])]), _vm._v(" "), (_vm.showImporvementModal) ? _c('div', {
     staticClass: "modal-mask"
   }, [_c('div', {
     staticClass: "modal-wrapper"
@@ -53637,7 +53705,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "to": "/mail-filler"
     }
-  }, [_vm._v("Remplire reserve de mails")])], 1)])])])])
+  }, [_vm._v("Remplire reserve de mails")]), _vm._v(" "), _c('br'), _vm._v(" "), _c('router-link', {
+    attrs: {
+      "to": "/history"
+    }
+  }, [_vm._v("Mes dernières postulations")])], 1)])])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "col-lg-2 col-lg-offset-2"

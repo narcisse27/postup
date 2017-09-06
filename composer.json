@@ -8,13 +8,15 @@
         "php": ">=5.6.4",
         "algolia/algoliasearch-client-php": "^1.18",
         "barryvdh/laravel-dompdf": "^0.8.0",
+        "guzzlehttp/guzzle": "~5.3|~6.0",
         "intervention/image": "^2.3",
         "laravel/dusk": "^1.1",
         "laravel/framework": "5.4.*",
         "laravel/scout": "^3.0",
         "laravel/tinker": "~1.0",
-        "guzzlehttp/guzzle": "~5.3|~6.0",
-        "stripe/stripe-php": "5.*"
+        "maatwebsite/excel": "~2.1.0",
+        "stripe/stripe-php": "5.*",
+        "unisharp/laravel-filemanager": "^1.8"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

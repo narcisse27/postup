@@ -154,6 +154,8 @@
                     <div class="col-lg-12">
                         <br>
                         <router-link to="/mail-filler" class="center-align">Remplire reserve de mails</router-link>
+                        <br>
+                        <router-link to="/history">Mes dernières postulations</router-link>
                     </div>
                 </div>
             </div>

@@ -108,6 +108,7 @@ Route::group(['prefix' => '/administrator', 'middleware' => ['auth', 'role:admin
     Route::get('/improvements/{id}', ['uses' => 'FeatureImprovementController@show']);
     Route::get('/users', ['uses' => 'UserController@index']);
     Route::get('/user/{id}', ['uses' => 'UserController@show']);
+    Route::get('/recipients/add', ['uses' => 'CorporateController@indexAddExcellCorporate']);
 
 
 });

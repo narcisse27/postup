@@ -14,12 +14,14 @@
                             <multiselect v-model="value" tag-placeholder="ajouter adresse" SelectLabel="Enter/tab pour séléctionner" SelectedLabel="Selectionné" DeselectLabel="Supprimer" placeholder="Chercher ou ajouter une adresse mail" label="name" track-by="code" :options="options" :multiple="true" :taggable="true" @tag="addTag" :max="userData.mails_reserve" @search-change="reloadCorporates" noResult="Aucun résultat" :HideSelected="true"></multiselect>
                         </div>
                         <div class="col-lg-1 ion-btn">
-                            <div v-if="page = 'letter'" class="ion-btn">
+                            <!-- v-if="page = 'letter'"  -->
+                            <div class="ion-btn">
                                 <a href="" @click.prevent="goToMailer">
                                     <span class="ion-navicon-round"></span>
                                 </a>
                             </div>
-                            <div v-if="page == 'mailer'" class="ion-btn">
+                            <!-- v-if="page == 'mailer'"  -->
+                            <div class="ion-btn">
                                 <a href="" @click.prevent="goToLetter">Letter</a>
                             </div>
                         </div>
@@ -66,28 +68,28 @@
                                             <h5>{{ corporate.email }}</h5>
                                             <form action="" class="form-horizontal" >
 
-                                                <div class="col-md-4">
+                                                <div class="col-md-3">
                                                     <div class="form-group " v-bind:class="checkField(corporate.name)">
                                                         <label for="inputName" class="control-label">Nom d'entreprise*</label>
                                                         <input type="text" class="form-control" id="inputName" placeholder="postup" v-model="corporate.name">
                                                     </div>
                                                 </div>
 
-                                                <div class="col-lg-4">
+                                                <div class="col-lg-3">
                                                     <div class="form-group" >
                                                         <label for="inputFirstname" class="control-label">Prénom</label>
                                                         <input type="text" class="form-control" id="inputFirstname" placeholder="Doe" v-model="corporate.firstname">
                                                     </div>
                                                 </div>
 
-                                                <div class="col-lg-4">
+                                                <div class="col-lg-3">
                                                     <div class="form-group">
                                                         <label for="inputLastname" class="control-label">Nom</label>
                                                         <input type="text" class="form-control" id="inputLastname" placeholder="John" v-model="corporate.lastname">
                                                     </div>
                                                 </div>
 
-                                                <div class="col-lg-4">
+                                                <div class="col-lg-3">
                                                     <div class="form-group">
                                                         <label for="inputSexe">Sexe</label>
                                                         <select class="form-control" name="" id="inputSexe" v-model="corporate.sexe">
@@ -97,21 +99,21 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col-lg-4">
+                                                <div class="col-lg-3">
                                                     <div class="form-group"  v-bind:class="checkField(corporate.city)">
                                                         <label for="inputCity" class="control-label">Ville*</label>
                                                         <input type="text" class="form-control" id="inputCity" placeholder="Ville" v-model="corporate.city">
                                                     </div>
                                                 </div>
 
-                                                <div class="col-lg-4">
+                                                <div class="col-lg-3">
                                                     <div class="form-group"  v-bind:class="checkField(corporate.adresse)">
                                                         <label for="inputAdresse" class="control-label">Adresse*</label>
                                                         <input type="text" class="form-control" id="inputAdresse" placeholder="Adresse" v-model="corporate.adresse">
                                                     </div>
                                                 </div>
 
-                                                <div class="col-lg-4">
+                                                <div class="col-lg-3">
                                                     <div class="form-group">
                                                         <div class="form-group" v-bind:class="checkField(corporate.npa)">
                                                             <label for="inputNpa" class="control-label">Npa*</label>
@@ -120,20 +122,21 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col-lg-6">
+                                                <div class="col-lg-3">
                                                     <div class="form-group">
                                                         <label  for="">Regions</label>
-                                                        <input list="regions" name="region_filter" id="" class="form-control" type="text" v-model="corporate.canton" v-on:keyup="regionSearch(corporate.canton)">
+                                                        <input list="regions" name="region_filter" id="" class="form-control" type="text" v-model="corporate.canton" v-on:keyup="regionSearch(corporate.canton)">-->
                                                         <datalist id="regions">
                                                             <select>
                                                                 <option v-for="region in regionList" v-bind:value="region.name" v-on:keyup.enter="regionSearch">{{ region.name }} - {{ region.abbreviation}}</option>
                                                             </select>
                                                         </datalist>
+
                                                     </div>
                                                 </div>
 
 
-                                                <div class="col-lg-6">
+                                                <div class="col-lg-6 offset-col-lg-3">
                                                     <div class="form-group">
                                                         <label class="control-label" for="">Domaines</label>
                                                         <input list="areas" type="text" class="form-control" v-model="corporate.area" v-on:keyup="areaSearch(corporate.area)" >

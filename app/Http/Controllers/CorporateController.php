@@ -131,4 +131,12 @@ class CorporateController extends Controller
         }
 
     }
+
+    public function indexAddExcellCorporate()
+    {
+        if(Auth::check())
+        {
+            return view('admin.corporates.add-excell-corporates');
+        }
+    }
 }
